@@ -7,7 +7,7 @@ class TaskForm(forms.ModelForm):
         fields=['nombre_cliente','fecha_solicitud', 'observaciones', 'important',] #son los campos que quiero ver en el formulario el resto no es necesario
         widgets = {
             'nombre_cliente': forms.TextInput(attrs={'class': 'form-control','placeholder': 'nombre_cliente'}),
-            'fecha_solicitud': forms.DateTimeInput(attrs={'class': 'form-control'}),
+            'fecha_solicitud': forms.DateTimeField(attrs={'class': 'form-control'}),
             'observaciones': forms.Textarea(attrs={'class': 'form-control','placeholder': 'Observaciones'}),
             'important': forms.CheckboxInput(attrs={'class': 'form-check-input m-auto'}),
         }
