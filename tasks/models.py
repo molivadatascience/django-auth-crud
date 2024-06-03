@@ -7,7 +7,7 @@ from django.contrib.auth.models import User
 # from tkinter import CASCADE
 class Task(models.Model):
     nombre_cliente = models.CharField(max_length=100)
-    
+    campaña = models.CharField(max_length=100)
     observaciones = models.TextField(blank=True)
     fecha_solicitud = models.DateTimeField(auto_now_add=True) # el automaticamente guarda la fecha
     datecompleted = models.DateTimeField(null=True, blank=True) #permite valores nulos
