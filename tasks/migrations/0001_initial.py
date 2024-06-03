@@ -19,7 +19,7 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('nombre_cliente', models.CharField(max_length=100)),
-                ('campaña', models.CharField(max_length=100)),
+                ('campana', models.CharField(max_length=100)),
                 ('observaciones', models.TextField(blank=True)),
                 ('fecha_solicitud', models.DateTimeField(auto_now_add=True)),
                 ('datecompleted', models.DateTimeField(null=True)),
