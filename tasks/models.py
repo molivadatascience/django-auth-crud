@@ -6,9 +6,10 @@ from django.contrib.auth.models import User
 # Vamos a crear una tabla
 # from tkinter import CASCADE
 class Task(models.Model):
-    title = models.CharField(max_length=100)
-    description = models.TextField(blank=True)
-    created = models.DateTimeField(auto_now_add=True) # el automaticamente guarda la fecha
+    nombre_cliente = models.CharField(max_length=100)
+    
+    observaciones = models.TextField(blank=True)
+    fecha_solicitud = models.DateTimeField(auto_now_add=True) # el automaticamente guarda la fecha
     datecompleted = models.DateTimeField(null=True, blank=True) #permite valores nulos
     important = models.BooleanField(default=False)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
