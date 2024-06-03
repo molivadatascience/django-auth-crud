@@ -8,7 +8,6 @@ class TaskForm(forms.ModelForm):
         widgets = {
             'nombre_cliente': forms.TextInput(attrs={'class': 'form-control','placeholder': 'nombre_cliente'}),
             'campaña': forms.TextInput(attrs={'class': 'form-control','placeholder': 'campaña'}),
-            #'fecha_solicitud': forms.DateTimeField(attrs={'class': 'form-control'}),
             'observaciones': forms.Textarea(attrs={'class': 'form-control','placeholder': 'Observaciones'}),
             'important': forms.CheckboxInput(attrs={'class': 'form-check-input m-auto'}),
         }
