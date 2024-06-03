@@ -125,11 +125,7 @@ USE_TZ = True
 STATIC_URL = 'static/'
 
 if not DEBUG:
-<<<<<<< HEAD
     STATIC_ROOT =os.path.join(BASE_DIR,'staticfiles')
-=======
-    STATIC_ROOT =os.path.join(BASE_DIR, 'staticfiles')
->>>>>>> 9c5673d8c3fe1f8c61272156ef5b85c1e679fd8b
     STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 LOGIN_URL = '/signin' #Cuando alguien quiera entrar a la app se debe proteger, los mandara a la inicio secion
