@@ -11,12 +11,12 @@
                 <a class="list-group-item" href="{% url 'task_detail' task.id %}">
                     <header class="d-flex justify-content-between">
                         {% if task.important %}
-                        <h1 class="fw-bold text-success">{{task.nombre_cliente}}</h1>
+                        <h1 class="fw-bold text-success">{{task.title}}</h1>
                         {% else %}
-                        <h1 class="fw-bold">{{task.nombre_cliente}}</h1> 
+                        <h1 class="fw-bold">{{task.title}}</h1> 
                         {% endif %}
                     </header>    
-                        <p>{{task.observaciones}}</p>
+                        <p>{{task.description}}</p>
                         <p>{{task.user.username}}</p>
 
                         <p>{{task.datecompleted|date:'M j Y:i'}}</p>
