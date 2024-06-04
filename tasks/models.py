@@ -6,6 +6,7 @@ from django.contrib.auth.models import User
 # from tkinter import CASCADE
 class Task(models.Model):
     title = models.CharField(max_length=100)
+    campana = models.CharField(max_length=100)
     description = models.TextField(blank=True)
     created = models.DateTimeField(auto_now_add=True) # el automaticamente guarda la fecha
     datecompleted = models.DateTimeField(null=True, blank=True) #permite valores nulos
