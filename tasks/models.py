@@ -10,7 +10,7 @@ class Task(models.Model):
     nombre_cliente = models.CharField(max_length=100)
     campana = models.CharField(max_length=100)
     kam = models.CharField(max_length=100)
-    valor_oportunidad = models.PositiveIntegerField()
+    valor_oportunidad = models.IntegerField()
     tipo_importacion= models.CharField(max_length=100)
     pais_origen = models.CharField(max_length=100)
     fecha_entrega_propuesta = models.DateTimeField(null=True, blank=True)
