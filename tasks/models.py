@@ -11,6 +11,7 @@ class Task(models.Model):
     campana = models.CharField(max_length=100)
     kam = models.CharField(max_length=100)
     valor_oportunidad = models.IntegerField()
+    margen= models.DecimalField(max_digits=5, decimal_places=2)
     tipo_importacion= models.CharField(max_length=100)
     pais_origen = models.CharField(max_length=100)
     fecha_entrega_propuesta = models.DateTimeField(null=True, blank=True)
