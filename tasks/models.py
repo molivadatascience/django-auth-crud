@@ -6,7 +6,7 @@ from django.contrib.auth.models import User
 # from tkinter import CASCADE
 class Task(models.Model):
     title = models.CharField(max_length=100)
-    fecha_solicitud = models.DateTimeField(auto_now_add=True)
+    fecha_solicitud = models.DateTimeField(null=True, blank=True)
     nombre_cliente = models.CharField(max_length=100)
     campana = models.CharField(max_length=100)
     kam = models.CharField(max_length=100)
