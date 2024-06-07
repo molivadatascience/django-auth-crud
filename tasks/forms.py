@@ -2,6 +2,16 @@ from django import forms
 from .models import Task
 
 class TaskForm(forms.ModelForm):
+    KAM_CHOICES = [
+        ('opcion1', 'Opción 1'),
+        ('opcion2', 'Opción 2'),
+        ('opcion3', 'Opción 3'),
+    ]
+
+kam = forms.ChoiceField(choices=KAM_CHOICES, label='KAM', required=True)
+
+
+class TaskForm(forms.ModelForm):
     class Meta:
         model = Task
         fields=['title', 'fecha_solicitud', 'nombre_cliente', 'campana', 'kam', 'valor_oportunidad', 'margen','tipo_importacion', 'pais_origen', 'fecha_entrega_propuesta', 'fecha_entrega_productos', 'solicitud_muestra', 'description', 'fecha_cotizacion', 'cotizacion_aceptada', 'nombre_contacto', 'email_contacto', 'cotización_valida_dias', 'tiempo_muestra_fisica_dias', 'tiempo_produccion_dias', 'important'] #son los campos que quiero ver en el formulario el resto no es necesario
