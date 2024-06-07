@@ -63,6 +63,10 @@ def create_task(request):
             new_task = form.save(commit=False)
             new_task.user = request.user
             new_task.save()
+            form_hijos= hijosForm(request.POST)
+            new_task_a = form_hijos.save(commit=False)
+            new_task_a.user = request.user
+            new_task_a.save()
             return redirect('tasks')
         except ValueError:
             return render(request, 'create_task.html',{
