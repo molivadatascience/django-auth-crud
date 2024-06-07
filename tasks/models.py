@@ -32,3 +32,8 @@ class Task(models.Model):
 
     def __str__(self):
         return self.title+ '- by '+ self.user.username
+
+class hijos(models.Model):
+    nombre_producto = models.CharField(max_length=150)
+    origen = models.CharField(max_length=100)
+    padre = models.ForeignKey(Task, on_delete=models.CASCADE)
