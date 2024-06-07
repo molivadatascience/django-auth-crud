@@ -34,7 +34,7 @@ class Task(models.Model):
         return self.title+ '- by '+ self.user.username
 
 class hijos(models.Model):
-    task = models.OneToOneField(Task, on_delete=models.CASCADE)
+    padre = models.OneToOneField(Task, on_delete=models.CASCADE)
     nombre_producto = models.CharField(max_length=150)
     origen = models.CharField(max_length=100)
     

@@ -53,7 +53,8 @@ def tasks_completed(request):
 def create_task(request):
 
     if request.method == 'GET':
-        
+        form = TaskForm()
+        form_hijos = hijosForm()
         return render(request, 'create_task.html',{
             'form': TaskForm,
             'form_hijos': hijosForm
@@ -71,6 +72,8 @@ def create_task(request):
             new_task.save()
             return redirect('tasks')
         except ValueError:
+            form = TaskForm()
+            form_hijos = hijosForm()
             return render(request, 'create_task.html',{
                 'form': TaskForm,
                 'form_hijos': hijosForm,
@@ -131,17 +134,6 @@ def signin(request):
             login(request, user)
             return redirect('tasks')
 
-#####
-
-def crear_hijo(request):
-    if request.method == 'POST':
-        form = hijosForm(request.POST)
-        if form.is_valid():
-            form.save()
-            # Redirige a la página deseada después de guardar el hijo
-    else:
-        form = hijosForm()
-    return render(request, 'crear_hijo.html', {'form': form})
 
 
 

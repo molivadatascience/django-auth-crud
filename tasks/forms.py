@@ -33,4 +33,4 @@ class TaskForm(forms.ModelForm):
 class hijosForm(forms.ModelForm):
     class Meta:
         model = hijos
-        fields = '__all__'
+        fields = ['nombre_producto','origen']
