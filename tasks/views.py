@@ -54,7 +54,8 @@ def create_task(request):
 
     if request.method == 'GET':
         return render(request, 'create_task.html',{
-            'form': TaskForm
+            'form': TaskForm,
+            'form_hijos': hijosForm
         })
     else:
         try:
@@ -66,6 +67,7 @@ def create_task(request):
         except ValueError:
             return render(request, 'create_task.html',{
                 'form': TaskForm,
+                'form_hijos': hijosForm,
                 'error': 'Pleace provide valida data'
             })
 
