@@ -50,44 +50,23 @@ def tasks_completed(request):
     return render(request, 'tasks.html',{'tasks': tasks})
 
 @login_required #no cualquiera puede acceder a generar nuevos datos
-def create_task(request,task_id):
-    task = get_object_or_404(Task, pk=task_id)
+def create_task(request):
     if request.method == 'GET':
-        form = HijosForm()
-       # return render(request, 'create_task.html',{
-       #     'form': TaskForm,
-       #     'form_hijos': HijosForm
-       # })
-                
+        return render(request, 'create_task.html',{
+            'form': TaskForm
+        })
     else:
-        form = HijosForm(request.POST)
-        if form.is_valid():
-            hijo = form.save(commit=False)
-            hijo.task = task  # Asigna la relación con la tarea padre
-            hijo.save()
-            # Redirige a la página de detalles de la tarea padre o donde desees
-            return redirect('task_detail', task_id=task.id)
-
-    return render(request, 'create_task.html', {'form': form, 'task': task})
-
-
-
-       # try:
-       #     form= TaskForm(request.POST) #print(request.POST) para imprimir en consola el dato ingresado en el formulario
-       #     new_task = form.save(commit=False)
-       #     new_task.user = request.user
-       #     new_task.save()
-       #     form_hijos= HijosForm(request.POST)
-       #     new_task = form_hijos.save(commit=False)
-       #     return redirect('tasks')
-       # except ValueError:
-       #     form = TaskForm()
-        #    form_hijos = HijosForm()
-        #    return render(request, 'create_task.html',{
-         #       'form': TaskForm,
-          #      'form_hijos': HijosForm,
-           #     'error': 'Pleace provide valida data'
-           # })
+        try:
+            form= TaskForm(request.POST) #print(request.POST) para imprimir en consola el dato ingresado en el formulario
+            new_task = form.save(commit=False)
+            new_task.user = request.user
+            new_task.save()
+            return redirect('tasks')
+        except ValueError:
+            return render(request, 'create_task.html',{
+                'form': TaskForm,
+                'error': 'Pleace provide valida data'
+            })
 
 @login_required #no cualquiera puede acceder a generar nuevos datos
 def task_detail(request, task_id):
