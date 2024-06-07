@@ -1,5 +1,5 @@
 from django import forms
-from .models import Task, hijos
+from .models import Task, Hijos
 
 class TaskForm(forms.ModelForm):
     class Meta:
@@ -30,7 +30,7 @@ class TaskForm(forms.ModelForm):
         }
 
 
-class hijosForm(forms.ModelForm):
+class HijosForm(forms.ModelForm):
     class Meta:
-        model = hijos
-        fields = ['nombre_producto','origen']
+        model = Hijos
+        fields = ['id_interno','nombre_producto','origen']
