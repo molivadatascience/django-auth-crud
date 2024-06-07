@@ -9,7 +9,7 @@
 <body>
 
 
-    <nav class="navbar navbar-expand-lg bg-dark navbar-dark">
+    <nav class="navbar navbar-expand-lg bg-light navbar-light">
         <div class="container-fluid">
           <a class="navbar-brand" href="#">Jupiter APP</a>
           <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -22,14 +22,14 @@
                 </li>
                 {% if user.is_authenticated %}
                 <li class="nav-item">
-                    <a href="{% url 'tasks' %}" class="nav-link">Tasks Pending</a>
+                    <a href="{% url 'tasks' %}" class="nav-link">Pendientes</a>
                 </li>
                 <li class="nav-item">
-                    <a href="{% url 'tasks_completed' %}" class="nav-link">Tasks completed</a>
+                    <a href="{% url 'tasks_completed' %}" class="nav-link">Completado</a>
                 </li>
     
                 <li class="nav-item">
-                    <a href="/tasks/create" class="nav-link">Create task</a>
+                    <a href="/tasks/create" class="nav-link">Nueva Oportunidad</a>
                 </li>
                 <li class="nav-item">
                     <a href="/logout" class="nav-link">Logout</a>
