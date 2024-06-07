@@ -10,13 +10,23 @@
                 {{error}}
                 {% csrf_token %}
         
-                {{form}}
-                {{form_hijos}}
+                {{ form }}
+                
                 <button class="btn btn-primary">
                     Save
                 </button>
             </form>
+              <!-- Mostrar detalles de la tarea padre -->
+            <h2>Tarea Padre</h2>
+            <p>ID: {{ task.id }}</p>
+            <p>Nombre: {{ task.nombre }}</p>
+            <p>Edad: {{ task.edad }}</p>
 
+            <!-- Puedes agregar más detalles aquí si lo deseas -->
+
+            <!-- Mostrar enlaces o botones para volver a la lista de tareas o detalles de la tarea padre -->
+            <!--<a href="{% url 'lista_tareas' %}">Volver a la lista de tareas</a>-->
+            <!-- <a href="{% url 'detalle_task' task.id %}">Ver detalles de la tarea padre</a>-->
         </div>
     </div>
 </main>
