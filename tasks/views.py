@@ -3,7 +3,7 @@ from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.models import User
 from django.contrib.auth import login, logout, authenticate
 from django.db import IntegrityError
-from .forms import TaskForm
+from .forms import TaskForm, hijosForm
 from .models import Task
 from django.utils import timezone
 from django.contrib.auth.decorators import login_required #es para proteger los accesos al programa
@@ -122,6 +122,19 @@ def signin(request):
         else:
             login(request, user)
             return redirect('tasks')
+
+#####
+
+def crear_hijo(request):
+    if request.method == 'POST':
+        form = hijosForm(request.POST)
+        if form.is_valid():
+            form.save()
+            # Redirige a la página deseada después de guardar el hijo
+    else:
+        form = hijosForm()
+    return render(request, 'crear_hijo.html', {'form': form})
+
 
 
   
