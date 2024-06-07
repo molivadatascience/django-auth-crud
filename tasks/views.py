@@ -53,18 +53,12 @@ def tasks_completed(request):
 def create_task(request):
 
     if request.method == 'GET':
-        lista_tallas = Task.objects.all().select_related('talla').values_list('id', 'talla__name_size')
+        
         return render(request, 'create_task.html',{
             'form': TaskForm,
             'form_hijos': hijosForm
         })
-        if form.is_valid() and form_hijos.is_valid():
-            task_instance = form.save()
-            hijos_instance = form_hijos.save(commit=False)
-            hijos_instance.task = task_instance
-            hijos_instance.save()
-            return redirect('tasks')
-        
+                
     else:
         try:
             form= TaskForm(request.POST) #print(request.POST) para imprimir en consola el dato ingresado en el formulario
@@ -72,9 +66,9 @@ def create_task(request):
             new_task.user = request.user
             new_task.save()
             form_hijos= hijosForm(request.POST)
-            new_task_a = form_hijos.save(commit=False)
-            new_task_a.user = request.user
-            new_task_a.save()
+            new_task = form_hijos.save(commit=False)
+            new_task.user = request.user
+            new_task.save()
             return redirect('tasks')
         except ValueError:
             return render(request, 'create_task.html',{
