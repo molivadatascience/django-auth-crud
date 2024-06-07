@@ -57,6 +57,13 @@ def create_task(request):
             'form': TaskForm,
             'form_hijos': hijosForm
         })
+        if form.is_valid() and form_hijos.is_valid():
+            task_instance = form.save()
+            hijos_instance = form_hijos.save(commit=False)
+            hijos_instance.task = task_instance
+            hijos_instance.save()
+            return redirect('tasks')
+        
     else:
         try:
             form= TaskForm(request.POST) #print(request.POST) para imprimir en consola el dato ingresado en el formulario
