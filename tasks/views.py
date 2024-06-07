@@ -4,7 +4,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth import login, logout, authenticate
 from django.db import IntegrityError
 from .forms import TaskForm, hijosForm
-from .models import Task
+from .models import Task, hijos
 from django.utils import timezone
 from django.contrib.auth.decorators import login_required #es para proteger los accesos al programa
 
@@ -53,6 +53,7 @@ def tasks_completed(request):
 def create_task(request):
 
     if request.method == 'GET':
+        lista_tallas = Task.objects.all().select_related('talla').values_list('id', 'talla__name_size')
         return render(request, 'create_task.html',{
             'form': TaskForm,
             'form_hijos': hijosForm
