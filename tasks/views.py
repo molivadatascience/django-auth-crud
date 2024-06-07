@@ -3,8 +3,8 @@ from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.models import User
 from django.contrib.auth import login, logout, authenticate
 from django.db import IntegrityError
-from .forms import TaskForm, HijosForm
-from .models import Task, Hijos
+from .forms import TaskForm
+from .models import Task
 from django.utils import timezone
 from django.contrib.auth.decorators import login_required #es para proteger los accesos al programa
 
