@@ -1,5 +1,5 @@
 from django import forms
-from .models import Task
+from .models import Task, Hijo
 
 class TaskForm(forms.ModelForm):
     class Meta:
@@ -28,3 +28,9 @@ class TaskForm(forms.ModelForm):
             'tiempo_produccion_dias':forms.TextInput(attrs={'class': 'form-control','placeholder': 'Ingrese días'}),
             'important': forms.CheckboxInput(attrs={'class': 'form-check-input m-auto'}),
         }
+
+
+class HijoForm(forms.ModelForm):
+    class Meta:
+        model = Hijo
+        fields = ['nombre_producto', 'origen', 'padre']
