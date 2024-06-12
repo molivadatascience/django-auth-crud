@@ -3,7 +3,7 @@ from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.models import User
 from django.contrib.auth import login, logout, authenticate
 from django.db import IntegrityError
-from .forms import TaskForm
+from .forms import TaskForm, HijosForm
 from .models import Task, Hijos
 from django.utils import timezone
 from django.contrib.auth.decorators import login_required #es para proteger los accesos al programa
@@ -78,6 +78,7 @@ def task_detail(request, task_id):
         try:
             task = get_object_or_404(Task, pk=task_id, user=request.user) #user=request.user para que cada usuario actualice sus tareas
             form = TaskForm(request.POST, instance=task)
+            form = HijosForm(request.POST, instance=task)
             form.save()
             return redirect('tasks')
         except ValueError:
