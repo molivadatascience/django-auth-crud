@@ -33,4 +33,4 @@ class TaskForm(forms.ModelForm):
 class HijosForm(forms.ModelForm):
     class Meta:
         model = Hijos
-        fields = ['id_interno','nombre_producto','origen']
+        fields = ['nota_1', 'nota_2']

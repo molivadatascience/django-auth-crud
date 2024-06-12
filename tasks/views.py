@@ -4,7 +4,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth import login, logout, authenticate
 from django.db import IntegrityError
 from .forms import TaskForm
-from .models import Task
+from .models import Task, Hijos
 from django.utils import timezone
 from django.contrib.auth.decorators import login_required #es para proteger los accesos al programa
 
@@ -122,8 +122,10 @@ def signin(request):
             login(request, user)
             return redirect('tasks')
 
-
-
+#@login_required #no cualquiera puede acceder a generar nuevos datos
+#def task_detail(request):
+#    tasks = Task.objects.all()
+#    return render(request, 'task_detail.html', {'tasks': tasks})
 
   
     

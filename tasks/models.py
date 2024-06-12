@@ -34,8 +34,7 @@ class Task(models.Model):
         return self.title+ '- by '+ self.user.username
 
 class Hijos(models.Model):
-    id_interno = models.AutoField(primary_key=True)
     task = models.ForeignKey(Task, on_delete=models.CASCADE)
-    nombre_producto = models.CharField(max_length=150)
-    origen = models.CharField(max_length=100)
+    nota_1 = models.TextField()
+    nota_2 = models.DecimalField(max_digits=5, decimal_places=2)
     
