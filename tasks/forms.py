@@ -44,11 +44,11 @@ class DetalleOportunidadForm(forms.ModelForm):
         model = DetalleOportunidad
         fields = [
             'id_requerimiento_comercial', 'producto', 'origen', 'margen', 'precio_objetivo', 'destino',
-            'categoria_a_cotizar', 'unidades', 'tamano', 'color', 'branding', 'cantidad_de_diseños',
+            'categoria_a_cotizar', 'unidades', 'tamano', 'color', 'branding', 'cantidad_de_disenos',
             'muestra_materialidad', 'muestra_pps', 'observaciones', 'packaging_master_unidades',
             'packaging_inner_unidades', 'packaging_unitario_unidades', 'packaging_master_tipo',
-            'packaging_inner_tipo', 'packaging_diseño_tipo', 'packaging_master_diseño',
-            'packaging_inner_diseño', 'packaging_unitario_diseño', 'archivos_adjuntos'
+            'packaging_inner_tipo', 'packaging_diseño_tipo', 'packaging_master_diseno',
+            'packaging_inner_diseno', 'packaging_unitario_diseno', 'archivos_adjuntos'
         ]
         widgets = {
             'id_requerimiento_comercial': forms.NumberInput(attrs={'class': 'form-control'}),
@@ -62,7 +62,7 @@ class DetalleOportunidadForm(forms.ModelForm):
             'tamano': forms.TextInput(attrs={'class': 'form-control'}),
             'color': forms.TextInput(attrs={'class': 'form-control'}),
             'branding': forms.TextInput(attrs={'class': 'form-control'}),
-            'cantidad_de_diseños': forms.NumberInput(attrs={'class': 'form-control'}),
+            'cantidad_de_disenos': forms.NumberInput(attrs={'class': 'form-control'}),
             'muestra_materialidad': forms.CheckboxInput(attrs={'class': 'form-check-input'}),
             'muestra_pps': forms.TextInput(attrs={'class': 'form-control'}),
             'observaciones': forms.TextInput(attrs={'class': 'form-control'}),
@@ -72,8 +72,8 @@ class DetalleOportunidadForm(forms.ModelForm):
             'packaging_master_tipo': forms.TextInput(attrs={'class': 'form-control'}),
             'packaging_inner_tipo': forms.TextInput(attrs={'class': 'form-control'}),
             'packaging_diseño_tipo': forms.TextInput(attrs={'class': 'form-control'}),
-            'packaging_master_diseño': forms.TextInput(attrs={'class': 'form-control'}),
-            'packaging_inner_diseño': forms.TextInput(attrs={'class': 'form-control'}),
-            'packaging_unitario_diseño': forms.TextInput(attrs={'class': 'form-control'}),
+            'packaging_master_diseno': forms.TextInput(attrs={'class': 'form-control'}),
+            'packaging_inner_diseno': forms.TextInput(attrs={'class': 'form-control'}),
+            'packaging_unitario_diseno': forms.TextInput(attrs={'class': 'form-control'}),
             'archivos_adjuntos': forms.ClearableFileInput(attrs={'class': 'form-control-file'}),
         }
