@@ -5,19 +5,30 @@ from django.contrib.auth.models import User
 # Vamos a crear una tabla
 # from tkinter import CASCADE
 class Task(models.Model):
-    TIPOIMPORTACION_CHOICES = [
-        ('M', 'Marítimo'),
-        ('A', 'Aéreo'),
+    KAM_CHOICES = [
+        ('Francisca', 'Francisca'),
+        ('María Jesús', 'María Jesús'),
+        ('Rolando', 'Rolando'),
     ]
+    TIPOIMPORTACION_CHOICES = [
+        ('Marítimo', 'Marítimo'),
+        ('Aéreo', 'Aéreo'),
+    ]
+
+    PAISORIGEN_CHOICES = [
+        ('Chile', 'Chile'),
+        ('China', 'China'),
+    ]
+
     title = models.CharField(max_length=100)
     fecha_solicitud = models.DateTimeField(null=True, blank=True)
     nombre_cliente = models.CharField(max_length=100)
     campana = models.CharField(max_length=100)
-    kam = models.CharField(max_length=100)
+    kam = models.CharField(max_length=100,choices=KAM_CHOICES)
     valor_oportunidad = models.IntegerField()
     margen= models.DecimalField(max_digits=5, decimal_places=2)
     tipo_importacion= models.CharField(max_length=100,choices=TIPOIMPORTACION_CHOICES)
-    pais_origen = models.CharField(max_length=100)
+    pais_origen = models.CharField(max_length=100,choices=PAISORIGEN_CHOICES)
     fecha_entrega_propuesta = models.DateTimeField(null=True, blank=True)
     fecha_entrega_productos = models.DateTimeField(null=True, blank=True)
     solicitud_muestra = models.BooleanField(default=False)
