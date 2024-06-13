@@ -44,7 +44,7 @@ class DetalleOportunidadForm(forms.ModelForm):
         model = DetalleOportunidad
         fields = [
             'id_requerimiento_comercial', 'producto', 'origen', 'margen', 'precio_objetivo', 'destino',
-            'categoria_a_cotizar', 'unidades', 'tamaño', 'color', 'branding', 'cantidad_de_diseños',
+            'categoria_a_cotizar', 'unidades', 'tamano', 'color', 'branding', 'cantidad_de_diseños',
             'muestra_materialidad', 'muestra_pps', 'observaciones', 'packaging_master_unidades',
             'packaging_inner_unidades', 'packaging_unitario_unidades', 'packaging_master_tipo',
             'packaging_inner_tipo', 'packaging_diseño_tipo', 'packaging_master_diseño',
@@ -59,7 +59,7 @@ class DetalleOportunidadForm(forms.ModelForm):
             'destino': forms.TextInput(attrs={'class': 'form-control'}),
             'categoria_a_cotizar': forms.TextInput(attrs={'class': 'form-control'}),
             'unidades': forms.NumberInput(attrs={'class': 'form-control'}),
-            'tamaño': forms.TextInput(attrs={'class': 'form-control'}),
+            'tamano': forms.TextInput(attrs={'class': 'form-control'}),
             'color': forms.TextInput(attrs={'class': 'form-control'}),
             'branding': forms.TextInput(attrs={'class': 'form-control'}),
             'cantidad_de_diseños': forms.NumberInput(attrs={'class': 'form-control'}),

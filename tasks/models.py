@@ -66,7 +66,7 @@ class DetalleOportunidad(models.Model):
     destino = models.CharField(max_length=100)
     categoria_a_cotizar = models.CharField(max_length=100)
     unidades = models.IntegerField()
-    tamaño = models.CharField(max_length=100)
+    tamano = models.CharField(max_length=100)
     color = models.CharField(max_length=100)
     branding = models.CharField(max_length=100)
     cantidad_de_diseños = models.IntegerField()
