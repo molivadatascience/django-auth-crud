@@ -3,8 +3,8 @@ from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.models import User
 from django.contrib.auth import login, logout, authenticate
 from django.db import IntegrityError
-from .forms import TaskForm, HijosForm
-from .models import Task, Hijos
+from .forms import TaskForm, HijosForm, DetalleOportunidadForm
+from .models import Task,Hijos, DetalleOportunidad
 from django.utils import timezone
 from django.contrib.auth.decorators import login_required #es para proteger los accesos al programa
 
@@ -73,13 +73,13 @@ def task_detail(request, task_id):
     if request.method == 'GET':
         task = get_object_or_404(Task, pk=task_id, user=request.user) #user=request.user para que cada usuario actualice sus tareas
         form = TaskForm(instance=task)
-        form_hijos = HijosForm(instance=task)
+        #form_hijos = HijosForm(instance=task)
         return render(request, 'task_detail.html',{'task': task, 'form': form})
     else:
         try:
             task = get_object_or_404(Task, pk=task_id, user=request.user) #user=request.user para que cada usuario actualice sus tareas
             form = TaskForm(request.POST, instance=task)
-            form_hijos = HijosForm(request.POST, instance=task)
+            #form_hijos = HijosForm(request.POST, instance=task)
             form.save()
             return redirect('tasks')
         except ValueError:
@@ -130,5 +130,29 @@ def signin(request):
 #    return render(request, 'task_detail.html', {'tasks': tasks})
 
   
-    
+
+#from .models import DetalleOportunidad
+#from .forms import DetalleOportunidadForm
+
+# OBSERVACIONESSSSSSS
+
+# a lo mejor en return form ya existe antes que puedo hacer??
+# crear crear_detalle_oportunidad.htm
+# lista_detalles_oportunidad.html
+
+
+def crear_detalle_oportunidad(request):
+    if request.method == 'POST':
+        form = DetalleOportunidadForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+            return redirect('lista_detalles_oportunidad')
+    else:
+        form = DetalleOportunidadForm()
+    return render(request, 'crear_detalle_oportunidad.html', {'form': form})
+
+def lista_detalles_oportunidad(request):
+    detalles = DetalleOportunidad.objects.all()
+    return render(request, 'lista_detalles_oportunidad.html', {'detalles': detalles})
+   
     

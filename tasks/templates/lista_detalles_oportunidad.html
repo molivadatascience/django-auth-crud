@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Lista de Detalles de Oportunidad</title>
+</head>
+<body>
+    <h1>Lista de Detalles de Oportunidad</h1>
+    <ul>
+        {% for detalle in detalles %}
+            <li>{{ detalle.producto }} - {{ detalle.origen }}</li>
+        {% endfor %}
+    </ul>
+    <a href="{% url 'crear_detalle_oportunidad' %}">Crear Detalle de Oportunidad</a>
+</body>
+</html>
