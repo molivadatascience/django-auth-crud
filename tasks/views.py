@@ -73,12 +73,13 @@ def task_detail(request, task_id):
     if request.method == 'GET':
         task = get_object_or_404(Task, pk=task_id, user=request.user) #user=request.user para que cada usuario actualice sus tareas
         form = TaskForm(instance=task)
+        form_hijos = HijosForm(instance=task)
         return render(request, 'task_detail.html',{'task': task, 'form': form})
     else:
         try:
             task = get_object_or_404(Task, pk=task_id, user=request.user) #user=request.user para que cada usuario actualice sus tareas
             form = TaskForm(request.POST, instance=task)
-            form = HijosForm(request.POST, instance=task)
+            form_hijos = HijosForm(request.POST, instance=task)
             form.save()
             return redirect('tasks')
         except ValueError:
