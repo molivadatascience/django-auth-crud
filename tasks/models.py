@@ -5,6 +5,10 @@ from django.contrib.auth.models import User
 # Vamos a crear una tabla
 # from tkinter import CASCADE
 class Task(models.Model):
+    TIPOIMPORTACION_CHOICES = [
+        ('M', 'Marítimo'),
+        ('A', 'Aéreo'),
+    ]
     title = models.CharField(max_length=100)
     fecha_solicitud = models.DateTimeField(null=True, blank=True)
     nombre_cliente = models.CharField(max_length=100)
@@ -12,7 +16,7 @@ class Task(models.Model):
     kam = models.CharField(max_length=100)
     valor_oportunidad = models.IntegerField()
     margen= models.DecimalField(max_digits=5, decimal_places=2)
-    tipo_importacion= models.CharField(max_length=100)
+    tipo_importacion= models.CharField(max_length=100,choices=TIPOIMPORTACION_CHOICES)
     pais_origen = models.CharField(max_length=100)
     fecha_entrega_propuesta = models.DateTimeField(null=True, blank=True)
     fecha_entrega_productos = models.DateTimeField(null=True, blank=True)
@@ -34,7 +38,9 @@ class Task(models.Model):
         return self.title+ '- by '+ self.user.username
 
 class Hijos(models.Model):
-    task = models.ForeignKey(Task, on_delete=models.CASCADE)
+    task = models.ForeignKey(Task, related_name='hijos', on_delete=models.CASCADE)
     nota_1 = models.TextField()
     nota_2 = models.DecimalField(max_digits=5, decimal_places=2)
     
+    #def __str__(self):
+    #   return f"Hijo de {self.task.nombre}"
