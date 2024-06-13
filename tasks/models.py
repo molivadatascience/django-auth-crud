@@ -56,9 +56,6 @@ class Hijos(models.Model):
     #def __str__(self):
     #   return f"Hijo de {self.task.nombre}"
 
-
-    from django.db import models
-
 class DetalleOportunidad(models.Model):
     id_detalle_venta = models.AutoField(primary_key=True)
     id_requerimiento_comercial = models.IntegerField()
@@ -88,4 +85,4 @@ class DetalleOportunidad(models.Model):
     archivos_adjuntos = models.FileField(upload_to='archivos_adjuntos/')
 
     def __str__(self):
-        return f"{self.producto} - {self.origen}"
+        return f"Detalle {self.id_detalle_venta}"
