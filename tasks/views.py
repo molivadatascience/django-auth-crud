@@ -3,8 +3,8 @@ from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.models import User
 from django.contrib.auth import login, logout, authenticate
 from django.db import IntegrityError
-from .forms import TaskForm, HijosForm, DetalleOportunidadForm
-from .models import Task, Hijos, DetalleOportunidad
+from .forms import TaskForm, DetalleOportunidadForm
+from .models import Task, DetalleOportunidad
 from django.utils import timezone
 from django.contrib.auth.decorators import login_required
 
@@ -47,17 +47,31 @@ def tasks_completed(request):
 @login_required
 def create_task(request):
     if request.method == 'GET':
-        return render(request, 'create_task.html', {'form': TaskForm})
+        task_form = TaskForm()
+        detalle_oportunidad_form = DetalleOportunidadForm()
+        return render(request, 'create_task.html', {
+            'task_form': task_form,
+            'detalle_oportunidad_form': detalle_oportunidad_form
+        })
     else:
         try:
-            form = TaskForm(request.POST)
-            new_task = form.save(commit=False)
-            new_task.user = request.user
-            new_task.save()
-            return redirect('tasks')
+            task_form = TaskForm(request.POST)
+            detalle_oportunidad_form = DetalleOportunidadForm(request.POST, request.FILES)
+            
+            if task_form.is_valid() and detalle_oportunidad_form.is_valid():
+                new_task = task_form.save(commit=False)
+                new_task.user = request.user
+                new_task.save()
+                
+                new_detalle = detalle_oportunidad_form.save(commit=False)
+                new_detalle.task = new_task
+                new_detalle.save()
+                
+                return redirect('tasks')
         except ValueError:
             return render(request, 'create_task.html', {
-                'form': TaskForm,
+                'task_form': task_form,
+                'detalle_oportunidad_form': detalle_oportunidad_form,
                 'error': 'Please provide valid data'
             })
 
