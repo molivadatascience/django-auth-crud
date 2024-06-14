@@ -54,21 +54,22 @@ def create_task(request):
             'detalle_oportunidad_form': detalle_oportunidad_form
         })
     else:
-        try:
-            task_form = TaskForm(request.POST)
-            detalle_oportunidad_form = DetalleOportunidadForm(request.POST, request.FILES)
+        task_form = TaskForm(request.POST)
+        detalle_oportunidad_form = DetalleOportunidadForm(request.POST, request.FILES)
+        
+        if task_form.is_valid() and detalle_oportunidad_form.is_valid():
+            new_task = task_form.save(commit=False)
+            new_task.user = request.user
+            new_task.save()
             
-            if task_form.is_valid() and detalle_oportunidad_form.is_valid():
-                new_task = task_form.save(commit=False)
-                new_task.user = request.user
-                new_task.save()
-                
-                new_detalle = detalle_oportunidad_form.save(commit=False)
-                new_detalle.task = new_task
-                new_detalle.save()
-                
-                return redirect('tasks')
-        except ValueError:
+            new_detalle = detalle_oportunidad_form.save(commit=False)
+            new_detalle.task = new_task
+            new_detalle.save()
+            
+            return redirect('tasks')
+        else:
+            print("Task form errors:", task_form.errors)
+            print("DetalleOportunidad form errors:", detalle_oportunidad_form.errors)
             return render(request, 'create_task.html', {
                 'task_form': task_form,
                 'detalle_oportunidad_form': detalle_oportunidad_form,
