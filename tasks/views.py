@@ -46,20 +46,28 @@ def tasks_completed(request):
 
 @login_required
 def create_task(request):
-    if request.method == 'GET':
-        return render(request, 'create_task.html', {'form': TaskForm})
-    else:
-        try:
-            form = TaskForm(request.POST)
-            new_task = form.save(commit=False)
-            new_task.user = request.user
-            new_task.save()
+    if request.method == 'POST':
+        task_form = TaskForm(request.POST)
+        detalle_oportunidad_form = DetalleOportunidadForm(request.POST, request.FILES)
+        
+        if task_form.is_valid() and detalle_oportunidad_form.is_valid():
+            task_instance = task_form.save(commit=False)
+            task_instance.user = request.user
+            task_instance.save()
+            
+            detalle_oportunidad_instance = detalle_oportunidad_form.save(commit=False)
+            detalle_oportunidad_instance.task = task_instance
+            detalle_oportunidad_instance.save()
+            
             return redirect('tasks')
-        except ValueError:
-            return render(request, 'create_task.html', {
-                'form': TaskForm,
-                'error': 'Please provide valid data'
-            })
+    else:
+        task_form = TaskForm()
+        detalle_oportunidad_form = DetalleOportunidadForm()
+    
+    return render(request, 'create_task.html', {
+        'task_form': task_form,
+        'detalle_oportunidad_form': detalle_oportunidad_form,
+    })
 
 @login_required
 def task_detail(request, task_id):
