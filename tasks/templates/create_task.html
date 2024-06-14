@@ -23,8 +23,8 @@
                 {% csrf_token %}
                 {{ error }}
 
+                <!-- Campos de Task -->
                 <div class="form-container">
-                    <!-- Campos de Task -->
                     {% for field in task_form %}
                     <div class="form-group">
                         <label for="{{ field.id_for_label }}">{{ field.label }}</label>
@@ -37,11 +37,12 @@
                         {% endfor %}
                     </div>
                     {% endfor %}
+                </div>
 
-                    <!-- Agregar los demás campos de Task aquí -->
-
-                    <!-- Campos de DetalleOportunidad -->
-                    {% for field in detalle_form %}
+                <!-- Campos de DetalleOportunidad -->
+                <h2>Detalles de la Oportunidad</h2>
+                <div class="form-container">
+                    {% for field in detalle_oportunidad_form %}
                     <div class="form-group">
                         <label for="{{ field.id_for_label }}">{{ field.label }}</label>
                         {{ field }}
