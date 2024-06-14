@@ -23,6 +23,7 @@
                 {% csrf_token %}
                 {{ error }}
                 {{form.as_p}}
+                {{ detalle_oportunidad_form.as_p }}
                 <!-- Campos de Task -->
                 <div class="form-container">
                     {{ task_form.as_table }}
