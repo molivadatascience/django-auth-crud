@@ -1,6 +1,16 @@
 {% extends 'base.html' %}
 {% block content %}
 <main class="container">
+    <style>
+        .form-container {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+    </style>
     <div class="row">
         <div class="col-md-12 mt-5">
             <form action="/tasks/create/" method="POST" class="card card-body">
@@ -30,13 +40,3 @@
 </main>
 {% endblock %}
 
-<style>
-    .form-container {
-        display: grid;
-        grid-template-columns: repeat(3, 1fr);
-        gap: 20px;
-    }
-    .form-group {
-        margin-bottom: 15px;
-    }
-</style>
