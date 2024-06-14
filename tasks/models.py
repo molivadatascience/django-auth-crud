@@ -57,6 +57,7 @@ class Hijos(models.Model):
     #   return f"Hijo de {self.task.nombre}"
 
 class DetalleOportunidad(models.Model):
+    task = models.ForeignKey(Task, related_name='detalles', on_delete=models.CASCADE)
     id_detalle_venta = models.AutoField(primary_key=True)
     id_requerimiento_comercial = models.IntegerField()
     producto = models.CharField(max_length=100)

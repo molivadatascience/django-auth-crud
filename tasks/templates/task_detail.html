@@ -33,7 +33,28 @@
                     </button>
                 </form>
             </div>
-           
+            <h2 class="text-secondary">Detalles de Oportunidad</h2>
+            <ul class="list-group">
+                {% for detalle in detalles %}
+                <li class="list-group-item">
+                    <strong>Producto:</strong> {{ detalle.producto }} <br>
+                    <strong>Origen:</strong> {{ detalle.origen }} <br>
+                    <strong>Margen:</strong> {{ detalle.margen }} <br>
+                    <strong>Precio Objetivo:</strong> {{ detalle.precio_objetivo }}
+                </li>
+                {% endfor %}
+            </ul>
+
+            <hr>
+
+            <h2 class="text-secondary">Agregar Detalle de Oportunidad</h2>
+            <form method="POST" enctype="multipart/form-data" action="{% url 'crear_detalle_oportunidad' task.id %}">
+                {% csrf_token %}
+                {{ detalle_form.as_p }}
+                <button class="btn btn-primary">
+                    Add Detalle
+                </button>
+            </form>
         </div>
     </div>
 </main>
