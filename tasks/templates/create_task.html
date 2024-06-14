@@ -22,31 +22,16 @@
                 <h1>Oportunidad de Negocio</h1>
                 {% csrf_token %}
                 {{ error }}
-                {{form.as_p}}
+                
                 
                 <!-- Campos de Task -->
                 <div class="form-container">
-                    {{ task_form.as_table }}
-                    
+                    <!--{{ task_form.as_table }}-->
+                    {{form.as_p}}
                     <!-- Campos de DetalleOportunidad -->
                     <h2>Detalles de la Oportunidad</h2>
-                    
-                    <!-- {{ detalle_oportunidad_form.as_table }}-->
-                    <!-- Otros campos de DetalleOportunidad -->
-                    <div class="form-group">
-                        <label for="{{ detalle_oportunidad_form.id_requerimiento_comercial.id_for_label }}">{{ detalle_oportunidad_form.id_requerimiento_comercial.label }}</label>
-                        {{ detalle_oportunidad_form.id_requerimiento_comercial }}
-                    </div>
-                    <div class="form-group">
-                        <label for="{{ detalle_oportunidad_form.producto.id_for_label }}">{{ detalle_oportunidad_form.producto.label }}</label>
-                        {{ detalle_oportunidad_form.producto }}
-                    </div>
-                    <div class="form-group">
-                        <label for="{{ detalle_oportunidad_form.origen.id_for_label }}">{{ detalle_oportunidad_form.origen.label }}</label>
-                        {{ detalle_oportunidad_form.origen }}
-                    </div>
-                    <!-- Agrega los demás campos aquí -->
                     {{ detalle_oportunidad_form.as_p }}
+                    
                 </div>
 
                 <button class="btn btn-primary save-button">Save</button>
