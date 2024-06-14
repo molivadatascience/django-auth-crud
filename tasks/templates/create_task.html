@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+
 {% block content %}
 <main class="container">
     <style>
@@ -22,17 +23,16 @@
                 {% csrf_token %}
                 {{ error }}
                 
-                
-                <!-- Campos de Task -->
                 <div class="form-container">
-                    <!--{{ task_form.as_table }}-->
-                    {{form.as_p}}
-                    <!-- Campos de DetalleOportunidad -->
-                    <h2>Detalles de la Oportunidad</h2>
-                    {{ detalle_form.as_p }}
-                    
+                    {{ task_form.as_p }}
                 </div>
-                <button class="btn btn-primary save-button">Save</button>
+
+                <h2>Detalles de la Oportunidad</h2>
+                <div class="form-container">
+                    {{ detalle_oportunidad_form.as_p }}
+                </div>
+
+                <button type="submit" class="btn btn-primary save-button">Save</button>
             </form>
         </div>
     </div>
