@@ -22,17 +22,96 @@
                 <h1>Oportunidad de Negocio</h1>
                 {% csrf_token %}
                 {{ error }}
-                {{form.as_p}}
-                {{ detalle_oportunidad_form.as_p }}
+                
                 <!-- Campos de Task -->
                 <div class="form-container">
-                    {{ task_form.as_table }}
-                    
+                    <div class="form-group">
+                        <label for="{{ task_form.title.id_for_label }}">{{ task_form.title.label }}</label>
+                        {{ task_form.title }}
+                    </div>
+                    <div class="form-group">
+                        <label for="{{ task_form.fecha_solicitud.id_for_label }}">{{ task_form.fecha_solicitud.label }}</label>
+                        {{ task_form.fecha_solicitud }}
+                    </div>
+                    <div class="form-group">
+                        <label for="{{ task_form.nombre_cliente.id_for_label }}">{{ task_form.nombre_cliente.label }}</label>
+                        {{ task_form.nombre_cliente }}
+                    </div>
+                    <div class="form-group">
+                        <label for="{{ task_form.campana.id_for_label }}">{{ task_form.campana.label }}</label>
+                        {{ task_form.campana }}
+                    </div>
+                    <div class="form-group">
+                        <label for="{{ task_form.kam.id_for_label }}">{{ task_form.kam.label }}</label>
+                        {{ task_form.kam }}
+                    </div>
+                    <div class="form-group">
+                        <label for="{{ task_form.valor_oportunidad.id_for_label }}">{{ task_form.valor_oportunidad.label }}</label>
+                        {{ task_form.valor_oportunidad }}
+                    </div>
+                    <div class="form-group">
+                        <label for="{{ task_form.margen.id_for_label }}">{{ task_form.margen.label }}</label>
+                        {{ task_form.margen }}
+                    </div>
+                    <div class="form-group">
+                        <label for="{{ task_form.tipo_importacion.id_for_label }}">{{ task_form.tipo_importacion.label }}</label>
+                        {{ task_form.tipo_importacion }}
+                    </div>
+                    <div class="form-group">
+                        <label for="{{ task_form.pais_origen.id_for_label }}">{{ task_form.pais_origen.label }}</label>
+                        {{ task_form.pais_origen }}
+                    </div>
+                    <div class="form-group">
+                        <label for="{{ task_form.fecha_entrega_propuesta.id_for_label }}">{{ task_form.fecha_entrega_propuesta.label }}</label>
+                        {{ task_form.fecha_entrega_propuesta }}
+                    </div>
+                    <div class="form-group">
+                        <label for="{{ task_form.fecha_entrega_productos.id_for_label }}">{{ task_form.fecha_entrega_productos.label }}</label>
+                        {{ task_form.fecha_entrega_productos }}
+                    </div>
+                    <div class="form-group">
+                        <label for="{{ task_form.solicitud_muestra.id_for_label }}">{{ task_form.solicitud_muestra.label }}</label>
+                        {{ task_form.solicitud_muestra }}
+                    </div>
+                    <div class="form-group">
+                        <label for="{{ task_form.description.id_for_label }}">{{ task_form.description.label }}</label>
+                        {{ task_form.description }}
+                    </div>
+                    <div class="form-group">
+                        <label for="{{ task_form.fecha_cotizacion.id_for_label }}">{{ task_form.fecha_cotizacion.label }}</label>
+                        {{ task_form.fecha_cotizacion }}
+                    </div>
+                    <div class="form-group">
+                        <label for="{{ task_form.cotizacion_aceptada.id_for_label }}">{{ task_form.cotizacion_aceptada.label }}</label>
+                        {{ task_form.cotizacion_aceptada }}
+                    </div>
+                    <div class="form-group">
+                        <label for="{{ task_form.nombre_contacto.id_for_label }}">{{ task_form.nombre_contacto.label }}</label>
+                        {{ task_form.nombre_contacto }}
+                    </div>
+                    <div class="form-group">
+                        <label for="{{ task_form.email_contacto.id_for_label }}">{{ task_form.email_contacto.label }}</label>
+                        {{ task_form.email_contacto }}
+                    </div>
+                    <div class="form-group">
+                        <label for="{{ task_form.cotización_valida_dias.id_for_label }}">{{ task_form.cotización_valida_dias.label }}</label>
+                        {{ task_form.cotización_valida_dias }}
+                    </div>
+                    <div class="form-group">
+                        <label for="{{ task_form.tiempo_muestra_fisica_dias.id_for_label }}">{{ task_form.tiempo_muestra_fisica_dias.label }}</label>
+                        {{ task_form.tiempo_muestra_fisica_dias }}
+                    </div>
+                    <div class="form-group">
+                        <label for="{{ task_form.tiempo_produccion_dias.id_for_label }}">{{ task_form.tiempo_produccion_dias.label }}</label>
+                        {{ task_form.tiempo_produccion_dias }}
+                    </div>
+                    <div class="form-group">
+                        <label for="{{ task_form.important.id_for_label }}">{{ task_form.important.label }}</label>
+                        {{ task_form.important }}
+                    </div>
+
                     <!-- Campos de DetalleOportunidad -->
                     <h2>Detalles de la Oportunidad</h2>
-                    <!-- {{ detalle_oportunidad_form.as_table }}-->
-                    {{ detalle_oportunidad_form.as_p }}
-                    <!-- Otros campos de DetalleOportunidad -->
                     <div class="form-group">
                         <label for="{{ detalle_oportunidad_form.id_requerimiento_comercial.id_for_label }}">{{ detalle_oportunidad_form.id_requerimiento_comercial.label }}</label>
                         {{ detalle_oportunidad_form.id_requerimiento_comercial }}
@@ -45,13 +124,53 @@
                         <label for="{{ detalle_oportunidad_form.origen.id_for_label }}">{{ detalle_oportunidad_form.origen.label }}</label>
                         {{ detalle_oportunidad_form.origen }}
                     </div>
-                    <!-- Agrega los demás campos aquí -->
-
-                </div>
-
-                <button class="btn btn-primary save-button">Save</button>
-            </form>
-        </div>
-    </div>
-</main>
-{% endblock %}
+                    <div class="form-group">
+                        <label for="{{ detalle_oportunidad_form.margen.id_for_label }}">{{ detalle_oportunidad_form.margen.label }}</label>
+                        {{ detalle_oportunidad_form.margen }}
+                    </div>
+                    <div class="form-group">
+                        <label for="{{ detalle_oportunidad_form.precio_objetivo.id_for_label }}">{{ detalle_oportunidad_form.precio_objetivo.label }}</label>
+                        {{ detalle_oportunidad_form.precio_objetivo }}
+                    </div>
+                    <div class="form-group">
+                        <label for="{{ detalle_oportunidad_form.destino.id_for_label }}">{{ detalle_oportunidad_form.destino.label }}</label>
+                        {{ detalle_oportunidad_form.destino }}
+                    </div>
+                    <div class="form-group">
+                        <label for="{{ detalle_oportunidad_form.categoria_a_cotizar.id_for_label }}">{{ detalle_oportunidad_form.categoria_a_cotizar.label }}</label>
+                        {{ detalle_oportunidad_form.categoria_a_cotizar }}
+                    </div>
+                    <div class="form-group">
+                        <label for="{{ detalle_oportunidad_form.unidades.id_for_label }}">{{ detalle_oportunidad_form.unidades.label }}</label>
+                        {{ detalle_oportunidad_form.unidades }}
+                    </div>
+                    <div class="form-group">
+                        <label for="{{ detalle_oportunidad_form.tamano.id_for_label }}">{{ detalle_oportunidad_form.tamano.label }}</label>
+                        {{ detalle_oportunidad_form.tamano }}
+                    </div>
+                    <div class="form-group">
+                        <label for="{{ detalle_oportunidad_form.color.id_for_label }}">{{ detalle_oportunidad_form.color.label }}</label>
+                        {{ detalle_oportunidad_form.color }}
+                    </div>
+                    <div class="form-group">
+                        <label for="{{ detalle_oportunidad_form.branding.id_for_label }}">{{ detalle_oportunidad_form.branding.label }}</label>
+                        {{ detalle_oportunidad_form.branding }}
+                    </div>
+                    <div class="form-group">
+                        <label for="{{ detalle_oportunidad_form.cantidad_de_disenos.id_for_label }}">{{ detalle_oportunidad_form.cantidad_de_disenos.label }}</label>
+                        {{ detalle_oportunidad_form.cantidad_de_disenos }}
+                    </div>
+                    <div class="form-group">
+                        <label for="{{ detalle_oportunidad_form.muestra_materialidad.id_for_label }}">{{ detalle_oportunidad_form.muestra_materialidad.label }}</label>
+                        {{ detalle_oportunidad_form.muestra_materialidad }}
+                    </div>
+                    <div class="form-group">
+                        <label for="{{ detalle_oportunidad_form.muestra_pps.id_for_label }}">{{ detalle_oportunidad_form.muestra_pps.label }}</label>
+                        {{ detalle_oportunidad_form.muestra_pps }}
+                    </div>
+                    <div class="form-group">
+                        <label for="{{ detalle_oportunidad_form.observaciones.id_for_label }}">{{ detalle_oportunidad_form.observaciones.label }}</label>
+                        {{ detalle_oportunidad_form.observaciones }}
+                    </div>
+                    <div class="form-group">
+                        <label for="{{ detalle_oportunidad_form.packaging_master_unidades.id_for_label }}">{{
