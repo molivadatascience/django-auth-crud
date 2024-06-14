@@ -47,7 +47,7 @@ class DetalleOportunidadForm(forms.ModelForm):
             'categoria_a_cotizar', 'unidades', 'tamano', 'color', 'branding', 'cantidad_de_disenos',
             'muestra_materialidad', 'muestra_pps', 'observaciones', 'packaging_master_unidades',
             'packaging_inner_unidades', 'packaging_unitario_unidades', 'packaging_master_tipo',
-            'packaging_inner_tipo', 'packaging_diseño_tipo', 'packaging_master_diseno',
+            'packaging_inner_tipo', 'packaging_diseno_tipo', 'packaging_master_diseno',
             'packaging_inner_diseno', 'packaging_unitario_diseno', 'archivos_adjuntos'
         ]
         widgets = {
@@ -71,7 +71,7 @@ class DetalleOportunidadForm(forms.ModelForm):
             'packaging_unitario_unidades': forms.TextInput(attrs={'class': 'form-control'}),
             'packaging_master_tipo': forms.TextInput(attrs={'class': 'form-control'}),
             'packaging_inner_tipo': forms.TextInput(attrs={'class': 'form-control'}),
-            'packaging_diseño_tipo': forms.TextInput(attrs={'class': 'form-control'}),
+            'packaging_diseno_tipo': forms.TextInput(attrs={'class': 'form-control'}),
             'packaging_master_diseno': forms.TextInput(attrs={'class': 'form-control'}),
             'packaging_inner_diseno': forms.TextInput(attrs={'class': 'form-control'}),
             'packaging_unitario_diseno': forms.TextInput(attrs={'class': 'form-control'}),
