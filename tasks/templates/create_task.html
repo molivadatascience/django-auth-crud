@@ -10,6 +10,10 @@
         .form-group {
             margin-bottom: 15px;
         }
+        .save-button {
+            grid-column: 2;  /* Posiciona el botón en la segunda columna */
+            margin-top: 20px;  /* Espacio superior para separación */
+        }
     </style>
     <div class="row">
         <div class="col-md-12 mt-5">
@@ -33,7 +37,7 @@
                     {% endfor %}
                 </div>
                 
-                <button class="btn btn-primary mt-3">Save</button>
+                <button class="btn btn-primary save-button">Save</button>
             </form>
         </div>
     </div>
