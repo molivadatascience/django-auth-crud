@@ -26,11 +26,11 @@
                 <!-- Campos de Task -->
                 <div class="form-container">
                     {{ task_form.as_table }}
-
+                    
                     <!-- Campos de DetalleOportunidad -->
                     <h2>Detalles de la Oportunidad</h2>
-                    {{ detalle_oportunidad_form.as_table }}
-
+                    <!-- {{ detalle_oportunidad_form.as_table }}-->
+                    {{ detalle_oportunidad_form.as_p }}
                     <!-- Otros campos de DetalleOportunidad -->
                     <div class="form-group">
                         <label for="{{ detalle_oportunidad_form.id_requerimiento_comercial.id_for_label }}">{{ detalle_oportunidad_form.id_requerimiento_comercial.label }}</label>
