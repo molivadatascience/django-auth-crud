@@ -12,8 +12,8 @@
             margin-bottom: 15px;
         }
         .save-button {
-            grid-column: 2;  /* Posiciona el botón en la segunda columna */
-            margin-top: 20px;  /* Espacio superior para separación */
+            grid-column: 2;
+            margin-top: 20px;
         }
     </style>
     <div class="row">
@@ -24,32 +24,35 @@
                 {{ error }}
 
                 <div class="form-container">
+                    <!-- Campos de Task -->
+                    {% for field in task_form %}
                     <div class="form-group">
-                        <label for="{{ form.title.id_for_label }}">{{ form.title.label }}</label>
-                        {{ form.title }}
-                        {% if form.title.help_text %}
-                        <small class="form-text text-muted">{{ form.title.help_text }}</small>
+                        <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                        {{ field }}
+                        {% if field.help_text %}
+                        <small class="form-text text-muted">{{ field.help_text }}</small>
                         {% endif %}
-                        {% for error in form.title.errors %}
+                        {% for error in field.errors %}
                         <div class="text-danger">{{ error }}</div>
                         {% endfor %}
                     </div>
-                    {{form.as_p}}
+                    {% endfor %}
+
                     <!-- Agregar los demás campos de Task aquí -->
 
+                    <!-- Campos de DetalleOportunidad -->
+                    {% for field in detalle_form %}
                     <div class="form-group">
-                        <label for="{{ detalle_form.producto.id_for_label }}">{{ detalle_form.producto.label }}</label>
-                        {{ detalle_form.producto }}
-                        {% if detalle_form.producto.help_text %}
-                        <small class="form-text text-muted">{{ detalle_form.producto.help_text }}</small>
+                        <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                        {{ field }}
+                        {% if field.help_text %}
+                        <small class="form-text text-muted">{{ field.help_text }}</small>
                         {% endif %}
-                        {% for error in detalle_form.producto.errors %}
+                        {% for error in field.errors %}
                         <div class="text-danger">{{ error }}</div>
                         {% endfor %}
                     </div>
-                    {{detalle_form.as_p}}
-                    <!-- Agregar los demás campos de DetalleOportunidad aquí -->
-
+                    {% endfor %}
                 </div>
 
                 <button class="btn btn-primary save-button">Save</button>
@@ -58,4 +61,3 @@
     </div>
 </main>
 {% endblock %}
-
