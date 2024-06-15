@@ -17,14 +17,6 @@
         h2 {
             grid-column: span 3; /* Hace que el encabezado ocupe las 3 columnas */
         }
-        table {
-            width: 100%;
-            margin-bottom: 15px;
-        }
-        th, td {
-            padding: 10px;
-            text-align: left;
-        }
     </style>
     <div class="row">
         <div class="col-md-12 mt-5">
@@ -37,71 +29,23 @@
                     {{ task_form.as_p }}
                 </div>
                 <h2>Detalles de la Oportunidad</h2>
-                <div class="form-container">
-                    <table id="detalle-table">
-                        <thead>
-                            <tr>
-                                <th>Requerimiento Comercial</th>
-                                <th>Producto</th>
-                                <th>Origen</th>
-                                <th>Margen</th>
-                                <th>Precio Objetivo</th>
-                                <th>Destino</th>
-                                <th>Categoria a Cotizar</th>
-                                <th>Unidades</th>
-                                <th>Tamaño</th>
-                                <th>Color</th>
-                                <th>Branding</th>
-                                <th>Cantidad de Diseños</th>
-                                <th>Muestra Materialidad</th>
-                                <th>Muestra PPS</th>
-                                <th>Observaciones</th>
-                                <th>Packaging Master Unidades</th>
-                                <th>Packaging Inner Unidades</th>
-                                <th>Packaging Unitario Unidades</th>
-                                <th>Packaging Master Tipo</th>
-                                <th>Packaging Inner Tipo</th>
-                                <th>Packaging Diseño Tipo</th>
-                                <th>Packaging Master Diseño</th>
-                                <th>Packaging Inner Diseño</th>
-                                <th>Packaging Unitario Diseño</th>
-                                <th>Archivos Adjuntos</th>
-                                <th>Acción</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td><input type="text" name="detalle_1" class="form-control" /></td>
-                                <td><input type="text" name="detalle_2" class="form-control" /></td>
-                                <td><input type="text" name="detalle_3" class="form-control" /></td>
-                                <td><input type="text" name="detalle_4" class="form-control" /></td>
-                                <td><input type="text" name="detalle_5" class="form-control" /></td>
-                                <td><input type="text" name="detalle_6" class="form-control" /></td>
-                                <td><input type="text" name="detalle_7" class="form-control" /></td>
-                                <td><input type="text" name="detalle_8" class="form-control" /></td>
-                                <td><input type="text" name="detalle_9" class="form-control" /></td>
-                                <td><input type="text" name="detalle_10" class="form-control" /></td>
-                                <td><input type="text" name="detalle_11" class="form-control" /></td>
-                                <td><input type="text" name="detalle_12" class="form-control" /></td>
-                                <td><input type="checkbox" name="detalle_13" class="form-control" /></td>
-                                <td><input type="text" name="detalle_14" class="form-control" /></td>
-                                <td><input type="text" name="detalle_15" class="form-control" /></td>
-                                <td><input type="text" name="detalle_16" class="form-control" /></td>
-                                <td><input type="text" name="detalle_17" class="form-control" /></td>
-                                <td><input type="text" name="detalle_18" class="form-control" /></td>
-                                <td><input type="text" name="detalle_19" class="form-control" /></td>
-                                <td><input type="text" name="detalle_20" class="form-control" /></td>
-                                <td><input type="text" name="detalle_21" class="form-control" /></td>
-                                <td><input type="text" name="detalle_22" class="form-control" /></td>
-                                <td><input type="text" name="detalle_23" class="form-control" /></td>
-                                <td><input type="text" name="detalle_24" class="form-control" /></td>
-                                <td><input type="file" name="detalle_25" class="form-control" /></td>
-                                <td><button type="button" onclick="removeRow(this)">Eliminar</button></td>
-                            </tr>
-                        </tbody>
-                    </table>
-                    <button type="button" onclick="addRow()">Agregar Detalle</button>
+                <div id="detalle-oportunidad-container">
+                    {{ formset.management_form }}
+                    {% for form in formset %}
+                        <div class="form-container" id="detalle-oportunidad-{{ forloop.counter0 }}">
+                            {% for field in form %}
+                                <div class="form-group">
+                                    {{ field.label_tag }} {{ field }}
+                                    {% if field.help_text %}
+                                        <small class="form-text text-muted">{{ field.help_text }}</small>
+                                    {% endif %}
+                                </div>
+                            {% endfor %}
+                            <button type="button" class="btn btn-danger" onclick="removeDetalleOportunidad('{{ forloop.counter0 }}')">Eliminar</button>
+                        </div>
+                    {% endfor %}
                 </div>
+                <button type="button" class="btn btn-secondary" onclick="addDetalleOportunidad()">Agregar Detalle</button>
                 <button type="submit" class="btn btn-primary save-button">Save</button>
             </form>
         </div>
@@ -109,36 +53,40 @@
 </main>
 
 <script>
-    function addRow() {
-        var table = document.getElementById("detalle-table").getElementsByTagName('tbody')[0];
-        var newRow = table.insertRow();
-        var columns = [
-            'detalle_1', 'detalle_2', 'detalle_3', 'detalle_4', 'detalle_5', 'detalle_6', 'detalle_7', 
-            'detalle_8', 'detalle_9', 'detalle_10', 'detalle_11', 'detalle_12', 'detalle_13', 
-            'detalle_14', 'detalle_15', 'detalle_16', 'detalle_17', 'detalle_18', 'detalle_19', 
-            'detalle_20', 'detalle_21', 'detalle_22', 'detalle_23', 'detalle_24', 'detalle_25'
-        ];
-        
-        for (var i = 0; i < columns.length; i++) {
-            var cell = newRow.insertCell(i);
-            if (columns[i] === 'detalle_13') { // checkbox for muestra_materialidad
-                cell.innerHTML = '<input type="checkbox" name="' + columns[i] + '" class="form-control" />';
-            } else if (columns[i] === 'detalle_25') { // file input for archivos_adjuntos
-                cell.innerHTML = '<input type="file" name="' + columns[i] + '" class="form-control" />';
-            } else {
-                cell.innerHTML = '<input type="text" name="' + columns[i] + '" class="form-control" />';
-            }
-        }
+    let detalleOportunidadIndex = {{ formset.total_form_count }};
 
-        var cell = newRow.insertCell(columns.length);
-        cell.innerHTML = '<button type="button" onclick="removeRow(this)">Eliminar</button>';
+    function addDetalleOportunidad() {
+        const container = document.getElementById('detalle-oportunidad-container');
+        const template = `
+            <div class="form-container" id="detalle-oportunidad-${detalleOportunidadIndex}">
+                ${generateFormFields(detalleOportunidadIndex)}
+                <button type="button" class="btn btn-danger" onclick="removeDetalleOportunidad(${detalleOportunidadIndex})">Eliminar</button>
+            </div>
+        `;
+        container.insertAdjacentHTML('beforeend', template);
+        detalleOportunidadIndex++;
     }
-    
-    function removeRow(button) {
-        var row = button.parentNode.parentNode;
-        row.parentNode.removeChild(row);
+
+    function removeDetalleOportunidad(index) {
+        const element = document.getElementById(`detalle-oportunidad-${index}`);
+        if (element) {
+            element.remove();
+        }
+    }
+
+    function generateFormFields(index) {
+        return `
+            {% for form in formset.empty_form %}
+                <div class="form-group">
+                    <label for="id_form-${index}-{{ form.name }}">{{ form.label }}</label>
+                    <input type="text" name="form-${index}-{{ form.name }}" id="id_form-${index}-{{ form.name }}" class="form-control">
+                </div>
+            {% endfor %}
+        `;
     }
 </script>
 {% endblock %}
+
+
 
 
