@@ -7,6 +7,7 @@ from .forms import TaskForm, DetalleOportunidadForm
 from .models import Task, DetalleOportunidad
 from django.utils import timezone
 from django.contrib.auth.decorators import login_required
+from django.forms import modelformset_factory
 
 def home(request):
     return render(request, 'home.html')
@@ -46,35 +47,27 @@ def tasks_completed(request):
 
 @login_required
 def create_task(request):
-    if request.method == 'GET':
-        task_form = TaskForm()
-        detalle_oportunidad_form = DetalleOportunidadForm()
-        return render(request, 'create_task.html', {
-            'task_form': task_form,
-            'detalle_oportunidad_form': detalle_oportunidad_form
-        })
-    else:
-        task_form = TaskForm(request.POST)
-        detalle_oportunidad_form = DetalleOportunidadForm(request.POST, request.FILES)
+    DetalleOportunidadFormSet = modelformset_factory(DetalleOportunidad, form=DetalleOportunidadForm, extra=1, can_delete=True)
+    
+    if request.method == 'POST':
+        task_form = TaskForm(request.POST, request.FILES)
+        formset = DetalleOportunidadFormSet(request.POST, request.FILES, queryset=DetalleOportunidad.objects.none())
         
-        if task_form.is_valid() and detalle_oportunidad_form.is_valid():
-            new_task = task_form.save(commit=False)
-            new_task.user = request.user
-            new_task.save()
-            
-            new_detalle = detalle_oportunidad_form.save(commit=False)
-            new_detalle.task = new_task
-            new_detalle.save()
-            
-            return redirect('tasks')
-        else:
-            print("Task form errors:", task_form.errors)
-            print("DetalleOportunidad form errors:", detalle_oportunidad_form.errors)
-            return render(request, 'create_task.html', {
-                'task_form': task_form,
-                'detalle_oportunidad_form': detalle_oportunidad_form,
-                'error': 'Please provide valid data'
-            })
+        if task_form.is_valid() and formset.is_valid():
+            task = task_form.save()
+            for form in formset:
+                detalle_oportunidad = form.save(commit=False)
+                detalle_oportunidad.task = task
+                detalle_oportunidad.save()
+            return redirect('some_view')
+    else:
+        task_form = TaskForm()
+        formset = DetalleOportunidadFormSet(queryset=DetalleOportunidad.objects.none())
+
+    return render(request, 'your_template.html', {
+        'task_form': task_form,
+        'formset': formset,
+    })
 
 @login_required
 def task_detail(request, task_id):
