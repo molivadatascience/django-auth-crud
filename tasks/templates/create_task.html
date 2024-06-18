@@ -29,75 +29,18 @@
                     {{ task_form.as_p }}
                 </div>
                 <h2>Detalles de la Oportunidad</h2>
-                <div id="detalle-oportunidad-container">
-                    {% for form in formset %}
-                        <div class="form-container" id="detalle-oportunidad-{{ forloop.counter0 }}">
-                            {% for field in form %}
-                                <div class="form-group">
-                                    {{ field.label_tag }} {{ field }}
-                                    {% if field.help_text %}
-                                        <small class="form-text text-muted">{{ field.help_text }}</small>
-                                    {% endif %}
-                                </div>
-                            {% endfor %}
-                            <button type="button" class="btn btn-danger" onclick="removeRow('{{ forloop.counter0 }}')">Eliminar</button>
-                        </div>
-                    {% endfor %}
+                <div class="form-container">
+                    {{ detalle_oportunidad_form.as_p }}
+                    <button type="button" onclick="removeRow(this)">Eliminar</button>
+                    <button type="button" onclick="addRow()">Agregar Detalle</button>
                 </div>
-                <button type="button" class="btn btn-secondary" onclick="addRow()">Agregar Detalle</button>
                 <button type="submit" class="btn btn-primary save-button">Save</button>
             </form>
         </div>
     </div>
 </main>
-
-<script>
-    let detalleOportunidadIndex = {{ formset.total_form_count }};
-
-    function addRow() {
-        const container = document.getElementById('detalle-oportunidad-container');
-        const template = `
-            <div class="form-container" id="detalle-oportunidad-${detalleOportunidadIndex}">
-                ${generateFormFields(detalleOportunidadIndex)}
-                <button type="button" class="btn btn-danger" onclick="removeRow(${detalleOportunidadIndex})">Eliminar</button>
-            </div>
-        `;
-        container.insertAdjacentHTML('beforeend', template);
-        detalleOportunidadIndex++;
-        updateManagementForm();
-    }
-
-    function removeRow(index) {
-        const element = document.getElementById(`detalle-oportunidad-${index}`);
-        if (element) {
-            element.remove();
-        }
-        updateManagementForm();
-    }
-
-    function generateFormFields(index) {
-        let emptyForm = document.getElementById('empty-form-template').innerHTML;
-        return emptyForm.replace(/__prefix__/g, index);
-    }
-
-    function updateManagementForm() {
-        const totalForms = document.getElementById('id_form-TOTAL_FORMS');
-        totalForms.value = document.querySelectorAll('#detalle-oportunidad-container .form-container').length;
-    }
-</script>
-
-<!-- Esta plantilla debe estar oculta y se usa para generar nuevos formularios -->
-<template id="empty-form-template">
-    {% for field in formset.empty_form %}
-        <div class="form-group">
-            {{ field.label_tag }} {{ field }}
-            {% if field.help_text %}
-                <small class="form-text text-muted">{{ field.help_text }}</small>
-            {% endif %}
-        </div>
-    {% endfor %}
-</template>
 {% endblock %}
+
 
 
 
