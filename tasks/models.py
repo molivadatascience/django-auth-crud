@@ -5,6 +5,11 @@ from django.contrib.auth.models import User
 # Vamos a crear una tabla
 # from tkinter import CASCADE
 class Task(models.Model):
+    NOMBRE_CLIENTES_CHOICES = [
+        ('CCU', 'CCU'),
+        ('AGROSUPER', 'AGROSUPER'),
+        ('COCA-COLA', 'COCA-COLA'),
+    ]
     KAM_CHOICES = [
         ('Francisca', 'Francisca'),
         ('María Jesús', 'María Jesús'),
@@ -22,7 +27,7 @@ class Task(models.Model):
 
     title = models.CharField(max_length=100)
     fecha_solicitud = models.DateTimeField(null=True, blank=True)
-    nombre_cliente = models.CharField(max_length=100)
+    nombre_cliente = models.CharField(max_length=100,choices=NOMBRE_CLIENTES_CHOICES)
     #campana = models.CharField(max_length=100)
     kam = models.CharField(max_length=100,choices=KAM_CHOICES)
     valor_oportunidad = models.IntegerField()

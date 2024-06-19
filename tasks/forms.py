@@ -8,7 +8,7 @@ class TaskForm(forms.ModelForm):
         widgets = {
             'title': forms.TextInput(attrs={'class': 'form-control','placeholder': 'Write a title'}),
             'fecha_solicitud':forms.DateInput(attrs={'type': 'date'}),
-            'nombre_cliente':forms.TextInput(attrs={'class': 'form-control','placeholder': 'nombre_cliente'}),
+            'nombre_cliente':forms.Select(attrs={'class': 'form-control','placeholder': 'nombre_cliente'}),
             #'campana': forms.TextInput(attrs={'class': 'form-control','placeholder': 'campana'}),
             'kam':forms.Select(attrs={'class': 'form-control'}),
             'valor_oportunidad':forms.TextInput(attrs={'class': 'form-control','placeholder': 'Ingresa valor'}),
