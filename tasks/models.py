@@ -32,7 +32,7 @@ class Task(models.Model):
     fecha_entrega_propuesta = models.DateTimeField(null=True, blank=True)
     fecha_entrega_productos = models.DateTimeField(null=True, blank=True)
     solicitud_muestra = models.BooleanField(default=False)
-    description = models.TextField(blank=True)
+    descripcion = models.CharField(blank=True)
     fecha_cotizacion = models.DateTimeField(null=True, blank=True)
     cotizacion_aceptada = models.BooleanField(default=False)
     nombre_contacto = models.CharField(max_length=100)
