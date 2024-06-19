@@ -23,7 +23,7 @@ class Task(models.Model):
     title = models.CharField(max_length=100)
     fecha_solicitud = models.DateTimeField(null=True, blank=True)
     nombre_cliente = models.CharField(max_length=100)
-    campana = models.CharField(max_length=100)
+    #campana = models.CharField(max_length=100)
     kam = models.CharField(max_length=100,choices=KAM_CHOICES)
     valor_oportunidad = models.IntegerField()
     margen= models.DecimalField(max_digits=5, decimal_places=2)

@@ -4,12 +4,12 @@ from .models import Task, Hijos, DetalleOportunidad
 class TaskForm(forms.ModelForm):
     class Meta:
         model = Task
-        fields=['title', 'fecha_solicitud', 'nombre_cliente', 'campana', 'kam', 'valor_oportunidad', 'margen','tipo_importacion', 'pais_origen', 'fecha_entrega_propuesta', 'fecha_entrega_productos', 'solicitud_muestra', 'description', 'fecha_cotizacion', 'cotizacion_aceptada', 'nombre_contacto', 'email_contacto', 'cotización_valida_dias', 'tiempo_muestra_fisica_dias', 'tiempo_produccion_dias', 'important'] #son los campos que quiero ver en el formulario el resto no es necesario
+        fields=['title', 'fecha_solicitud', 'nombre_cliente', 'kam', 'valor_oportunidad', 'margen','tipo_importacion', 'pais_origen', 'fecha_entrega_propuesta', 'fecha_entrega_productos', 'solicitud_muestra', 'description', 'fecha_cotizacion', 'cotizacion_aceptada', 'nombre_contacto', 'email_contacto', 'cotización_valida_dias', 'tiempo_muestra_fisica_dias', 'tiempo_produccion_dias', 'important'] #son los campos que quiero ver en el formulario el resto no es necesario
         widgets = {
             'title': forms.TextInput(attrs={'class': 'form-control','placeholder': 'Write a title'}),
             'fecha_solicitud':forms.DateInput(attrs={'type': 'date'}),
             'nombre_cliente':forms.TextInput(attrs={'class': 'form-control','placeholder': 'nombre_cliente'}),
-            'campana': forms.TextInput(attrs={'class': 'form-control','placeholder': 'campana'}),
+            #'campana': forms.TextInput(attrs={'class': 'form-control','placeholder': 'campana'}),
             'kam':forms.Select(attrs={'class': 'form-control'}),
             'valor_oportunidad':forms.TextInput(attrs={'class': 'form-control','placeholder': 'Ingresa valor'}),
             'margen':forms.TextInput(attrs={'class': 'form-control'}),
