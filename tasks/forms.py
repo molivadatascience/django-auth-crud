@@ -4,7 +4,7 @@ from .models import Task, Hijos, DetalleOportunidad
 class TaskForm(forms.ModelForm):
     class Meta:
         model = Task
-        fields=['title', 'fecha_solicitud', 'nombre_cliente', 'kam', 'valor_oportunidad', 'margen','tipo_importacion', 'pais_origen', 'fecha_entrega_propuesta', 'fecha_entrega_productos', 'solicitud_muestra', 'descripcion'] #son los campos que quiero ver en el formulario el resto no es necesario
+        fields=['title', 'fecha_solicitud', 'nombre_cliente', 'kam', 'valor_oportunidad', 'margen','tipo_importacion', 'pais_origen', 'fecha_entrega_propuesta', 'fecha_entrega_productos', 'solicitud_muestra', 'descripcion','precio_unitario'] #son los campos que quiero ver en el formulario el resto no es necesario
         widgets = {
             'title': forms.TextInput(attrs={'class': 'form-control','placeholder': 'Write a title'}),
             'fecha_solicitud':forms.DateInput(attrs={'type': 'date'}),
@@ -19,6 +19,7 @@ class TaskForm(forms.ModelForm):
             'fecha_entrega_productos':forms.DateInput(attrs={'type': 'date'}),
             'solicitud_muestra': forms.CheckboxInput(attrs={'class': 'form-check-input m-auto'}),
             'descripcion': forms.TextInput(attrs={'class': 'form-control','placeholder': 'Write a description'}),
+            'precio_unitario':forms.TextInput(attrs={'class': 'form-control','placeholder': 'Ingresa precio en CLP'}),
             #'fecha_cotizacion':forms.DateInput(attrs={'type': 'date'}),
             #'cotizacion_aceptada':forms.CheckboxInput(attrs={'class': 'form-check-input m-auto'}),
             #'nombre_contacto': forms.TextInput(attrs={'class': 'form-control','placeholder': 'nombre_contacto'}),
