@@ -4,7 +4,7 @@ from .models import Task, Hijos, DetalleOportunidad
 class TaskForm(forms.ModelForm):
     class Meta:
         model = Task
-        fields=['title', 'fecha_solicitud', 'nombre_cliente', 'kam', 'valor_oportunidad', 'margen','tipo_importacion', 'pais_origen', 'fecha_entrega_propuesta', 'fecha_entrega_productos', 'solicitud_muestra', 'descripcion','precio_unitario'] #son los campos que quiero ver en el formulario el resto no es necesario
+        fields=['title', 'fecha_solicitud', 'nombre_cliente', 'kam', 'valor_oportunidad', 'margen','tipo_importacion', 'pais_origen', 'fecha_entrega_propuesta', 'fecha_entrega_productos', 'solicitud_muestra', 'descripcion'] #son los campos que quiero ver en el formulario el resto no es necesario
         widgets = {
             'title': forms.TextInput(attrs={'class': 'form-control','placeholder': 'Write a title'}),
             'fecha_solicitud':forms.DateInput(attrs={'type': 'date'}),
@@ -46,7 +46,7 @@ class DetalleOportunidadForm(forms.ModelForm):
         fields = [
             'producto', 'origen', 'margen', 'precio_objetivo', 'destino',
             'categoria_a_cotizar', 'unidades', 'tamano', 'color', 'branding', 'cantidad_de_disenos',
-            'muestra_materialidad', 'muestra_pps', 'observaciones', 'packaging_master_unidades',
+            'muestra_materialidad', 'muestra_pps', 'observaciones', 'precio_unitario','packaging_master_unidades',
             'packaging_inner_unidades', 'packaging_unitario_unidades', 'packaging_master_tipo',
             'packaging_inner_tipo', 'packaging_diseno_tipo', 'packaging_master_diseno',
             'packaging_inner_diseno', 'packaging_unitario_diseno', 'archivos_adjuntos'
@@ -67,6 +67,7 @@ class DetalleOportunidadForm(forms.ModelForm):
             'muestra_materialidad': forms.CheckboxInput(attrs={'class': 'form-check-input'}),
             'muestra_pps': forms.Select(attrs={'class': 'form-control'}),
             'observaciones': forms.TextInput(attrs={'class': 'form-control'}),
+            'precio_unitario':forms.NumberInput(attrs={'class': 'form-control'}),
             'packaging_master_unidades': forms.TextInput(attrs={'class': 'form-control'}),
             'packaging_inner_unidades': forms.TextInput(attrs={'class': 'form-control'}),
             'packaging_unitario_unidades': forms.TextInput(attrs={'class': 'form-control'}),
