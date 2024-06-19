@@ -38,16 +38,16 @@ class Task(models.Model):
     fecha_entrega_productos = models.DateTimeField(null=True, blank=True)
     solicitud_muestra = models.BooleanField(default=False)
     descripcion = models.CharField(blank=True)
-    fecha_cotizacion = models.DateTimeField(null=True, blank=True)
-    cotizacion_aceptada = models.BooleanField(default=False)
-    nombre_contacto = models.CharField(max_length=100)
-    email_contacto = models.CharField(max_length=100)
-    cotización_valida_dias = models.IntegerField()
-    tiempo_muestra_fisica_dias = models.IntegerField()
-    tiempo_produccion_dias = models.IntegerField()
+    #fecha_cotizacion = models.DateTimeField(null=True, blank=True)
+    #cotizacion_aceptada = models.BooleanField(default=False)
+    #nombre_contacto = models.CharField(max_length=100)
+    #email_contacto = models.CharField(max_length=100)
+    #cotización_valida_dias = models.IntegerField()
+    #tiempo_muestra_fisica_dias = models.IntegerField()
+    #tiempo_produccion_dias = models.IntegerField()
     created = models.DateTimeField(auto_now_add=True) # el automaticamente guarda la fecha
     datecompleted = models.DateTimeField(null=True, blank=True) #permite valores nulos
-    important = models.BooleanField(default=False)
+   # important = models.BooleanField(default=False)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
 
     def __str__(self):

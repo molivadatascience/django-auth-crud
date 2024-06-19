@@ -4,7 +4,7 @@ from .models import Task, Hijos, DetalleOportunidad
 class TaskForm(forms.ModelForm):
     class Meta:
         model = Task
-        fields=['title', 'fecha_solicitud', 'nombre_cliente', 'kam', 'valor_oportunidad', 'margen','tipo_importacion', 'pais_origen', 'fecha_entrega_propuesta', 'fecha_entrega_productos', 'solicitud_muestra', 'descripcion', 'fecha_cotizacion', 'cotizacion_aceptada', 'nombre_contacto', 'email_contacto', 'cotización_valida_dias', 'tiempo_muestra_fisica_dias', 'tiempo_produccion_dias', 'important'] #son los campos que quiero ver en el formulario el resto no es necesario
+        fields=['title', 'fecha_solicitud', 'nombre_cliente', 'kam', 'valor_oportunidad', 'margen','tipo_importacion', 'pais_origen', 'fecha_entrega_propuesta', 'fecha_entrega_productos', 'solicitud_muestra', 'descripcion'] #son los campos que quiero ver en el formulario el resto no es necesario
         widgets = {
             'title': forms.TextInput(attrs={'class': 'form-control','placeholder': 'Write a title'}),
             'fecha_solicitud':forms.DateInput(attrs={'type': 'date'}),
@@ -19,14 +19,14 @@ class TaskForm(forms.ModelForm):
             'fecha_entrega_productos':forms.DateInput(attrs={'type': 'date'}),
             'solicitud_muestra': forms.CheckboxInput(attrs={'class': 'form-check-input m-auto'}),
             'descripcion': forms.TextInput(attrs={'class': 'form-control','placeholder': 'Write a description'}),
-            'fecha_cotizacion':forms.DateInput(attrs={'type': 'date'}),
-            'cotizacion_aceptada':forms.CheckboxInput(attrs={'class': 'form-check-input m-auto'}),
-            'nombre_contacto': forms.TextInput(attrs={'class': 'form-control','placeholder': 'nombre_contacto'}),
-            'email_contacto': forms.TextInput(attrs={'class': 'form-control','placeholder': 'email_contacto'}),
-            'cotización_valida_dias':forms.TextInput(attrs={'class': 'form-control','placeholder': 'Ingrese días'}),
-            'tiempo_muestra_fisica_dias':forms.TextInput(attrs={'class': 'form-control','placeholder': 'Ingrese días'}),
-            'tiempo_produccion_dias':forms.TextInput(attrs={'class': 'form-control','placeholder': 'Ingrese días'}),
-            'important': forms.CheckboxInput(attrs={'class': 'form-check-input m-auto'}),
+            #'fecha_cotizacion':forms.DateInput(attrs={'type': 'date'}),
+            #'cotizacion_aceptada':forms.CheckboxInput(attrs={'class': 'form-check-input m-auto'}),
+            #'nombre_contacto': forms.TextInput(attrs={'class': 'form-control','placeholder': 'nombre_contacto'}),
+            #'email_contacto': forms.TextInput(attrs={'class': 'form-control','placeholder': 'email_contacto'}),
+            #'cotización_valida_dias':forms.TextInput(attrs={'class': 'form-control','placeholder': 'Ingrese días'}),
+            #'tiempo_muestra_fisica_dias':forms.TextInput(attrs={'class': 'form-control','placeholder': 'Ingrese días'}),
+            #'tiempo_produccion_dias':forms.TextInput(attrs={'class': 'form-control','placeholder': 'Ingrese días'}),
+            #'important': forms.CheckboxInput(attrs={'class': 'form-check-input m-auto'}),
         }
 
 
