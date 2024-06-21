@@ -1,6 +1,15 @@
 from django import forms
 from .models import Task, Hijos, DetalleOportunidad
+from django.utils.html import format_html
 
+class NumberInputWithThousandsSeparator(forms.TextInput):
+    def render(self, name, value, attrs=None, renderer=None):
+        if value is not None:
+            try:
+                value = "{:,}".format(int(value))
+            except ValueError:
+                pass
+        return super().render(name, value, attrs, renderer)
 class TaskForm(forms.ModelForm):
     class Meta:
         model = Task
@@ -11,7 +20,8 @@ class TaskForm(forms.ModelForm):
             'nombre_cliente':forms.Select(attrs={'class': 'form-control','placeholder': 'nombre_cliente'}),
             #'campana': forms.TextInput(attrs={'class': 'form-control','placeholder': 'campana'}),
             'kam':forms.Select(attrs={'class': 'form-control'}),
-            'valor_oportunidad':forms.TextInput(attrs={'class': 'form-control','placeholder': 'Ingresa valor'}),
+            #'valor_oportunidad':forms.TextInput(attrs={'class': 'form-control','placeholder': 'Ingresa valor'}),
+            'valor_oportunidad': NumberInputWithThousandsSeparator(attrs={'class': 'form-control', 'placeholder': 'Ingresa valor'}),
             'margen':forms.TextInput(attrs={'class': 'form-control'}),
             'tipo_importacion':forms.Select(attrs={'class': 'form-control','placeholder': 'tipo_importacion'}),
             'pais_origen':forms.Select(attrs={'class': 'form-control'}),
@@ -29,6 +39,7 @@ class TaskForm(forms.ModelForm):
             #'tiempo_produccion_dias':forms.TextInput(attrs={'class': 'form-control','placeholder': 'Ingrese días'}),
             #'important': forms.CheckboxInput(attrs={'class': 'form-check-input m-auto'}),
         }
+
 
 
 class HijosForm(forms.ModelForm):
