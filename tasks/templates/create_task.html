@@ -47,36 +47,66 @@
 </main>
 <script>
     document.addEventListener('DOMContentLoaded', function() {
-        // Formatear margen como porcentaje
-        var marginInput = document.querySelector('#id_margen');
-        if (marginInput) {
-            marginInput.addEventListener('input', function() {
-                var value = marginInput.value.replace('%', '');
-                if (!isNaN(value) && value.trim() !== '') {
-                    marginInput.value = value + '%';
-                } else {
-                    marginInput.value = value;
-                }
+        function formatThousands(input) {
+            let value = input.value.replace(/\./g, '');
+            if (!isNaN(value) && value.length > 3) {
+                input.value = parseInt(value).toLocaleString('de-DE');
+            }
+        }
+
+        function formatPercentage(input) {
+            let value = input.value.replace('%', '');
+            if (!isNaN(value) && value !== '') {
+                input.value = parseFloat(value) + '%';
+            }
+        }
+
+        // Formatear los campos específicos de TaskForm
+        let valorOportunidadInput = document.querySelector('#id_valor_oportunidad');
+        if (valorOportunidadInput) {
+            valorOportunidadInput.addEventListener('input', function() {
+                formatThousands(valorOportunidadInput);
             });
         }
-    
-    // Formatear valor oportunidad con puntos como separadores de miles
-    var valorOportunidadInput = document.querySelector('#id_valor_oportunidad');
-    if (valorOportunidadInput) {
-        valorOportunidadInput.addEventListener('input', function() {
-            var value = valorOportunidadInput.value.replace(/\./g, '');
-            if (!isNaN(value) && value.trim() !== '') {
-                valorOportunidadInput.value = Number(value).toLocaleString('de-DE');
-            } else {
-                valorOportunidadInput.value = value;
-            }
-        });
+
+        let margenInput = document.querySelector('#id_margen');
+        if (margenInput) {
+            margenInput.addEventListener('input', function() {
+                formatPercentage(margenInput);
+            });
+        }
+
+        // Formatear los campos específicos de DetalleOportunidadForm
+        let precioObjetivoInput = document.querySelector('#id_precio_objetivo');
+        if (precioObjetivoInput) {
+            precioObjetivoInput.addEventListener('input', function() {
+                formatThousands(precioObjetivoInput);
+            });
+        }
+
+        let unidadesInput = document.querySelector('#id_unidades');
+        if (unidadesInput) {
+            unidadesInput.addEventListener('input', function() {
+                formatThousands(unidadesInput);
+            });
+        }
+
+        let detalleMargenInput = document.querySelector('#id_detalle_margen');
+        if (detalleMargenInput) {
+            detalleMargenInput.addEventListener('input', function() {
+                formatPercentage(detalleMargenInput);
+            });
+        }
+    });
+
+    function addRow() {
+        // Lógica para agregar una nueva fila de formulario (si es necesario)
     }
-});
+
+    function removeRow(button) {
+        // Lógica para eliminar la fila actual del formulario
+        let row = button.closest('.form-container-2');
+        row.remove();
+    }
 </script>
-
 {% endblock %}
-
-
-
-

@@ -110,11 +110,14 @@ class DetalleOportunidadForm(forms.ModelForm):
            # 'id_requerimiento_comercial': forms.NumberInput(attrs={'class': 'form-control'}),
             'producto': forms.TextInput(attrs={'class': 'form-control'}),
             'origen': forms.Select(attrs={'class': 'form-control'}),
-            'margen': forms.NumberInput(attrs={'class': 'form-control'}),
-            'precio_objetivo': forms.NumberInput(attrs={'class': 'form-control'}),
+            #'margen': forms.NumberInput(attrs={'class': 'form-control'}),
+            'margen': PercentageInput(attrs={'class': 'form-control', 'placeholder': 'Ingresa margen'}),
+            #'precio_objetivo': forms.NumberInput(attrs={'class': 'form-control'}),
+            'precio_objetivo': NumberInputWithThousandsSeparator(attrs={'class': 'form-control', 'placeholder': 'Ingresa precio'}),
             'destino': forms.Select(attrs={'class': 'form-control'}),
             'categoria_a_cotizar': forms.Select(attrs={'class': 'form-control'}),
-            'unidades': forms.NumberInput(attrs={'class': 'form-control'}),
+            #'unidades': forms.NumberInput(attrs={'class': 'form-control'}),
+            'unidades': NumberInputWithThousandsSeparator(attrs={'class': 'form-control', 'placeholder': 'Ingresa unidades'}),
             'tamano': forms.TextInput(attrs={'class': 'form-control'}),
             'color': forms.TextInput(attrs={'class': 'form-control'}),
             'branding': forms.TextInput(attrs={'class': 'form-control'}),
@@ -134,3 +137,26 @@ class DetalleOportunidadForm(forms.ModelForm):
             'packaging_unitario_diseno': forms.TextInput(attrs={'class': 'form-control'}),
             'archivos_adjuntos': forms.ClearableFileInput(attrs={'class': 'form-control-file'}),
         }
+def clean_precio_objetivo(self):
+        data = self.cleaned_data.get('precio_objetivo')
+        if data:
+            data = str(data).replace('.', '')
+            if data.isdigit():
+                return int(data)
+            raise forms.ValidationError("Enter a whole number.")
+        return data
+
+def clean_unidades(self):
+        data = self.cleaned_data.get('unidades')
+        if data:
+            data = str(data).replace('.', '')
+            if data.isdigit():
+                return int(data)
+            raise forms.ValidationError("Enter a whole number.")
+        return data
+
+def clean_margen(self):
+        data = self.cleaned_data.get('margen')
+        if isinstance(data, str):
+            data = data.replace('%', '')
+        return float(data)
