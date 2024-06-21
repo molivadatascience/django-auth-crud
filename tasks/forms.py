@@ -4,10 +4,18 @@ class NumberInputWithThousandsSeparator(forms.TextInput):
     def render(self, name, value, attrs=None, renderer=None):
         if value is not None:
             try:
-                value = "{:.}".format(int(value)).replace(".", "")
+                value = "{:,}".format(int(value)).replace(",", ".")
             except ValueError:
                 pass
         return super().render(name, value, attrs, renderer)
+    
+    def value_from_datadict(self, data, files, name):
+        value = data.get(name, None)
+        if value:
+            value = value.replace('.', '')
+            if value.isdigit():
+                return int(value)
+        return value
 
 class PercentageInput(forms.TextInput):
     def render(self, name, value, attrs=None, renderer=None):
@@ -64,9 +72,8 @@ class TaskForm(forms.ModelForm):
     def clean_valor_oportunidad(self):
         data = self.cleaned_data.get('valor_oportunidad')
         if data:
-            # Remover cualquier punto del valor
             print("Valor antes de limpiar:", data)
-            data = data.replace('.', '')
+            data = str(data).replace('.', '')
             print("Valor después de limpiar:", data)
             if data.isdigit():
                 return int(data)
