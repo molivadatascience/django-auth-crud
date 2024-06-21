@@ -1,7 +1,7 @@
 from django import forms
 from .models import Task, Hijos, DetalleOportunidad
 #from django.utils.html import format_html
-
+# Definición del widget personalizado
 class NumberInputWithThousandsSeparator(forms.TextInput):
     def render(self, name, value, attrs=None, renderer=None):
         if value is not None:
