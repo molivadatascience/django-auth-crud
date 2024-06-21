@@ -65,7 +65,9 @@ class TaskForm(forms.ModelForm):
         data = self.cleaned_data.get('valor_oportunidad')
         if data:
             # Remover cualquier punto del valor
+            print("Valor antes de limpiar:", data)
             data = data.replace('.', '')
+            print("Valor después de limpiar:", data)
             if data.isdigit():
                 return int(data)
             raise forms.ValidationError("Enter a whole number.")
