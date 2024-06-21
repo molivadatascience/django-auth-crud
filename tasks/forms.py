@@ -4,7 +4,7 @@ class NumberInputWithThousandsSeparator(forms.TextInput):
     def render(self, name, value, attrs=None, renderer=None):
         if value is not None:
             try:
-                value = "{:,}".format(int(value)).replace(",", ".")
+                value = "{:.}".format(int(value)).replace(".", "")
             except ValueError:
                 pass
         return super().render(name, value, attrs, renderer)
