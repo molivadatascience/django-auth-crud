@@ -1,6 +1,6 @@
 from django import forms
 from .models import Task, Hijos, DetalleOportunidad
-from django.utils.html import format_html
+#from django.utils.html import format_html
 
 class NumberInputWithThousandsSeparator(forms.TextInput):
     def render(self, name, value, attrs=None, renderer=None):
@@ -39,7 +39,16 @@ class TaskForm(forms.ModelForm):
             #'tiempo_produccion_dias':forms.TextInput(attrs={'class': 'form-control','placeholder': 'Ingrese días'}),
             #'important': forms.CheckboxInput(attrs={'class': 'form-check-input m-auto'}),
         }
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        if self.instance.pk and self.instance.valor_oportunidad:
+            self.fields['valor_oportunidad'].initial = "{:,}".format(self.instance.valor_oportunidad)
 
+    def clean_valor_oportunidad(self):
+        data = self.cleaned_data['valor_oportunidad']
+        if isinstance(data, str):
+            data = data.replace(',', '')
+        return int(data)
 
 
 class HijosForm(forms.ModelForm):
