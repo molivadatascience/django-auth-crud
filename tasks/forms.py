@@ -1,9 +1,14 @@
 from django import forms
 from .models import Task, Hijos, DetalleOportunidad
-#from django.utils.html import format_html
-# Definición del widget personalizado
+class NumberInputWithThousandsSeparator(forms.TextInput):
+    def render(self, name, value, attrs=None, renderer=None):
+        if value is not None:
+            try:
+                value = "{:,}".format(int(value))
+            except ValueError:
+                pass
+        return super().render(name, value, attrs, renderer)
 
-# Definición del widget personalizado para porcentajes
 class PercentageInput(forms.TextInput):
     def render(self, name, value, attrs=None, renderer=None):
         if value is not None:
@@ -21,14 +26,6 @@ class PercentageInput(forms.TextInput):
         except ValueError:
             return value
         return f"{value}%"
-class NumberInputWithThousandsSeparator(forms.TextInput):
-    def render(self, name, value, attrs=None, renderer=None):
-        if value is not None:
-            try:
-                value = "{:,}".format(int(value))
-            except ValueError:
-                pass
-        return super().render(name, value, attrs, renderer)
 class TaskForm(forms.ModelForm):
     class Meta:
         model = Task
@@ -59,10 +56,10 @@ class TaskForm(forms.ModelForm):
             #'tiempo_produccion_dias':forms.TextInput(attrs={'class': 'form-control','placeholder': 'Ingrese días'}),
             #'important': forms.CheckboxInput(attrs={'class': 'form-check-input m-auto'}),
         }
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        if self.instance.pk and self.instance.valor_oportunidad:
-            self.fields['valor_oportunidad'].initial = "{:,}".format(self.instance.valor_oportunidad)
+    #def __init__(self, *args, **kwargs):
+    #    super().__init__(*args, **kwargs)
+    #    if self.instance.pk and self.instance.valor_oportunidad:
+    #        self.fields['valor_oportunidad'].initial = "{:,}".format(self.instance.valor_oportunidad)
 
     def clean_valor_oportunidad(self):
         data = self.cleaned_data['valor_oportunidad']
