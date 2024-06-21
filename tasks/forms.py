@@ -68,7 +68,7 @@ class TaskForm(forms.ModelForm):
             data = data.replace('.', '')
             if data.isdigit():
                 return int(data)
-            raise forms.ValidationError("Please enter a valid whole number.")
+            raise forms.ValidationError("Enter a whole number.")
         return data
 
     def clean_margen(self):
