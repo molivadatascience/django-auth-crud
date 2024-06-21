@@ -60,19 +60,19 @@
             });
         }
     
-        // Formatear valor oportunidad con separadores de miles
-        var valorOportunidadInput = document.querySelector('#id_valor_oportunidad');
-        if (valorOportunidadInput) {
-            valorOportunidadInput.addEventListener('input', function() {
-                var value = valorOportunidadInput.value.replace(/,/g, '');
-                if (!isNaN(value) && value.trim() !== '') {
-                    valorOportunidadInput.value = Number(value).toLocaleString('en');
-                } else {
-                    valorOportunidadInput.value = value;
-                }
-            });
-        }
-    });
+    // Formatear valor oportunidad con puntos como separadores de miles
+    var valorOportunidadInput = document.querySelector('#id_valor_oportunidad');
+    if (valorOportunidadInput) {
+        valorOportunidadInput.addEventListener('input', function() {
+            var value = valorOportunidadInput.value.replace(/\./g, '');
+            if (!isNaN(value) && value.trim() !== '') {
+                valorOportunidadInput.value = Number(value).toLocaleString('de-DE');
+            } else {
+                valorOportunidadInput.value = value;
+            }
+        });
+    }
+});
 </script>
 
 {% endblock %}

@@ -4,7 +4,7 @@ class NumberInputWithThousandsSeparator(forms.TextInput):
     def render(self, name, value, attrs=None, renderer=None):
         if value is not None:
             try:
-                value = "{:,}".format(int(value))
+                value = "{:,}".format(int(value)).replace(",", ".")
             except ValueError:
                 pass
         return super().render(name, value, attrs, renderer)
@@ -62,10 +62,14 @@ class TaskForm(forms.ModelForm):
     #        self.fields['valor_oportunidad'].initial = "{:,}".format(self.instance.valor_oportunidad)
 
     def clean_valor_oportunidad(self):
-        data = self.cleaned_data['valor_oportunidad']
-        if isinstance(data, str):
-            data = data.replace(',', '')
-        return int(data)
+        data = self.cleaned_data.get('valor_oportunidad')
+        if data:
+            # Remover cualquier punto del valor
+            data = data.replace('.', '')
+            if data.isdigit():
+                return int(data)
+            raise forms.ValidationError("Please enter a valid whole number.")
+        return data
 
     def clean_margen(self):
         data = self.cleaned_data['margen']
