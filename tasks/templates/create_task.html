@@ -45,6 +45,22 @@
         </div>
     </div>
 </main>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        var marginInput = document.querySelector('#id_margen');
+        if (marginInput) {
+            marginInput.addEventListener('input', function() {
+                var value = marginInput.value.replace('%', '');
+                if (!isNaN(value) && value.trim() !== '') {
+                    marginInput.value = value + '%';
+                } else {
+                    marginInput.value = value;
+                }
+            });
+        }
+    });
+    </script>
+
 {% endblock %}
 
 

@@ -2,6 +2,25 @@ from django import forms
 from .models import Task, Hijos, DetalleOportunidad
 #from django.utils.html import format_html
 # Definición del widget personalizado
+
+# Definición del widget personalizado para porcentajes
+class PercentageInput(forms.TextInput):
+    def render(self, name, value, attrs=None, renderer=None):
+        if value is not None:
+            try:
+                value = f"{float(value)}%"
+            except ValueError:
+                pass
+        return super().render(name, value, attrs, renderer)
+
+    def format_value(self, value):
+        if value is None:
+            return ''
+        try:
+            value = float(value)
+        except ValueError:
+            return value
+        return f"{value}%"
 class NumberInputWithThousandsSeparator(forms.TextInput):
     def render(self, name, value, attrs=None, renderer=None):
         if value is not None:
@@ -22,7 +41,8 @@ class TaskForm(forms.ModelForm):
             'kam':forms.Select(attrs={'class': 'form-control'}),
             #'valor_oportunidad':forms.TextInput(attrs={'class': 'form-control','placeholder': 'Ingresa valor'}),
             'valor_oportunidad': NumberInputWithThousandsSeparator(attrs={'class': 'form-control', 'placeholder': 'Ingresa valor'}),
-            'margen':forms.TextInput(attrs={'class': 'form-control'}),
+            #'margen':forms.TextInput(attrs={'class': 'form-control'}),
+            'margen': PercentageInput(attrs={'class': 'form-control', 'placeholder': 'Ingresa margen'}),
             'tipo_importacion':forms.Select(attrs={'class': 'form-control','placeholder': 'tipo_importacion'}),
             'pais_origen':forms.Select(attrs={'class': 'form-control'}),
             'fecha_entrega_propuesta':forms.DateInput(attrs={'type': 'date'}),
@@ -50,6 +70,11 @@ class TaskForm(forms.ModelForm):
             data = data.replace(',', '')
         return int(data)
 
+    def clean_margen(self):
+        data = self.cleaned_data['margen']
+        if isinstance(data, str):
+            data = data.replace('%', '')
+        return float(data)
 
 class HijosForm(forms.ModelForm):
     class Meta:
