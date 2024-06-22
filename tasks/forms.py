@@ -34,6 +34,8 @@ class PercentageInput(forms.TextInput):
         except ValueError:
             return value
         return f"{value}%"
+
+
 class TaskForm(forms.ModelForm):
     class Meta:
         model = Task
@@ -80,7 +82,11 @@ class TaskForm(forms.ModelForm):
             raise forms.ValidationError("Enter a whole number.")
         return data
 
-
+    def clean_margen(self):
+        data = self.cleaned_data['margen']
+        if isinstance(data, str):
+            data = data.replace('%', '')
+        return float(data)
 
 class HijosForm(forms.ModelForm):
     class Meta:
@@ -107,7 +113,7 @@ class DetalleOportunidadForm(forms.ModelForm):
             'producto': forms.TextInput(attrs={'class': 'form-control'}),
             'origen': forms.Select(attrs={'class': 'form-control'}),
             #'margen': forms.NumberInput(attrs={'class': 'form-control'}),
-            'margen': PercentageInput(attrs={'class': 'form-control', 'placeholder': 'Ingresa margen'}),
+            'margen_prod': PercentageInput(attrs={'class': 'form-control', 'placeholder': 'Ingresa margen'}),
             #'precio_objetivo': forms.NumberInput(attrs={'class': 'form-control'}),
             'precio_objetivo': NumberInputWithThousandsSeparator(attrs={'class': 'form-control', 'placeholder': 'Ingresa precio'}),
             'destino': forms.Select(attrs={'class': 'form-control'}),
@@ -150,6 +156,11 @@ def clean_unidades(self):
                 return int(data)
             raise forms.ValidationError("Enter a whole number.")
         return data
+def clean_margen_prod(self):
+        data = self.cleaned_data['margen_prod']
+        if isinstance(data, str):
+            data = data.replace('%', '')
+        return float(data)
 
 #def clean_margen(self):
 #        data = self.cleaned_data.get('margen')
@@ -162,8 +173,3 @@ def clean_unidades(self):
 #                raise forms.ValidationError("Enter a valid percentage.")
 #        return data
 
-def clean_margen(self):
-        data = self.cleaned_data['margen']
-        if isinstance(data, str):
-            data = data.replace('%', '')
-        return float(data)
