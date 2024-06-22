@@ -35,15 +35,6 @@ class PercentageInput(forms.TextInput):
             return value
         return f"{value}%"
 
-def value_from_datadict(self, data, files, name):
-        value = data.get(name, None)
-        if value:
-            value = value.replace('%', '')
-            try:
-                return float(value)
-            except ValueError:
-                pass
-        return value
 class TaskForm(forms.ModelForm):
     class Meta:
         model = Task
@@ -166,7 +157,7 @@ def clean_unidades(self):
         return data
 
 def clean_margen_prod(self):
-        data = self.cleaned_data['margen_prod']
+        data = self.cleaned_data.get('margen_prod')
         if isinstance(data, str):
             data = data.replace('%', '')
         return float(data)
