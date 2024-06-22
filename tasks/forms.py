@@ -101,7 +101,7 @@ class DetalleOportunidadForm(forms.ModelForm):
     class Meta:
         model = DetalleOportunidad
         fields = [
-            'producto', 'origen', 'margen', 'precio_objetivo', 'destino',
+            'producto', 'origen', 'margen_prod', 'precio_objetivo', 'destino',
             'categoria_a_cotizar', 'unidades', 'tamano', 'color', 'branding', 'cantidad_de_disenos',
             'muestra_materialidad', 'muestra_pps', 'observaciones', 'precio_unitario','packaging_master_unidades',
             'packaging_inner_unidades', 'packaging_unitario_unidades', 'packaging_master_tipo',
