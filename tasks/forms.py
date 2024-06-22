@@ -156,11 +156,11 @@ def clean_unidades(self):
             raise forms.ValidationError("Enter a whole number.")
         return data
 
-def clean_margen(self):
-        data = self.cleaned_data.get('margen')
-        if isinstance(data, str):
-            data = data.replace('%', '')
-        return float(data)
+#def clean_margen(self):
+#        data = self.cleaned_data.get('margen')
+#        if isinstance(data, str):
+#            data = data.replace('%', '')
+#        return float(data)
 
 #def clean_margen(self):
 #        data = self.cleaned_data.get('margen')
