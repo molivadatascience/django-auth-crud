@@ -80,11 +80,7 @@ class TaskForm(forms.ModelForm):
             raise forms.ValidationError("Enter a whole number.")
         return data
 
-    def clean_margen(self):
-        data = self.cleaned_data['margen']
-        if isinstance(data, str):
-            data = data.replace('%', '')
-        return float(data)
+
 
 class HijosForm(forms.ModelForm):
     class Meta:
@@ -155,13 +151,19 @@ def clean_unidades(self):
             raise forms.ValidationError("Enter a whole number.")
         return data
 
+#def clean_margen(self):
+#        data = self.cleaned_data.get('margen')
+#        if data:
+#            if isinstance(data, str):
+#                data = data.replace('%', '')
+#            try:
+#                return float(data)
+#            except ValueError:
+#                raise forms.ValidationError("Enter a valid percentage.")
+#        return data
+
 def clean_margen(self):
-        data = self.cleaned_data.get('margen')
-        if data:
-            if isinstance(data, str):
-                data = data.replace('%', '')
-            try:
-                return float(data)
-            except ValueError:
-                raise forms.ValidationError("Enter a valid percentage.")
-        return data
+        data = self.cleaned_data['margen']
+        if isinstance(data, str):
+            data = data.replace('%', '')
+        return float(data)
