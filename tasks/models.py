@@ -17,7 +17,7 @@ class Task(models.Model):
     ]
     TIPOIMPORTACION_CHOICES = [
         ('Aéreo', 'Aéreo'),
-        ('Ambas', 'Aéreo'),
+        ('Ambas', 'Ambas'),
         ('Marítimo', 'Marítimo'),
     ]
 

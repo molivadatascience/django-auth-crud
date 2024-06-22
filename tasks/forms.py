@@ -157,6 +157,11 @@ def clean_unidades(self):
 
 def clean_margen(self):
         data = self.cleaned_data.get('margen')
-        if isinstance(data, str):
-            data = data.replace('%', '')
-        return float(data)
+        if data:
+            if isinstance(data, str):
+                data = data.replace('%', '')
+            try:
+                return float(data)
+            except ValueError:
+                raise forms.ValidationError("Enter a valid percentage.")
+        return data
