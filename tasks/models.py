@@ -16,13 +16,16 @@ class Task(models.Model):
         ('Rolando', 'Rolando'),
     ]
     TIPOIMPORTACION_CHOICES = [
-        ('Marítimo', 'Marítimo'),
         ('Aéreo', 'Aéreo'),
+        ('Ambas', 'Aéreo'),
+        ('Marítimo', 'Marítimo'),
     ]
 
-    PAISORIGEN_CHOICES = [
+    PAISDESTINO_CHOICES = [
         ('Chile', 'Chile'),
-        ('China', 'China'),
+        ('Colombia', 'Colombia'),
+        ('México', 'México'),
+        ('Perú', 'Perú'),
     ]
 
     title = models.CharField(max_length=100)
@@ -33,7 +36,7 @@ class Task(models.Model):
     valor_oportunidad = models.IntegerField()
     margen= models.DecimalField(max_digits=5, decimal_places=2)
     tipo_importacion= models.CharField(max_length=100,choices=TIPOIMPORTACION_CHOICES)
-    pais_origen = models.CharField(max_length=100,choices=PAISORIGEN_CHOICES)
+    pais_destino = models.CharField(max_length=100,choices=PAISDESTINO_CHOICES)
     fecha_entrega_propuesta = models.DateTimeField(null=True, blank=True)
     fecha_entrega_productos = models.DateTimeField(null=True, blank=True)
     solicitud_muestra = models.BooleanField(default=False)

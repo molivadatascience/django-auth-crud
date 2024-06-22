@@ -37,7 +37,7 @@ class PercentageInput(forms.TextInput):
 class TaskForm(forms.ModelForm):
     class Meta:
         model = Task
-        fields=['title', 'fecha_solicitud', 'nombre_cliente', 'kam', 'valor_oportunidad', 'margen','tipo_importacion', 'pais_origen', 'fecha_entrega_propuesta', 'fecha_entrega_productos', 'solicitud_muestra', 'descripcion'] #son los campos que quiero ver en el formulario el resto no es necesario
+        fields=['title', 'fecha_solicitud', 'nombre_cliente', 'kam', 'valor_oportunidad', 'margen','tipo_importacion', 'pais_destino', 'fecha_entrega_propuesta', 'fecha_entrega_productos', 'solicitud_muestra', 'descripcion'] #son los campos que quiero ver en el formulario el resto no es necesario
         widgets = {
             'title': forms.TextInput(attrs={'class': 'form-control','placeholder': 'Write a title'}),
             'fecha_solicitud':forms.DateInput(attrs={'type': 'date'}),
@@ -49,7 +49,7 @@ class TaskForm(forms.ModelForm):
             #'margen':forms.TextInput(attrs={'class': 'form-control'}),
             'margen': PercentageInput(attrs={'class': 'form-control', 'placeholder': 'Ingresa margen'}),
             'tipo_importacion':forms.Select(attrs={'class': 'form-control','placeholder': 'tipo_importacion'}),
-            'pais_origen':forms.Select(attrs={'class': 'form-control'}),
+            'pais_destino':forms.Select(attrs={'class': 'form-control'}),
             'fecha_entrega_propuesta':forms.DateInput(attrs={'type': 'date'}),
             'fecha_entrega_productos':forms.DateInput(attrs={'type': 'date'}),
             'solicitud_muestra': forms.CheckboxInput(attrs={'class': 'form-check-input m-auto'}),
@@ -64,10 +64,10 @@ class TaskForm(forms.ModelForm):
             #'tiempo_produccion_dias':forms.TextInput(attrs={'class': 'form-control','placeholder': 'Ingrese días'}),
             #'important': forms.CheckboxInput(attrs={'class': 'form-check-input m-auto'}),
         }
-    #def __init__(self, *args, **kwargs):
-    #    super().__init__(*args, **kwargs)
-    #    if self.instance.pk and self.instance.valor_oportunidad:
-    #        self.fields['valor_oportunidad'].initial = "{:,}".format(self.instance.valor_oportunidad)
+  
+    def __init__(self, *args, **kwargs):
+        super(TaskForm, self).__init__(*args, **kwargs)
+        self.fields['pais_destino'].initial = 'Chile'
 
     def clean_valor_oportunidad(self):
         data = self.cleaned_data.get('valor_oportunidad')
