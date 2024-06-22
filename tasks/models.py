@@ -87,7 +87,7 @@ class DetalleOportunidad(models.Model):
    # id_requerimiento_comercial = models.IntegerField()
     producto = models.CharField(max_length=100)
     origen = models.CharField(max_length=100,choices=ORIGEN_CHOICES)
-    margen = models.DecimalField(max_digits=5, decimal_places=2)
+    margen_prod = models.DecimalField(max_digits=5, decimal_places=2)
     precio_objetivo = models.FloatField()
     destino = models.CharField(max_length=100,choices=DESTINO_CHOICES)
     categoria_a_cotizar = models.CharField(max_length=100,choices=CATEGORIA_A_COTIZAR_CHOICES)
