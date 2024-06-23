@@ -91,7 +91,7 @@ class DetalleOportunidadForm(forms.ModelForm):
     class Meta:
         model = DetalleOportunidad
         fields = [
-            'producto', 'origen', 'margen', 'precio_objetivo', 'destino',
+            'producto', 'origen', 'margen_producto', 'precio_objetivo', 'destino',
             'categoria_a_cotizar', 'unidades', 'tamano', 'color', 'branding', 'cantidad_de_disenos',
             'muestra_materialidad', 'muestra_pps', 'observaciones', 'precio_unitario','packaging_master_unidades',
             'packaging_inner_unidades', 'packaging_unitario_unidades', 'packaging_master_tipo',
@@ -103,7 +103,7 @@ class DetalleOportunidadForm(forms.ModelForm):
             'producto': forms.TextInput(attrs={'class': 'form-control'}),
             'origen': forms.Select(attrs={'class': 'form-control'}),
             #'margen': forms.NumberInput(attrs={'class': 'form-control'}),
-            'margen': PercentageInput(attrs={'class': 'form-control', 'placeholder': 'Ingresa margen'}),
+            'margen_producto': PercentageInput(attrs={'class': 'form-control', 'placeholder': 'Ingresa margen'}),
             #'precio_objetivo': forms.NumberInput(attrs={'class': 'form-control'}),
             'precio_objetivo': NumberInputWithThousandsSeparator(attrs={'class': 'form-control', 'placeholder': 'Ingresa precio'}),
             'destino': forms.Select(attrs={'class': 'form-control'}),
@@ -147,8 +147,8 @@ class DetalleOportunidadForm(forms.ModelForm):
             raise forms.ValidationError("Enter a whole number.")
         return data
 
-    def clean_margen(self):
-        data = self.cleaned_data.get('margen')
+    def clean_margen_producto(self):
+        data = self.cleaned_data.get('margen_producto')
         if isinstance(data, str):
             data = data.replace('%', '')
         return float(data)
