@@ -82,6 +82,7 @@ class TaskForm(forms.ModelForm):
         super(TaskForm, self).__init__(*args, **kwargs)
         self.fields['fecha_solicitud'].initial = timezone.now().date()  # Fecha actual por defecto
         self.fields['pais_destino'].initial = 'Chile'
+        self.fields['margen'].initial = 30.0
 
     def clean_valor_oportunidad(self):
         data = self.cleaned_data.get('valor_oportunidad')
@@ -92,15 +93,20 @@ class TaskForm(forms.ModelForm):
             raise forms.ValidationError("Enter a whole number.")
         return data
 
+    #def clean_margen(self):
+    #    data = self.cleaned_data.get('margen')
+    #    if isinstance(data, str):
+    #        data = data.replace('%', '').replace(',', '.').strip()
+    #        try:
+    #            return float(data)
+    #        except ValueError:
+    #            raise forms.ValidationError("Enter a valid percentage.")
+    #    return data
     def clean_margen(self):
-        data = self.cleaned_data.get('margen')
+        data = self.cleaned_data.get('margen', 30.0)
         if isinstance(data, str):
-            data = data.replace('%', '').replace(',', '.').strip()
-            try:
-                return float(data)
-            except ValueError:
-                raise forms.ValidationError("Enter a valid percentage.")
-        return data
+            data = data.replace('%', '')
+        return float(data)
 
 
 class DetalleOportunidadForm(forms.ModelForm):
@@ -143,6 +149,9 @@ class DetalleOportunidadForm(forms.ModelForm):
             'packaging_unitario_diseno': forms.TextInput(attrs={'class': 'form-control'}),
             'archivos_adjuntos': forms.ClearableFileInput(attrs={'class': 'form-control-file'}),
         }
+    def __init__(self, *args, **kwargs):
+        super(DetalleOportunidadForm, self).__init__(*args, **kwargs)
+        self.fields['margen_producto'].initial = 30.0
     def clean_precio_objetivo(self):
         data = self.cleaned_data.get('precio_objetivo')
         if data:
@@ -161,13 +170,17 @@ class DetalleOportunidadForm(forms.ModelForm):
             raise forms.ValidationError("Enter a whole number.")
         return data
 
+    #def clean_margen_producto(self):
+    #    data = self.cleaned_data.get('margen_producto')
+    #    if isinstance(data, str):
+    #        data = data.replace('%', '').replace(',', '.').strip()
+    #        try:
+    #            return float(data)
+    #        except ValueError:
+    #            raise forms.ValidationError("Enter a valid percentage.")
+    #    return data
     def clean_margen_producto(self):
-        data = self.cleaned_data.get('margen_producto')
+        data = self.cleaned_data.get('margen_producto', 30.0)
         if isinstance(data, str):
-            data = data.replace('%', '').replace(',', '.').strip()
-            try:
-                return float(data)
-            except ValueError:
-                raise forms.ValidationError("Enter a valid percentage.")
-        return data
-
+            data = data.replace('%', '')
+        return float(data)
