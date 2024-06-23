@@ -36,6 +36,16 @@ class PercentageInput(forms.TextInput):
                 raise forms.ValidationError("Enter a valid percentage.")
         return value
 
+    def format_value(self, value):
+        if value is None:
+            return ''
+        try:
+            value = float(value)
+        except ValueError:
+            return value
+        return f"{value}%"
+
+
 class TaskForm(forms.ModelForm):
     class Meta:
         model = Task
@@ -81,11 +91,14 @@ class TaskForm(forms.ModelForm):
         return data
 
     def clean_margen(self):
-        data = self.cleaned_data['margen']
+        data = self.cleaned_data.get('margen')
         if isinstance(data, str):
-            data = data.replace('%', '')
-        return float(data)
-
+            data = data.replace('%', '').replace(',', '.').strip()
+            try:
+                return float(data)
+            except ValueError:
+                raise forms.ValidationError("Enter a valid percentage.")
+        return data
 
 
 class DetalleOportunidadForm(forms.ModelForm):
