@@ -59,14 +59,14 @@ class Task(models.Model):
 
 
 class DetalleOportunidad(models.Model):
-    ORIGEN_CHOICES = [
-        ('Internacional', 'Internacional'),
-        ('Nacional', 'Nacional'),
-    ]
-    DESTINO_CHOICES = [
-        ('Chile', 'Chile'),
-        ('Perú', 'Perú'),
-    ]
+   # ORIGEN_CHOICES = [
+   #     ('Internacional', 'Internacional'),
+   #     ('Nacional', 'Nacional'),
+   # ]
+   # DESTINO_CHOICES = [
+   #     ('Chile', 'Chile'),
+   #     ('Perú', 'Perú'),
+   # ]
     CATEGORIA_A_COTIZAR_CHOICES = [
         ('Durables', 'Durables'),
         ('Merch', 'Merch'),
@@ -79,12 +79,12 @@ class DetalleOportunidad(models.Model):
     task = models.ForeignKey(Task, related_name='detalles', on_delete=models.CASCADE)
     id_detalle_venta = models.AutoField(primary_key=True)
    # id_requerimiento_comercial = models.IntegerField()
+    categoria_a_cotizar = models.CharField(max_length=100,choices=CATEGORIA_A_COTIZAR_CHOICES)    
     producto = models.CharField(max_length=100)
-    origen = models.CharField(max_length=100,choices=ORIGEN_CHOICES)
+    #origen = models.CharField(max_length=100,choices=ORIGEN_CHOICES)
     margen_producto = models.DecimalField(max_digits=5, decimal_places=2)
     precio_objetivo = models.IntegerField()
-    destino = models.CharField(max_length=100,choices=DESTINO_CHOICES)
-    categoria_a_cotizar = models.CharField(max_length=100,choices=CATEGORIA_A_COTIZAR_CHOICES)
+    #destino = models.CharField(max_length=100,choices=DESTINO_CHOICES)
     unidades = models.IntegerField()
     tamano = models.CharField(max_length=100)
     color = models.CharField(max_length=100)
