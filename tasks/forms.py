@@ -73,9 +73,7 @@ class TaskForm(forms.ModelForm):
     def clean_valor_oportunidad(self):
         data = self.cleaned_data.get('valor_oportunidad')
         if data:
-            print("Valor antes de limpiar:", data)
             data = str(data).replace('.', '')
-            print("Valor después de limpiar:", data)
             if data.isdigit():
                 return int(data)
             raise forms.ValidationError("Enter a whole number.")
@@ -138,7 +136,7 @@ class DetalleOportunidadForm(forms.ModelForm):
             'packaging_unitario_diseno': forms.TextInput(attrs={'class': 'form-control'}),
             'archivos_adjuntos': forms.ClearableFileInput(attrs={'class': 'form-control-file'}),
         }
-def clean_precio_objetivo(self):
+    def clean_precio_objetivo(self):
         data = self.cleaned_data.get('precio_objetivo')
         if data:
             data = str(data).replace('.', '')
@@ -147,7 +145,7 @@ def clean_precio_objetivo(self):
             raise forms.ValidationError("Enter a whole number.")
         return data
 
-def clean_unidades(self):
+    def clean_unidades(self):
         data = self.cleaned_data.get('unidades')
         if data:
             data = str(data).replace('.', '')
@@ -156,20 +154,9 @@ def clean_unidades(self):
             raise forms.ValidationError("Enter a whole number.")
         return data
 
-#def clean_margen(self):
-#        data = self.cleaned_data.get('margen')
-#        if isinstance(data, str):
-#            data = data.replace('%', '')
-#        return float(data)
-
-#def clean_margen(self):
-#        data = self.cleaned_data.get('margen')
-#        if data:
-#            if isinstance(data, str):
-#                data = data.replace('%', '')
-#            try:
-#                return float(data)
-#            except ValueError:
-#                raise forms.ValidationError("Enter a valid percentage.")
-#        return data
+    def clean_margen(self):
+        data = self.cleaned_data.get('margen')
+        if isinstance(data, str):
+            data = data.replace('%', '')
+        return float(data)
 
