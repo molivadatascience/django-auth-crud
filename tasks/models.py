@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.utils import timezone
 
 # Create your models here.
 # Vamos a crear una tabla
@@ -29,7 +30,8 @@ class Task(models.Model):
     ]
 
     title = models.CharField(max_length=100)
-    fecha_solicitud = models.DateTimeField(null=True, blank=True)
+    fecha_solicitud = models.DateField(default=timezone.now) 
+    #fecha_solicitud = models.DateTimeField(null=True, blank=True)
     nombre_cliente = models.CharField(max_length=100,choices=NOMBRE_CLIENTES_CHOICES)
     #campana = models.CharField(max_length=100)
     kam = models.CharField(max_length=100,choices=KAM_CHOICES)
@@ -48,7 +50,8 @@ class Task(models.Model):
     #cotización_valida_dias = models.IntegerField()
     #tiempo_muestra_fisica_dias = models.IntegerField()
     #tiempo_produccion_dias = models.IntegerField()
-    created = models.DateTimeField(auto_now_add=True) # el automaticamente guarda la fecha
+    #created = models.DateTimeField(auto_now_add=True) # el automaticamente guarda la fecha
+    created = models.DateTimeField(default=timezone.now)
     datecompleted = models.DateTimeField(null=True, blank=True) #permite valores nulos
    # important = models.BooleanField(default=False)
     user = models.ForeignKey(User, on_delete=models.CASCADE)

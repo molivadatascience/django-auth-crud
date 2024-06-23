@@ -1,5 +1,6 @@
 from django import forms
 from .models import Task, DetalleOportunidad
+from django.utils import timezone
 class NumberInputWithThousandsSeparator(forms.TextInput):
     def render(self, name, value, attrs=None, renderer=None):
         if value is not None:
@@ -79,6 +80,7 @@ class TaskForm(forms.ModelForm):
   
     def __init__(self, *args, **kwargs):
         super(TaskForm, self).__init__(*args, **kwargs)
+        self.fields['fecha_solicitud'].initial = timezone.now().date()  # Fecha actual por defecto
         self.fields['pais_destino'].initial = 'Chile'
 
     def clean_valor_oportunidad(self):
