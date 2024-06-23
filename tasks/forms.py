@@ -1,5 +1,5 @@
 from django import forms
-from .models import Task, Hijos, DetalleOportunidad
+from .models import Task, DetalleOportunidad
 class NumberInputWithThousandsSeparator(forms.TextInput):
     def render(self, name, value, attrs=None, renderer=None):
         if value is not None:
@@ -85,14 +85,7 @@ class TaskForm(forms.ModelForm):
             data = data.replace('%', '')
         return float(data)
 
-class HijosForm(forms.ModelForm):
-    class Meta:
-        model = Hijos
-        fields = ['nota_1', 'nota_2']
 
-
-#from django import forms
-#from .models import DetalleOportunidad
 
 class DetalleOportunidadForm(forms.ModelForm):
     class Meta:

@@ -56,13 +56,7 @@ class Task(models.Model):
     def __str__(self):
         return self.title+ '- by '+ self.user.username
 
-class Hijos(models.Model):
-    task = models.ForeignKey(Task, related_name='hijos', on_delete=models.CASCADE)
-    nota_1 = models.TextField()
-    nota_2 = models.DecimalField(max_digits=5, decimal_places=2)
-    
-    #def __str__(self):
-    #   return f"Hijo de {self.task.nombre}"
+
 
 class DetalleOportunidad(models.Model):
     ORIGEN_CHOICES = [
