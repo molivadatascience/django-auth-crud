@@ -69,8 +69,6 @@ def create_task(request):
             
             return redirect('tasks')
         else:
-            print("Task form errors:", task_form.errors)
-            print("DetalleOportunidad form errors:", detalle_oportunidad_form.errors)
             return render(request, 'create_task.html', {
                 'task_form': task_form,
                 'detalle_oportunidad_form': detalle_oportunidad_form,
