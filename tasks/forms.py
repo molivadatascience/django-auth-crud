@@ -65,7 +65,7 @@ class TaskForm(forms.ModelForm):
             'fecha_entrega_propuesta':forms.DateInput(attrs={'type': 'date'}),
             'fecha_entrega_productos':forms.DateInput(attrs={'type': 'date'}),
             'solicitud_muestra_materialidad': forms.CheckboxInput(attrs={'class': 'form-check-input m-auto'}),
-            'descripcion': forms.TextInput(attrs={'class': 'form-control','placeholder': 'Write a description'}),
+            'descripcion': forms.Textarea(attrs={'class': 'form-control', 'placeholder': 'Write a description', 'rows': 2}),  # Actualiza a Textarea con filas
             #'precio_unitario':forms.TextInput(attrs={'class': 'form-control','placeholder': 'Ingresa precio en CLP'}),
             #'fecha_cotizacion':forms.DateInput(attrs={'type': 'date'}),
             #'cotizacion_aceptada':forms.CheckboxInput(attrs={'class': 'form-check-input m-auto'}),
