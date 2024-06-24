@@ -4,6 +4,7 @@ from django.utils import timezone
 from .widgets import MultiFileInput
 from django.forms.widgets import ClearableFileInput
 from django.utils.safestring import mark_safe
+from django.forms import inlineformset_factory
 
 class NumberInputWithThousandsSeparator(forms.TextInput):
     def render(self, name, value, attrs=None, renderer=None):
@@ -226,11 +227,13 @@ class ArchivoAdjuntoForm(forms.ModelForm):
         model = ArchivoAdjunto
         fields = ['archivo']
         widgets = {
-            'archivo': MultiFileInput(attrs={'class': 'form-control-file'}),
+            'archivo': forms.ClearableFileInput(attrs={'class': 'form-control-file', 'multiple': True}),
         }
 
-ArchivoAdjuntoFormSet = forms.modelformset_factory(ArchivoAdjunto, form=ArchivoAdjuntoForm, extra=1)
-
+ArchivoAdjuntoFormSet = inlineformset_factory(
+    DetalleOportunidad, ArchivoAdjunto, form=ArchivoAdjuntoForm,
+    fields=['archivo'], extra=1, can_delete=True
+)
 class MultiFileInput(ClearableFileInput):
     def __init__(self, attrs=None):
         super().__init__(attrs)
