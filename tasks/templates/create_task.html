@@ -38,11 +38,11 @@
                 </div>
                 
                 <h2>Productos a cotizar</h2>
-                <div id="detalle-oportunidad-formset">
-                    {% for field in detalle_oportunidad_form %}
+                <div id="detalle-oportunidad-formset" class="form-container">
+                    {% for form in detalle_oportunidad_form %}
                     <div class="form-group">
-                        <label for="{{ field.id_for_label }}">{{ field.label }}</label><br>
-                        {{ field }}
+                        {{ form.label_tag }}
+                        {{ form }}
                     </div>
                     {% endfor %}
                 </div>
@@ -123,7 +123,7 @@
     }
 
     function removeRow(button) {
-        let row = button.closest('.form-container-2');
+        let row = button.closest('.form-group');
         row.remove();
     }
 </script>

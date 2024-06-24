@@ -202,4 +202,8 @@ class ArchivoAdjuntoForm(forms.ModelForm):
         model = ArchivoAdjunto
         fields = ('archivo',)
 
+    def __init__(self, *args, **kwargs):
+        super(ArchivoAdjuntoForm, self).__init__(*args, **kwargs)
+        self.fields['archivo'].widget.attrs.update({'class': 'form-control-file', 'multiple': True, 'accept': '.pdf,.doc,.docx,.xls,.xlsx'})
+
 ArchivoAdjuntoFormSet = inlineformset_factory(DetalleOportunidad, ArchivoAdjunto, form=ArchivoAdjuntoForm, extra=1)

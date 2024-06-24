@@ -90,8 +90,11 @@ class DetalleOportunidad(models.Model):
     #archivos_adjuntos = models.ManyToManyField('ArchivoAdjunto', related_name='detalles_oportunidad')
 
 class ArchivoAdjunto(models.Model):
-    detalle_oportunidad = models.ForeignKey(DetalleOportunidad, on_delete=models.CASCADE, related_name='archivos_adjuntos_set')
-    archivo = models.FileField(upload_to='archivos_adjuntos/')
+    detalle_oportunidad = models.ForeignKey(DetalleOportunidad, on_delete=models.CASCADE, related_name='archivos_adjuntos')
+    archivo = models.CharField(max_length=255)
+
+    class Meta:
+        db_table = 'archivoadjunto'
 
     def __str__(self):
-        return self.archivo.name
+        return self.archivo
