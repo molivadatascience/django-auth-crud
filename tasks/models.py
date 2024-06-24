@@ -91,7 +91,7 @@ class DetalleOportunidad(models.Model):
 
 class ArchivoAdjunto(models.Model):
     detalle_oportunidad = models.ForeignKey(DetalleOportunidad, related_name='archivos_adjuntos', on_delete=models.CASCADE)
-    archivo = models.FileField(upload_to='archivos/')
+    archivo = models.FileField(upload_to='archivos_adjuntos/')
 
     def __str__(self):
-        return self.archivo.name
+        return str(self.archivo)

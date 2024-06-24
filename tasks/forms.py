@@ -227,19 +227,5 @@ class ArchivoAdjuntoForm(forms.ModelForm):
         model = ArchivoAdjunto
         fields = ['archivo']
         widgets = {
-            'archivo': forms.ClearableFileInput(attrs={'class': 'form-control-file', 'multiple': True}),
+            'archivo': forms.ClearableFileInput(attrs={'multiple': True}),
         }
-
-ArchivoAdjuntoFormSet = inlineformset_factory(
-    DetalleOportunidad, ArchivoAdjunto, form=ArchivoAdjuntoForm,
-    fields=['archivo'], extra=1, can_delete=True
-)
-class MultiFileInput(ClearableFileInput):
-    def __init__(self, attrs=None):
-        super().__init__(attrs)
-        self.attrs['multiple'] = True
-
-    def render(self, name, value, attrs=None, renderer=None):
-        if value is not None and not isinstance(value, (list, tuple)):
-            value = [value]
-        return super().render(name, value, attrs, renderer)
