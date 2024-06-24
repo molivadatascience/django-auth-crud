@@ -222,10 +222,10 @@ class DetalleOportunidadForm(forms.ModelForm):
         return float(data)
 
 
-#class ArchivoAdjuntoForm(forms.ModelForm):
-#    class Meta:
-#        model = ArchivoAdjunto
-#        fields = ['archivo']
-#        widgets = {
-#            'archivo': forms.ClearableFileInput(attrs={'multiple': True}),
-#        }
+class ArchivoAdjuntoForm(forms.ModelForm):
+    class Meta:
+        model = ArchivoAdjunto
+        fields = ('archivo',)  # Asegúrate de incluir todos los campos necesarios
+
+# Definir el formset para ArchivoAdjunto
+ArchivoAdjuntoFormSet = inlineformset_factory(DetalleOportunidad, ArchivoAdjunto, form=ArchivoAdjuntoForm, extra=1)
