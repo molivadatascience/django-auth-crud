@@ -50,7 +50,7 @@ class PercentageInput(forms.TextInput):
 class TaskForm(forms.ModelForm):
     class Meta:
         model = Task
-        fields=['campaña', 'fecha_solicitud', 'nombre_cliente', 'kam', 'valor_oportunidad', 'margen','tipo_importacion', 'pais_destino', 'fecha_entrega_propuesta', 'fecha_entrega_productos', 'solicitud_muestra_materialidad', 'descripcion'] #son los campos que quiero ver en el formulario el resto no es necesario
+        fields=['campaña', 'fecha_solicitud', 'nombre_cliente', 'kam', 'valor_oportunidad', 'margen','tipo_importacion', 'pais_destino', 'fecha_entrega_propuesta', 'fecha_entrega_productos', 'descripcion'] #son los campos que quiero ver en el formulario el resto no es necesario
         widgets = {
             #'title': forms.TextInput(attrs={'class': 'form-control','placeholder': 'Write a title'}),
             'campaña': forms.TextInput(attrs={'class': 'form-control','placeholder': 'Nombre Campaña'}),
@@ -66,7 +66,7 @@ class TaskForm(forms.ModelForm):
             'pais_destino':forms.Select(attrs={'class': 'form-control'}),
             'fecha_entrega_propuesta':forms.DateInput(attrs={'type': 'date'}),
             'fecha_entrega_productos':forms.DateInput(attrs={'type': 'date'}),
-            'solicitud_muestra_materialidad': forms.CheckboxInput(attrs={'class': 'form-check-input m-auto'}),
+            #'solicitud_muestra_materialidad': forms.CheckboxInput(attrs={'class': 'form-check-input m-auto'}),
             'descripcion': forms.Textarea(attrs={'class': 'form-control', 'placeholder': 'Write a description', 'rows': 2}),  # Actualiza a Textarea con filas
             #'precio_unitario':forms.TextInput(attrs={'class': 'form-control','placeholder': 'Ingresa precio en CLP'}),
             #'fecha_cotizacion':forms.DateInput(attrs={'type': 'date'}),
@@ -116,7 +116,7 @@ class DetalleOportunidadForm(forms.ModelForm):
         fields = [
             'categoria_a_cotizar','producto', 'margen_producto', 'precio_objetivo',
             'unidades', 'tamano', 'color', 'branding', 'cantidad_de_disenos',
-            'muestra_materialidad', 'muestra_pps', 'observaciones', 'precio_unitario','packaging_master_unidades',
+            'muestra_materialidad', 'aprobacion_muestra_pps', 'observaciones', 'precio_unitario','packaging_master_unidades',
             'packaging_inner_unidades', 'packaging_unitario_unidades', 'packaging_master_tipo',
             'packaging_inner_tipo', 'packaging_diseno_tipo', 'packaging_master_diseno',
             'packaging_inner_diseno', 'packaging_unitario_diseno', 'archivos_adjuntos'
@@ -136,7 +136,7 @@ class DetalleOportunidadForm(forms.ModelForm):
             'branding': forms.TextInput(attrs={'class': 'form-control'}),
             'cantidad_de_disenos': forms.NumberInput(attrs={'class': 'form-control'}),
             'muestra_materialidad': forms.CheckboxInput(attrs={'class': 'form-check-input'}),
-            'muestra_pps': forms.Select(attrs={'class': 'form-control'}),
+            'aprobacion_muestra_pps': forms.Select(attrs={'class': 'form-control'}),
             'observaciones': forms.TextInput(attrs={'class': 'form-control'}),
             'precio_unitario':forms.TextInput(attrs={'class': 'form-control','placeholder': 'Ingresa precio en CLP'}),
             'packaging_master_unidades': forms.TextInput(attrs={'class': 'form-control'}),

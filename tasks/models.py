@@ -43,7 +43,7 @@ class Task(models.Model):
     pais_destino = models.CharField(max_length=100,choices=PAISDESTINO_CHOICES)
     fecha_entrega_propuesta = models.DateTimeField(null=True, blank=True)
     fecha_entrega_productos = models.DateTimeField(null=True, blank=True)
-    solicitud_muestra_materialidad = models.BooleanField(default=False)
+    #solicitud_muestra_materialidad = models.BooleanField(default=False)
     descripcion = models.CharField(blank=True)
     #fecha_cotizacion = models.DateTimeField(null=True, blank=True)
     #cotizacion_aceptada = models.BooleanField(default=False)
@@ -99,7 +99,7 @@ class DetalleOportunidad(models.Model):
     branding = models.CharField(max_length=100)
     cantidad_de_disenos = models.IntegerField()
     muestra_materialidad = models.BooleanField()
-    muestra_pps = models.CharField(max_length=100,choices=MUESTRA_PPS_CHOICES)
+    aprobacion_muestra_pps = models.CharField(max_length=100,choices=MUESTRA_PPS_CHOICES)
     observaciones = models.CharField(max_length=100,null=True, blank=True)
     precio_unitario = models.IntegerField()
     packaging_master_unidades = models.CharField(max_length=100)
@@ -111,7 +111,7 @@ class DetalleOportunidad(models.Model):
     packaging_master_diseno = models.CharField(max_length=100)
     packaging_inner_diseno = models.CharField(max_length=100)
     packaging_unitario_diseno = models.CharField(max_length=100)
-    archivos_adjuntos = models.FileField(upload_to='archivos_adjuntos/')
+    archivos_adjuntos = models.FileField(upload_to='archivos_adjuntos/',null=True, blank=True)
 
     #def __str__(self):
     #    return f"Detalle {self.id_detalle_venta}"
