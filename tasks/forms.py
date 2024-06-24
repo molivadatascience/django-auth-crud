@@ -143,19 +143,17 @@ class DetalleOportunidadForm(forms.ModelForm):
             'observaciones': forms.TextInput(attrs={'class': 'form-control'}),
             'precio_unitario':forms.TextInput(attrs={'class': 'form-control','placeholder': 'Ingresa precio en CLP'}),
             'packaging_master_unidades': forms.TextInput(attrs={'class': 'form-control'}),
-            'packaging_inner_unidades': forms.TextInput(attrs={'class': 'form-control'}),
-            'packaging_unitario_unidades': forms.TextInput(attrs={'class': 'form-control'}),
-            'packaging_master_tipo': forms.TextInput(attrs={'class': 'form-control'}),
-            'packaging_inner_tipo': forms.TextInput(attrs={'class': 'form-control'}),
-            'packaging_diseno_tipo': forms.TextInput(attrs={'class': 'form-control'}),
             'packaging_master_diseno': forms.CheckboxInput(attrs={'class': 'form-check-input'}),
+            'packaging_master_tipo': forms.TextInput(attrs={'class': 'form-control'}),
+            'packaging_inner_unidades': forms.TextInput(attrs={'class': 'form-control'}),
             'packaging_inner_diseno': forms.CheckboxInput(attrs={'class': 'form-check-input'}),
+            'packaging_inner_tipo': forms.TextInput(attrs={'class': 'form-control'}),
+            'packaging_unitario_unidades': forms.TextInput(attrs={'class': 'form-control'}),
             'packaging_unitario_diseno': forms.CheckboxInput(attrs={'class': 'form-check-input'}),
-            #'packaging_master_diseno': forms.TextInput(attrs={'class': 'form-control'}),
-            #'packaging_inner_diseno': forms.TextInput(attrs={'class': 'form-control'}),
-            #'packaging_unitario_diseno': forms.TextInput(attrs={'class': 'form-control'}),
+            'packaging_diseno_tipo': forms.TextInput(attrs={'class': 'form-control'}),
             'archivos_adjuntos': forms.ClearableFileInput(attrs={'class': 'form-control-file'}),
         }
+        
     def __init__(self, *args, **kwargs):
         super(DetalleOportunidadForm, self).__init__(*args, **kwargs)
         self.fields['margen_producto'].initial = 30.0
