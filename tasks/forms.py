@@ -67,7 +67,7 @@ class TaskForm(forms.ModelForm):
             'fecha_entrega_propuesta':forms.DateInput(attrs={'type': 'date'}),
             'fecha_entrega_productos':forms.DateInput(attrs={'type': 'date'}),
             #'solicitud_muestra_materialidad': forms.CheckboxInput(attrs={'class': 'form-check-input m-auto'}),
-            'descripcion': forms.Textarea(attrs={'class': 'form-control', 'placeholder': 'Write a description', 'rows': 2}),  # Actualiza a Textarea con filas
+            'descripcion': forms.Textarea(attrs={'class': 'form-control', 'placeholder': 'Ingrese descripción', 'rows': 2}),  # Actualiza a Textarea con filas
             #'precio_unitario':forms.TextInput(attrs={'class': 'form-control','placeholder': 'Ingresa precio en CLP'}),
             #'fecha_cotizacion':forms.DateInput(attrs={'type': 'date'}),
             #'cotizacion_aceptada':forms.CheckboxInput(attrs={'class': 'form-check-input m-auto'}),
@@ -115,7 +115,7 @@ class DetalleOportunidadForm(forms.ModelForm):
         model = DetalleOportunidad
         fields = [
             'categoria_a_cotizar','producto', 'margen_producto', 'precio_objetivo',
-            'unidades', 'tamano', 'color', 'branding', 'cantidad_de_disenos',
+            'unidades', 'unidades_2','unidades_3','unidades_4','tamano', 'color', 'branding', 'cantidad_de_disenos',
             'muestra_materialidad', 'aprobacion_muestra_pps', 'observaciones', 'precio_unitario','packaging_master_unidades',
             'packaging_inner_unidades', 'packaging_unitario_unidades', 'packaging_master_tipo',
             'packaging_inner_tipo', 'packaging_diseno_tipo', 'packaging_master_diseno',
@@ -131,6 +131,9 @@ class DetalleOportunidadForm(forms.ModelForm):
             'precio_objetivo': NumberInputWithThousandsSeparator(attrs={'class': 'form-control', 'placeholder': 'Ingresa precio'}),
             #'unidades': forms.NumberInput(attrs={'class': 'form-control'}),
             'unidades': NumberInputWithThousandsSeparator(attrs={'class': 'form-control', 'placeholder': 'Ingresa unidades'}),
+            'unidades_2': NumberInputWithThousandsSeparator(attrs={'class': 'form-control', 'placeholder': 'Ingresa unidades'}),
+            'unidades_3': NumberInputWithThousandsSeparator(attrs={'class': 'form-control', 'placeholder': 'Ingresa unidades'}),
+            'unidades_4': NumberInputWithThousandsSeparator(attrs={'class': 'form-control', 'placeholder': 'Ingresa unidades'}),
             'tamano': forms.TextInput(attrs={'class': 'form-control'}),
             'color': forms.TextInput(attrs={'class': 'form-control'}),
             'branding': forms.TextInput(attrs={'class': 'form-control'}),
@@ -182,15 +185,33 @@ class DetalleOportunidadForm(forms.ModelForm):
             raise forms.ValidationError("Enter a whole number.")
         return data
 
-    #def clean_margen_producto(self):
-    #    data = self.cleaned_data.get('margen_producto')
-    #    if isinstance(data, str):
-    #        data = data.replace('%', '').replace(',', '.').strip()
-    #        try:
-    #            return float(data)
-    #        except ValueError:
-    #            raise forms.ValidationError("Enter a valid percentage.")
-    #    return data
+    def clean_unidades_2(self):
+        data = self.cleaned_data.get('unidades_2')
+        if data:
+            data = str(data).replace('.', '')
+            if data.isdigit():
+                return int(data)
+            raise forms.ValidationError("Enter a whole number.")
+        return data
+
+    def clean_unidades_3(self):
+        data = self.cleaned_data.get('unidades_3')
+        if data:
+            data = str(data).replace('.', '')
+            if data.isdigit():
+                return int(data)
+            raise forms.ValidationError("Enter a whole number.")
+        return data
+
+    def clean_unidades_4(self):
+        data = self.cleaned_data.get('unidades_3')
+        if data:
+            data = str(data).replace('.', '')
+            if data.isdigit():
+                return int(data)
+            raise forms.ValidationError("Enter a whole number.")
+        return data
+
     def clean_margen_producto(self):
         data = self.cleaned_data.get('margen_producto', 30.0)
         if isinstance(data, str):
