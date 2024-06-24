@@ -83,7 +83,6 @@ def create_task(request):
     return render(request, 'create_task.html', context)
 
 
-
 @login_required
 def task_detail(request, task_id):
     task = get_object_or_404(Task, pk=task_id, user=request.user)
