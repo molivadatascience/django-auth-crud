@@ -3,8 +3,8 @@ from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.models import User
 from django.contrib.auth import login, logout, authenticate
 from django.db import IntegrityError
-from .forms import TaskForm, DetalleOportunidadForm
-from .models import Task, DetalleOportunidad
+from .forms import TaskForm, DetalleOportunidadForm, ArchivoAdjuntoForm
+from .models import Task, DetalleOportunidad, ArchivoAdjunto
 from django.utils import timezone
 from django.contrib.auth.decorators import login_required
 from django.forms import modelformset_factory
@@ -47,18 +47,22 @@ def tasks_completed(request):
 
 @login_required
 def create_task(request):
+    ArchivoAdjuntoFormSet = modelformset_factory(ArchivoAdjunto, form=ArchivoAdjuntoForm, extra=1)
     if request.method == 'GET':
         task_form = TaskForm()
         detalle_oportunidad_form = DetalleOportunidadForm()
+        formset = ArchivoAdjuntoFormSet(queryset=ArchivoAdjunto.objects.none())
         return render(request, 'create_task.html', {
             'task_form': task_form,
-            'detalle_oportunidad_form': detalle_oportunidad_form
+            'detalle_oportunidad_form': detalle_oportunidad_form,
+            'formset': formset
         })
     else:
         task_form = TaskForm(request.POST)
         detalle_oportunidad_form = DetalleOportunidadForm(request.POST, request.FILES)
+        formset = ArchivoAdjuntoFormSet(request.POST, request.FILES, queryset=ArchivoAdjunto.objects.none())
         
-        if task_form.is_valid() and detalle_oportunidad_form.is_valid():
+        if task_form.is_valid() and detalle_oportunidad_form.is_valid() and formset.is_valid():
             new_task = task_form.save(commit=False)
             new_task.user = request.user
             new_task.save()
@@ -67,11 +71,18 @@ def create_task(request):
             new_detalle.task = new_task
             new_detalle.save()
             
+            for form in formset.cleaned_data:
+                if form:
+                    archivo = form['archivo']
+                    nuevo_archivo = ArchivoAdjunto(detalle_oportunidad=new_detalle, archivo=archivo)
+                    nuevo_archivo.save()
+            
             return redirect('tasks')
         else:
             return render(request, 'create_task.html', {
                 'task_form': task_form,
                 'detalle_oportunidad_form': detalle_oportunidad_form,
+                'formset': formset,
                 'error': 'Please provide valid data'
             })
 

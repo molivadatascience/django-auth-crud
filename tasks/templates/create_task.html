@@ -40,7 +40,14 @@
                     <button type="button" onclick="removeRow(this)">Eliminar</button>
                     <button type="button" onclick="addRow()">Agregar Detalle</button>
                 </div>
-                <button type="submit" class="btn btn-primary save-button">Save</button>
+                <h2>Archivos Adjuntos</h2>
+                <div class="form-container-2">
+                    {{ formset.management_form }}
+                    {% for form in formset %}
+                        {{ form.as_p }}
+                    {% endfor %}
+                </div>
+                <button type="submit" class="btn btn-primary save-button">Guardar</button>
             </form>
         </div>
     </div>
@@ -129,3 +136,4 @@
     }
 </script>
 {% endblock %}
+

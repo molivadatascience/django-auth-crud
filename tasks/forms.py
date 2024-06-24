@@ -1,5 +1,5 @@
 from django import forms
-from .models import Task, DetalleOportunidad
+from .models import Task, DetalleOportunidad,ArchivoAdjunto
 from django.utils import timezone
 class NumberInputWithThousandsSeparator(forms.TextInput):
     def render(self, name, value, attrs=None, renderer=None):
@@ -214,3 +214,12 @@ class DetalleOportunidadForm(forms.ModelForm):
         if isinstance(data, str):
             data = data.replace('%', '')
         return float(data)
+
+
+class ArchivoAdjuntoForm(forms.ModelForm):
+    class Meta:
+        model = ArchivoAdjunto
+        fields = ['archivo']
+        widgets = {
+            'archivo': forms.ClearableFileInput(attrs={'class': 'form-control-file', 'multiple': True}),
+        }
