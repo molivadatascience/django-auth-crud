@@ -221,5 +221,7 @@ class ArchivoAdjuntoForm(forms.ModelForm):
         model = ArchivoAdjunto
         fields = ['archivo']
         widgets = {
-            'archivo': forms.ClearableFileInput(attrs={'class': 'form-control-file', 'multiple': True}),
+            'archivo': forms.FileInput(attrs={'class': 'form-control-file', 'multiple': True}),
         }
+
+ArchivoAdjuntoFormSet = forms.modelformset_factory(ArchivoAdjunto, form=ArchivoAdjuntoForm, extra=1)

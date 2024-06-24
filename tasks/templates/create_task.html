@@ -44,10 +44,12 @@
                 <div class="form-container-2">
                     {{ formset.management_form }}
                     {% for form in formset %}
-                        {{ form.as_p }}
+                        <div class="form-group">
+                            {{ form.as_p }}
+                        </div>
                     {% endfor %}
                 </div>
-                <button type="submit" class="btn btn-primary save-button">Guardar</button>
+                <button type="submit" class="btn btn-primary save-button">Save</button>
             </form>
         </div>
     </div>
@@ -136,4 +138,3 @@
     }
 </script>
 {% endblock %}
-
