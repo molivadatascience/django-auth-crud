@@ -1,6 +1,7 @@
 from django import forms
 from .models import Task, DetalleOportunidad,ArchivoAdjunto
 from django.utils import timezone
+from .widgets import MultiFileInput
 class NumberInputWithThousandsSeparator(forms.TextInput):
     def render(self, name, value, attrs=None, renderer=None):
         if value is not None:
@@ -221,7 +222,7 @@ class ArchivoAdjuntoForm(forms.ModelForm):
         model = ArchivoAdjunto
         fields = ['archivo']
         widgets = {
-            'archivo': forms.FileInput(attrs={'class': 'form-control-file', 'multiple': True}),
+            'archivo': MultiFileInput(attrs={'class': 'form-control-file'}),
         }
 
 ArchivoAdjuntoFormSet = forms.modelformset_factory(ArchivoAdjunto, form=ArchivoAdjuntoForm, extra=1)

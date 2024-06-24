@@ -48,7 +48,7 @@ def tasks_completed(request):
 @login_required
 def create_task(request):
     ArchivoAdjuntoFormSet = modelformset_factory(ArchivoAdjunto, form=ArchivoAdjuntoForm, extra=1)
-    
+
     if request.method == 'GET':
         task_form = TaskForm()
         detalle_oportunidad_form = DetalleOportunidadForm()
@@ -62,21 +62,22 @@ def create_task(request):
         task_form = TaskForm(request.POST)
         detalle_oportunidad_form = DetalleOportunidadForm(request.POST, request.FILES)
         formset = ArchivoAdjuntoFormSet(request.POST, request.FILES)
-        
+
         if task_form.is_valid() and detalle_oportunidad_form.is_valid() and formset.is_valid():
             new_task = task_form.save(commit=False)
             new_task.user = request.user
             new_task.save()
-            
+
             new_detalle = detalle_oportunidad_form.save(commit=False)
             new_detalle.task = new_task
             new_detalle.save()
-            
-            for form in formset.cleaned_data:
-                if form:
-                    archivo = form['archivo']
-                    ArchivoAdjunto.objects.create(detalle_oportunidad=new_detalle, archivo=archivo)
-            
+
+            for form in formset:
+                if form.is_valid() and form.cleaned_data:
+                    archivos = request.FILES.getlist(form.add_prefix('archivo'))
+                    for archivo in archivos:
+                        ArchivoAdjunto.objects.create(detalle_oportunidad=new_detalle, archivo=archivo)
+
             return redirect('tasks')
         else:
             return render(request, 'create_task.html', {
