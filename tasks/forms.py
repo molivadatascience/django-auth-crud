@@ -222,10 +222,10 @@ class DetalleOportunidadForm(forms.ModelForm):
         return float(data)
 
 
-class ArchivoAdjuntoForm(forms.ModelForm):
-    class Meta:
-        model = ArchivoAdjunto
-        fields = ['archivo']
-        widgets = {
-            'archivo': forms.ClearableFileInput(attrs={'multiple': True}),
-        }
+#class ArchivoAdjuntoForm(forms.ModelForm):
+#    class Meta:
+#        model = ArchivoAdjunto
+#        fields = ['archivo']
+#        widgets = {
+#            'archivo': forms.ClearableFileInput(attrs={'multiple': True}),
+#        }

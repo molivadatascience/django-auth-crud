@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+
 {% block content %}
 <main class="container">
     <style>
@@ -12,6 +13,7 @@
             grid-template-columns: repeat(3, 1fr);
             gap: 20px;
             background-color: #f0f0f0;
+            padding: 10px;
         }
         .form-group {
             margin-bottom: 15px;
@@ -21,7 +23,7 @@
             margin-top: 20px;
         }
         h2 {
-            grid-column: span 3; /* Hace que el encabezado ocupe las 3 columnas */
+            grid-column: span 3;
         }
     </style>
     <div class="row">
@@ -36,11 +38,11 @@
                 </div>
                 
                 <h2>Productos a cotizar</h2>
-                <div class="form-container-2">
+                <div id="detalle-oportunidad-formset">
                     {{ detalle_oportunidad_form.as_p }}
-                    <button type="button" onclick="removeRow(this)">Eliminar</button>
-                    <button type="button" onclick="addRow()">Agregar Detalle</button>
                 </div>
+                <button type="button" onclick="removeRow(this)">Eliminar</button>
+                <button type="button" onclick="addRow()">Agregar Detalle</button>
                 
                 <h2>Archivos Adjuntos</h2>
                 <div class="form-container-2" id="archivo-adjunto-container">
@@ -100,27 +102,8 @@
                 formatThousands(unidadesInput);
             });
         }
-        
-        let unidades_2Input = document.querySelector('#id_unidades_2');
-        if (unidades_2Input) {
-            unidades_2Input.addEventListener('input', function() {
-                formatThousands(unidades_2Input);
-            });
-        }
-        let unidades_3Input = document.querySelector('#id_unidades_3');
-        if (unidades_3Input) {
-            unidades_3Input.addEventListener('input', function() {
-                formatThousands(unidades_3Input);
-            });
-        }
-        let unidades_4Input = document.querySelector('#id_unidades_4');
-        if (unidades_4Input) {
-            unidades_4Input.addEventListener('input', function() {
-                formatThousands(unidades_4Input);
-            });
-        }
 
-        let detalleMargenInput = document.querySelector('#id_margen_producto');  // Cambiado a id_margen_producto
+        let detalleMargenInput = document.querySelector('#id_margen_producto');
         if (detalleMargenInput) {
             detalleMargenInput.addEventListener('input', function() {
                 formatPercentage(detalleMargenInput);
@@ -129,15 +112,15 @@
     });
 
     function addRow() {
-        // Lógica para agregar una nueva fila de formulario (si es necesario)
+        let formset = document.getElementById('detalle-oportunidad-formset');
+        let newForm = formset.firstElementChild.cloneNode(true);
+        formset.appendChild(newForm);
     }
 
     function removeRow(button) {
-        // Lógica para eliminar la fila actual del formulario
         let row = button.closest('.form-container-2');
         row.remove();
     }
 </script>
 {% endblock %}
-
 
