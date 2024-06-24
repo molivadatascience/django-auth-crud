@@ -29,7 +29,8 @@ class Task(models.Model):
         ('Perú', 'Perú'),
     ]
 
-    title = models.CharField(max_length=100)
+    #title = models.CharField(max_length=100)
+    campaña = models.CharField(max_length=100)
     fecha_solicitud = models.DateField(default=timezone.now) 
     #fecha_solicitud = models.DateTimeField(null=True, blank=True)
     nombre_cliente = models.CharField(max_length=100,choices=NOMBRE_CLIENTES_CHOICES)
