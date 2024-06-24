@@ -117,9 +117,8 @@ class DetalleOportunidadForm(forms.ModelForm):
             'categoria_a_cotizar','producto', 'margen_producto', 'precio_objetivo',
             'unidades', 'unidades_2','unidades_3','unidades_4','tamano', 'color', 'branding', 'cantidad_de_disenos',
             'muestra_materialidad', 'aprobacion_muestra_pps', 'observaciones', 'precio_unitario','packaging_master_unidades',
-            'packaging_inner_unidades', 'packaging_unitario_unidades', 'packaging_master_tipo',
-            'packaging_inner_tipo', 'packaging_diseno_tipo', 'packaging_master_diseno',
-            'packaging_inner_diseno', 'packaging_unitario_diseno', 'archivos_adjuntos'
+            'packaging_master_diseno', 'packaging_master_tipo', 'packaging_inner_unidades', 'packaging_inner_diseno', 'packaging_inner_tipo',
+            'packaging_unitario_unidades','packaging_unitario_diseno','packaging_diseno_tipo','archivos_adjuntos'
         ]
         widgets = {
            # 'id_requerimiento_comercial': forms.NumberInput(attrs={'class': 'form-control'}),
@@ -153,7 +152,7 @@ class DetalleOportunidadForm(forms.ModelForm):
             'packaging_diseno_tipo': forms.TextInput(attrs={'class': 'form-control'}),
             'archivos_adjuntos': forms.ClearableFileInput(attrs={'class': 'form-control-file'}),
         }
-        
+
     def __init__(self, *args, **kwargs):
         super(DetalleOportunidadForm, self).__init__(*args, **kwargs)
         self.fields['margen_producto'].initial = 30.0
