@@ -201,7 +201,7 @@ class DetalleOportunidadForm(forms.ModelForm):
         return data
 
     def clean_unidades_4(self):
-        data = self.cleaned_data.get('unidades_3')
+        data = self.cleaned_data.get('unidades_4')
         if data:
             data = str(data).replace('.', '')
             if data.isdigit():
