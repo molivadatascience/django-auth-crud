@@ -38,8 +38,13 @@
                 </div>
                 
                 <h2>Productos a cotizar</h2>
-                <div class="form-container-2">
-                    {{ detalle_oportunidad_form.as_table }}
+                <div id="detalle-oportunidad-formset">
+                    {% for field in detalle_oportunidad_form %}
+                    <div class="form-group">
+                        <label for="{{ field.id_for_label }}">{{ field.label }}</label><br>
+                        {{ field }}
+                    </div>
+                    {% endfor %}
                 </div>
                 <button type="button" onclick="removeRow(this)">Eliminar</button>
                 <button type="button" onclick="addRow()">Agregar Detalle</button>
