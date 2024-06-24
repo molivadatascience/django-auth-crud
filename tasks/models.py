@@ -73,9 +73,11 @@ class DetalleOportunidad(models.Model):
    #     ('Perú', 'Perú'),
    # ]
     CATEGORIA_A_COTIZAR_CHOICES = [
-        ('Durables', 'Durables'),
+        ('Insumos', 'Insumos'),        
         ('Merch', 'Merch'),
-        ('Visibilidad', 'Visibilidad')
+        ('Textil', 'Textil'),
+        ('Visibilidad', 'Visibilidad'),
+        ('Otra', 'Otra'),
     ]
     MUESTRA_PPS_CHOICES = [
         ('Digital', 'Digital'),
@@ -89,16 +91,16 @@ class DetalleOportunidad(models.Model):
     #origen = models.CharField(max_length=100,choices=ORIGEN_CHOICES)
     #margen_producto = models.DecimalField(max_digits=5, decimal_places=2)
     margen_producto = models.FloatField(default=30.0)
-    precio_objetivo = models.IntegerField()
+    precio_objetivo = models.IntegerField(null=True, blank=True)
     #destino = models.CharField(max_length=100,choices=DESTINO_CHOICES)
     unidades = models.IntegerField()
-    tamano = models.CharField(max_length=100)
-    color = models.CharField(max_length=100)
+    tamano = models.CharField(max_length=100,null=True, blank=True)
+    color = models.CharField(max_length=100,null=True, blank=True)
     branding = models.CharField(max_length=100)
     cantidad_de_disenos = models.IntegerField()
     muestra_materialidad = models.BooleanField()
     muestra_pps = models.CharField(max_length=100,choices=MUESTRA_PPS_CHOICES)
-    observaciones = models.CharField(max_length=100)
+    observaciones = models.CharField(max_length=100,null=True, blank=True)
     precio_unitario = models.IntegerField()
     packaging_master_unidades = models.CharField(max_length=100)
     packaging_inner_unidades = models.CharField(max_length=100)
