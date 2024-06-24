@@ -2,6 +2,9 @@ from django import forms
 from .models import Task, DetalleOportunidad,ArchivoAdjunto
 from django.utils import timezone
 from .widgets import MultiFileInput
+from django.forms.widgets import ClearableFileInput
+from django.utils.safestring import mark_safe
+
 class NumberInputWithThousandsSeparator(forms.TextInput):
     def render(self, name, value, attrs=None, renderer=None):
         if value is not None:
@@ -151,7 +154,8 @@ class DetalleOportunidadForm(forms.ModelForm):
             'packaging_unitario_unidades': forms.TextInput(attrs={'class': 'form-control'}),
             'packaging_unitario_diseno': forms.CheckboxInput(attrs={'class': 'form-check-input'}),
             'packaging_diseno_tipo': forms.TextInput(attrs={'class': 'form-control'}),
-            'archivos_adjuntos': forms.ClearableFileInput(attrs={'multiple': True}),
+            #'archivos_adjuntos': forms.ClearableFileInput(attrs={'multiple': True}),
+            'archivos_adjuntos': MultiFileInput(),
         }
 
     def __init__(self, *args, **kwargs):
@@ -226,3 +230,13 @@ class ArchivoAdjuntoForm(forms.ModelForm):
         }
 
 ArchivoAdjuntoFormSet = forms.modelformset_factory(ArchivoAdjunto, form=ArchivoAdjuntoForm, extra=1)
+
+class MultiFileInput(ClearableFileInput):
+    def __init__(self, attrs=None):
+        super().__init__(attrs)
+        self.attrs['multiple'] = True
+
+    def render(self, name, value, attrs=None, renderer=None):
+        if value is not None and not isinstance(value, (list, tuple)):
+            value = [value]
+        return super().render(name, value, attrs, renderer)

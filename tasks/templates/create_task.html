@@ -34,12 +34,14 @@
                 <div class="form-container">
                     {{ task_form.as_p }}
                 </div>
+                
                 <h2>Productos a cotizar</h2>
                 <div class="form-container-2">
                     {{ detalle_oportunidad_form.as_p }}
                     <button type="button" onclick="removeRow(this)">Eliminar</button>
                     <button type="button" onclick="addRow()">Agregar Detalle</button>
                 </div>
+                
                 <h2>Archivos Adjuntos</h2>
                 <div class="form-container-2">
                     {{ formset.management_form }}
@@ -49,6 +51,7 @@
                         </div>
                     {% endfor %}
                 </div>
+                
                 <button type="submit" class="btn btn-primary save-button">Save</button>
             </form>
         </div>
@@ -138,4 +141,5 @@
     }
 </script>
 {% endblock %}
+
 
