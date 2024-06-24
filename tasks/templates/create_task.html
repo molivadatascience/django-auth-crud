@@ -38,8 +38,8 @@
                 </div>
                 
                 <h2>Productos a cotizar</h2>
-                <div id="detalle-oportunidad-formset">
-                    {{ detalle_oportunidad_form.as_p }}
+                <div class="form-container-2">
+                    {{ detalle_oportunidad_form.as_table }}
                 </div>
                 <button type="button" onclick="removeRow(this)">Eliminar</button>
                 <button type="button" onclick="addRow()">Agregar Detalle</button>
@@ -123,4 +123,5 @@
     }
 </script>
 {% endblock %}
+
 

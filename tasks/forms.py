@@ -57,31 +57,18 @@ class TaskForm(forms.ModelForm):
         model = Task
         fields=['campaña', 'fecha_solicitud', 'nombre_cliente', 'kam', 'valor_oportunidad', 'margen','tipo_importacion', 'pais_destino', 'fecha_entrega_propuesta', 'fecha_entrega_productos', 'descripcion'] #son los campos que quiero ver en el formulario el resto no es necesario
         widgets = {
-            #'title': forms.TextInput(attrs={'class': 'form-control','placeholder': 'Write a title'}),
+            
             'campaña': forms.TextInput(attrs={'class': 'form-control','placeholder': 'Nombre Campaña'}),
             'fecha_solicitud':forms.DateInput(attrs={'type': 'date'}),
             'nombre_cliente':forms.Select(attrs={'class': 'form-control','placeholder': 'nombre_cliente'}),
-            #'campana': forms.TextInput(attrs={'class': 'form-control','placeholder': 'campana'}),
             'kam':forms.Select(attrs={'class': 'form-control'}),
-            #'valor_oportunidad':forms.TextInput(attrs={'class': 'form-control','placeholder': 'Ingresa valor'}),
             'valor_oportunidad': NumberInputWithThousandsSeparator(attrs={'class': 'form-control', 'placeholder': 'Ingresa valor'}),
-            #'margen':forms.TextInput(attrs={'class': 'form-control'}),
             'margen': PercentageInput(attrs={'class': 'form-control', 'placeholder': 'Ingresa margen'}),
             'tipo_importacion':forms.Select(attrs={'class': 'form-control','placeholder': 'tipo_importacion'}),
             'pais_destino':forms.Select(attrs={'class': 'form-control'}),
             'fecha_entrega_propuesta':forms.DateInput(attrs={'type': 'date'}),
             'fecha_entrega_productos':forms.DateInput(attrs={'type': 'date'}),
-            #'solicitud_muestra_materialidad': forms.CheckboxInput(attrs={'class': 'form-check-input m-auto'}),
             'descripcion': forms.Textarea(attrs={'class': 'form-control', 'placeholder': 'Ingrese descripción', 'rows': 2}),  # Actualiza a Textarea con filas
-            #'precio_unitario':forms.TextInput(attrs={'class': 'form-control','placeholder': 'Ingresa precio en CLP'}),
-            #'fecha_cotizacion':forms.DateInput(attrs={'type': 'date'}),
-            #'cotizacion_aceptada':forms.CheckboxInput(attrs={'class': 'form-check-input m-auto'}),
-            #'nombre_contacto': forms.TextInput(attrs={'class': 'form-control','placeholder': 'nombre_contacto'}),
-            #'email_contacto': forms.TextInput(attrs={'class': 'form-control','placeholder': 'email_contacto'}),
-            #'cotización_valida_dias':forms.TextInput(attrs={'class': 'form-control','placeholder': 'Ingrese días'}),
-            #'tiempo_muestra_fisica_dias':forms.TextInput(attrs={'class': 'form-control','placeholder': 'Ingrese días'}),
-            #'tiempo_produccion_dias':forms.TextInput(attrs={'class': 'form-control','placeholder': 'Ingrese días'}),
-            #'important': forms.CheckboxInput(attrs={'class': 'form-check-input m-auto'}),
         }
   
     def __init__(self, *args, **kwargs):
@@ -99,15 +86,7 @@ class TaskForm(forms.ModelForm):
             raise forms.ValidationError("Enter a whole number.")
         return data
 
-    #def clean_margen(self):
-    #    data = self.cleaned_data.get('margen')
-    #    if isinstance(data, str):
-    #        data = data.replace('%', '').replace(',', '.').strip()
-    #        try:
-    #            return float(data)
-    #        except ValueError:
-    #            raise forms.ValidationError("Enter a valid percentage.")
-    #    return data
+
     def clean_margen(self):
         data = self.cleaned_data.get('margen', 30.0)
         if isinstance(data, str):
@@ -123,17 +102,13 @@ class DetalleOportunidadForm(forms.ModelForm):
             'unidades', 'unidades_2','unidades_3','unidades_4','tamano', 'color', 'branding', 'cantidad_de_disenos',
             'muestra_materialidad', 'aprobacion_muestra_pps', 'observaciones', 'precio_unitario','packaging_master_unidades',
             'packaging_master_diseno', 'packaging_master_tipo', 'packaging_inner_unidades', 'packaging_inner_diseno', 'packaging_inner_tipo',
-            'packaging_unitario_unidades','packaging_unitario_diseno','packaging_diseno_tipo','archivos_adjuntos'
+            'packaging_unitario_unidades','packaging_unitario_diseno','packaging_diseno_tipo'
         ]
         widgets = {
-           # 'id_requerimiento_comercial': forms.NumberInput(attrs={'class': 'form-control'}),
             'categoria_a_cotizar': forms.Select(attrs={'class': 'form-control'}),
             'producto': forms.TextInput(attrs={'class': 'form-control'}),
-            #'margen': forms.NumberInput(attrs={'class': 'form-control'}),
             'margen_producto': PercentageInput(attrs={'class': 'form-control', 'placeholder': 'Ingresa margen'}),
-            #'precio_objetivo': forms.NumberInput(attrs={'class': 'form-control'}),
             'precio_objetivo': NumberInputWithThousandsSeparator(attrs={'class': 'form-control', 'placeholder': 'Ingresa precio'}),
-            #'unidades': forms.NumberInput(attrs={'class': 'form-control'}),
             'unidades': NumberInputWithThousandsSeparator(attrs={'class': 'form-control', 'placeholder': 'Ingresa unidades'}),
             'unidades_2': NumberInputWithThousandsSeparator(attrs={'class': 'form-control', 'placeholder': 'Ingresa unidades'}),
             'unidades_3': NumberInputWithThousandsSeparator(attrs={'class': 'form-control', 'placeholder': 'Ingresa unidades'}),
@@ -156,7 +131,7 @@ class DetalleOportunidadForm(forms.ModelForm):
             'packaging_unitario_diseno': forms.CheckboxInput(attrs={'class': 'form-check-input'}),
             'packaging_diseno_tipo': forms.TextInput(attrs={'class': 'form-control'}),
             #'archivos_adjuntos': forms.ClearableFileInput(attrs={'multiple': True}),
-            'archivos_adjuntos': MultiFileInput(),
+            #'archivos_adjuntos': MultiFileInput(),
         }
 
     def __init__(self, *args, **kwargs):
