@@ -162,6 +162,7 @@ class DetalleOportunidadForm(forms.ModelForm):
         self.fields['packaging_master_tipo'].initial = 'Sin requerimiento'
         self.fields['packaging_inner_tipo'].initial = 'Sin requerimiento'
         self.fields['packaging_diseno_tipo'].initial = 'Sin requerimiento'
+        self.fields['aprobacion_muestra_pps'].initial = 'Física'
 
     def clean_precio_objetivo(self):
         data = self.cleaned_data.get('precio_objetivo')
