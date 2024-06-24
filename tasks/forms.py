@@ -225,7 +225,6 @@ class DetalleOportunidadForm(forms.ModelForm):
 class ArchivoAdjuntoForm(forms.ModelForm):
     class Meta:
         model = ArchivoAdjunto
-        fields = ('archivo',)  # Asegúrate de incluir todos los campos necesarios
+        fields = ('archivo',)
 
-# Definir el formset para ArchivoAdjunto
 ArchivoAdjuntoFormSet = inlineformset_factory(DetalleOportunidad, ArchivoAdjunto, form=ArchivoAdjuntoForm, extra=1)
