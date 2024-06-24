@@ -43,13 +43,10 @@
                 </div>
                 
                 <h2>Archivos Adjuntos</h2>
-                <div class="form-container-2">
-                    {{ formset.management_form }}
-                    {% for form in formset %}
-                        <div class="form-group">
-                            {{ form.as_p }}
-                        </div>
-                    {% endfor %}
+                <div class="form-container-2" id="archivo-adjunto-container">
+                    <div class="form-group">
+                        <input type="file" name="archivos_adjuntos" class="form-control-file" multiple>
+                    </div>
                 </div>
                 
                 <button type="submit" class="btn btn-primary save-button">Save</button>
@@ -141,5 +138,4 @@
     }
 </script>
 {% endblock %}
-
 
