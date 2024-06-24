@@ -108,9 +108,12 @@ class DetalleOportunidad(models.Model):
     packaging_master_tipo = models.CharField(max_length=100)
     packaging_inner_tipo = models.CharField(max_length=100)
     packaging_diseno_tipo = models.CharField(max_length=100)
-    packaging_master_diseno = models.CharField(max_length=100)
-    packaging_inner_diseno = models.CharField(max_length=100)
-    packaging_unitario_diseno = models.CharField(max_length=100)
+    packaging_master_diseno = models.BooleanField()
+    packaging_inner_diseno = models.BooleanField()
+    packaging_unitario_diseno = models.BooleanField()
+    #packaging_master_diseno = models.CharField(max_length=100)
+    #packaging_inner_diseno = models.CharField(max_length=100)
+    #packaging_unitario_diseno = models.CharField(max_length=100)
     archivos_adjuntos = models.FileField(upload_to='archivos_adjuntos/',null=True, blank=True)
 
     #def __str__(self):
