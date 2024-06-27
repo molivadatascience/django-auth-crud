@@ -86,15 +86,15 @@ class DetalleOportunidad(models.Model):
     packaging_master_diseno = models.BooleanField()
     packaging_inner_diseno = models.BooleanField()
     packaging_unitario_diseno = models.BooleanField()
-    #archivos_adjuntos = models.FileField(upload_to='archivos_adjuntos/',null=True, blank=True)
+    archivos_adjuntos = models.FileField(upload_to='archivos_adjuntos/',null=True, blank=True)
     #archivos_adjuntos = models.ManyToManyField('ArchivoAdjunto', related_name='detalles_oportunidad')
 
-class ArchivoAdjunto(models.Model):
-    detalle_oportunidad = models.ForeignKey(DetalleOportunidad, on_delete=models.CASCADE, related_name='archivos_adjuntos')
-    archivo = models.CharField(max_length=255)
+#class ArchivoAdjunto(models.Model):
+#    detalle_oportunidad = models.ForeignKey(DetalleOportunidad, on_delete=models.CASCADE, related_name='archivos_adjuntos')
+#    archivo = models.CharField(max_length=255)
 
-    class Meta:
-        db_table = 'archivoadjunto'
-
-    def __str__(self):
-        return self.archivo
+ #   class Meta:
+ #       db_table = 'archivoadjunto'
+#
+#    def __str__(self):
+#        return self.archivo

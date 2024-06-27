@@ -102,7 +102,7 @@ class DetalleOportunidadForm(forms.ModelForm):
             'unidades', 'unidades_2','unidades_3','unidades_4','tamano', 'color', 'branding', 'cantidad_de_disenos',
             'muestra_materialidad', 'aprobacion_muestra_pps', 'observaciones', 'precio_unitario','packaging_master_unidades',
             'packaging_master_diseno', 'packaging_master_tipo', 'packaging_inner_unidades', 'packaging_inner_diseno', 'packaging_inner_tipo',
-            'packaging_unitario_unidades','packaging_unitario_diseno','packaging_diseno_tipo'
+            'packaging_unitario_unidades','packaging_unitario_diseno','packaging_diseno_tipo','archivos_adjuntos'
         ]
         widgets = {
             'categoria_a_cotizar': forms.Select(attrs={'class': 'form-control'}),
@@ -130,7 +130,7 @@ class DetalleOportunidadForm(forms.ModelForm):
             'packaging_unitario_unidades': forms.TextInput(attrs={'class': 'form-control'}),
             'packaging_unitario_diseno': forms.CheckboxInput(attrs={'class': 'form-check-input'}),
             'packaging_diseno_tipo': forms.TextInput(attrs={'class': 'form-control'}),
-            #'archivos_adjuntos': forms.ClearableFileInput(attrs={'multiple': True}),
+            'archivos_adjuntos': forms.ClearableFileInput(attrs={'multiple': True}),
             #'archivos_adjuntos': MultiFileInput(),
         }
 
@@ -197,13 +197,13 @@ class DetalleOportunidadForm(forms.ModelForm):
         return float(data)
 
 
-class ArchivoAdjuntoForm(forms.ModelForm):
-    class Meta:
-        model = ArchivoAdjunto
-        fields = ('archivo',)
+#class ArchivoAdjuntoForm(forms.ModelForm):
+#    class Meta:
+#        model = ArchivoAdjunto
+#        fields = ('archivo',)
+#
+#    def __init__(self, *args, **kwargs):
+#        super(ArchivoAdjuntoForm, self).__init__(*args, **kwargs)
+#        self.fields['archivo'].widget.attrs.update({'class': 'form-control-file', 'multiple': True, 'accept': '.pdf,.doc,.docx,.xls,.xlsx'})
 
-    def __init__(self, *args, **kwargs):
-        super(ArchivoAdjuntoForm, self).__init__(*args, **kwargs)
-        self.fields['archivo'].widget.attrs.update({'class': 'form-control-file', 'multiple': True, 'accept': '.pdf,.doc,.docx,.xls,.xlsx'})
-
-ArchivoAdjuntoFormSet = inlineformset_factory(DetalleOportunidad, ArchivoAdjunto, form=ArchivoAdjuntoForm, extra=1)
+#ArchivoAdjuntoFormSet = inlineformset_factory(DetalleOportunidad, ArchivoAdjunto, form=ArchivoAdjuntoForm, extra=1)

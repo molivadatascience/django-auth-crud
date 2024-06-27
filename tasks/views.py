@@ -47,40 +47,34 @@ def tasks_completed(request):
 
 @login_required
 def create_task(request):
-    if request.method == 'POST':
-        task_form = TaskForm(request.POST)
-        detalle_oportunidad_form = DetalleOportunidadForm(request.POST)
-        formset = ArchivoAdjuntoFormSet(request.POST, request.FILES, queryset=ArchivoAdjunto.objects.none())
-        
-        if task_form.is_valid() and detalle_oportunidad_form.is_valid() and formset.is_valid():
-            task_instance = task_form.save(commit=False)
-            task_instance.user = request.user
-            task_instance.save()
-
-            detalle_oportunidad_instance = detalle_oportunidad_form.save(commit=False)
-            detalle_oportunidad_instance.task = task_instance
-            detalle_oportunidad_instance.save()
-
-            for form in formset:
-                if form.cleaned_data.get('archivo'):
-                    archivo_adjunto = form.save(commit=False)
-                    archivo_adjunto.detalle_oportunidad = detalle_oportunidad_instance
-                    archivo_adjunto.save()
-
-            return redirect('dashboard')  # Redirige a donde necesites después de guardar
-
-    else:
+    if request.method == 'GET':
         task_form = TaskForm()
         detalle_oportunidad_form = DetalleOportunidadForm()
-        formset = ArchivoAdjuntoFormSet(queryset=ArchivoAdjunto.objects.none())
+        return render(request, 'create_task.html', {
+            'task_form': task_form,
+            'detalle_oportunidad_form': detalle_oportunidad_form
+        })
+    else:
+        task_form = TaskForm(request.POST)
+        detalle_oportunidad_form = DetalleOportunidadForm(request.POST, request.FILES)
+        
+        if task_form.is_valid() and detalle_oportunidad_form.is_valid():
+            new_task = task_form.save(commit=False)
+            new_task.user = request.user
+            new_task.save()
+            
+            new_detalle = detalle_oportunidad_form.save(commit=False)
+            new_detalle.task = new_task
+            new_detalle.save()
+            
+            return redirect('tasks')
+        else:
+            return render(request, 'create_task.html', {
+                'task_form': task_form,
+                'detalle_oportunidad_form': detalle_oportunidad_form,
+                'error': 'Please provide valid data'
+            })
 
-    context = {
-        'task_form': task_form,
-        'detalle_oportunidad_form': detalle_oportunidad_form,
-        'formset': formset,
-    }
-
-    return render(request, 'create_task.html', context)
 
 
 @login_required
