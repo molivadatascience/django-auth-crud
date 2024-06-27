@@ -1,7 +1,7 @@
 from django import forms
-from .models import Task, DetalleOportunidad,ArchivoAdjunto
+from .models import Task, DetalleOportunidad
 from django.utils import timezone
-from .widgets import MultiFileInput
+#from .widgets import MultiFileInput
 from django.forms.widgets import ClearableFileInput
 from django.utils.safestring import mark_safe
 from django.forms import inlineformset_factory
