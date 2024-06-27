@@ -130,7 +130,8 @@ class DetalleOportunidadForm(forms.ModelForm):
             'packaging_unitario_unidades': forms.TextInput(attrs={'class': 'form-control'}),
             'packaging_unitario_diseno': forms.CheckboxInput(attrs={'class': 'form-check-input'}),
             'packaging_diseno_tipo': forms.TextInput(attrs={'class': 'form-control'}),
-            'archivos_adjuntos': forms.ClearableFileInput(attrs={'multiple': True}),
+            #'archivos_adjuntos': forms.ClearableFileInput(attrs={'multiple': True}),
+            'archivos_adjuntos': forms.ClearableFileInput(attrs={'class': 'form-control-file'}),
             #'archivos_adjuntos': MultiFileInput(),
         }
 
