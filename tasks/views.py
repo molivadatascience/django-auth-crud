@@ -3,11 +3,11 @@ from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.models import User
 from django.contrib.auth import login, logout, authenticate
 from django.db import IntegrityError
-from .forms import TaskForm, DetalleOportunidadForm, ArchivoAdjuntoFormSet,ArchivoAdjuntoForm
-from .models import Task, DetalleOportunidad,ArchivoAdjunto
+from .forms import TaskForm, DetalleOportunidadForm
+from .models import Task, DetalleOportunidad
 from django.utils import timezone
 from django.contrib.auth.decorators import login_required
-from django.forms import modelformset_factory
+#from django.forms import modelformset_factory
 
 def home(request):
     return render(request, 'home.html')
