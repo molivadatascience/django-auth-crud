@@ -13,6 +13,11 @@
             gap: 20px;
             background-color: #f0f0f0;
         }
+        .form-container-3 {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+        }
         .form-group {
             margin-bottom: 15px;
         }
@@ -39,6 +44,10 @@
                     {{ detalle_oportunidad_form.as_p }}
                     <button type="button" onclick="removeRow(this)">Eliminar</button>
                     <button type="button" onclick="addRow()">Agregar Detalle</button>
+                </div>
+                <h2>Costeo</h2>
+                <div class="form-container-3">
+                    {{ costeo_form.as_p }}
                 </div>
                 <button type="submit" class="btn btn-primary save-button">Save</button>
             </form>
@@ -121,3 +130,4 @@
     }
 </script>
 {% endblock %}
+

@@ -98,3 +98,45 @@ class DetalleOportunidad(models.Model):
 #
 #    def __str__(self):
 #        return self.archivo
+
+class Costeo(models.Model):
+    SI_NO_CHOICES = [(True, 'Sí'), (False, 'No')]
+    RESPONSABLE_CHOICES = [('Pedro', 'Pedro'), ('Juan', 'Juan'), ('Diego', 'Diego')]
+    PROVEEDOR_CHOICES = [('Proveedor A', 'Proveedor A'), ('Proveedor B', 'Proveedor B'), ('Proveedor C', 'Proveedor C')]
+    IMPORTACION_CHOICES = [('aéreo', 'aéreo'), ('marítimo', 'marítimo')]
+    PAIS_CHOICES = [('China', 'China'), ('Perú', 'Perú'), ('México', 'México')]
+    PUERTO_CHOICES = [('puerto 1', 'puerto 1'), ('puerto 2', 'puerto 2'), ('puerto 3', 'puerto 3')]
+    TAMAÑO_MUESTRA_CHOICES = [('pequeño', 'pequeño'), ('mediano', 'mediano'), ('grande', 'grande')]
+    PORTAL_LICITACIONES_CHOICES = [('Ariba', 'Ariba'), ('No', 'No'), ('Wherex', 'Wherex')]
+
+    id_detalle_venta = models.ForeignKey('DetalleOportunidad', on_delete=models.CASCADE)
+    prov_elegido = models.BooleanField(choices=SI_NO_CHOICES)
+    responsable = models.CharField(max_length=50, choices=RESPONSABLE_CHOICES)
+    nombre_producto = models.CharField(max_length=100)
+    fecha_costeo = models.DateField()
+    hscode = models.CharField(max_length=100)
+    proveedor = models.CharField(max_length=50, choices=PROVEEDOR_CHOICES)
+    tipo_importacion = models.CharField(max_length=50, choices=IMPORTACION_CHOICES)
+    pais = models.CharField(max_length=50, choices=PAIS_CHOICES)
+    ciudad = models.CharField(max_length=100)
+    puerto = models.CharField(max_length=50, choices=PUERTO_CHOICES)
+    margen = models.FloatField()
+    cantidad_uu = models.FloatField()
+    costo_unit_usd = models.FloatField()
+    costo_muestra = models.FloatField()
+    refundable = models.BooleanField(choices=SI_NO_CHOICES)
+    unidades_por_master_box = models.FloatField()
+    largo = models.FloatField()
+    ancho = models.FloatField()
+    alto = models.FloatField()
+    peso_por_master_box = models.FloatField()
+    importacion_muestra = models.BooleanField(choices=SI_NO_CHOICES)
+    tamaño_muestra = models.CharField(max_length=50, choices=TAMAÑO_MUESTRA_CHOICES)
+    portal_licitaciones = models.CharField(max_length=50, choices=PORTAL_LICITACIONES_CHOICES)
+    dias_muestra = models.FloatField()
+    dias_prod_final = models.FloatField()
+    advalorem = models.FloatField()
+    payment_terms = models.FloatField()
+    
+    def __str__(self):
+        return self.nombre_producto

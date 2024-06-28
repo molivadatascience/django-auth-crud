@@ -1,5 +1,5 @@
 from django import forms
-from .models import Task, DetalleOportunidad
+from .models import Task, DetalleOportunidad,Costeo
 from django.utils import timezone
 #from .widgets import MultiFileInput
 from django.forms.widgets import ClearableFileInput
@@ -208,3 +208,19 @@ class DetalleOportunidadForm(forms.ModelForm):
 #        self.fields['archivo'].widget.attrs.update({'class': 'form-control-file', 'multiple': True, 'accept': '.pdf,.doc,.docx,.xls,.xlsx'})
 
 #ArchivoAdjuntoFormSet = inlineformset_factory(DetalleOportunidad, ArchivoAdjunto, form=ArchivoAdjuntoForm, extra=1)
+
+
+class CosteoForm(forms.ModelForm):
+    class Meta:
+        model = Costeo
+        fields = '__all__'
+        widgets = {
+            'prov_elegido': forms.Select(choices=Costeo.SI_NO_CHOICES),
+            'responsable': forms.Select(choices=Costeo.RESPONSABLE_CHOICES),
+            'proveedor': forms.Select(choices=Costeo.PROVEEDOR_CHOICES),
+            'tipo_importacion': forms.Select(choices=Costeo.IMPORTACION_CHOICES),
+            'pais': forms.Select(choices=Costeo.PAIS_CHOICES),
+            'puerto': forms.Select(choices=Costeo.PUERTO_CHOICES),
+            'tamaño_muestra': forms.Select(choices=Costeo.TAMAÑO_MUESTRA_CHOICES),
+            'portal_licitaciones': forms.Select(choices=Costeo.PORTAL_LICITACIONES_CHOICES),
+        }

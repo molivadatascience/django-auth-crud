@@ -3,8 +3,8 @@ from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.models import User
 from django.contrib.auth import login, logout, authenticate
 from django.db import IntegrityError
-from .forms import TaskForm, DetalleOportunidadForm
-from .models import Task, DetalleOportunidad
+from .forms import TaskForm, DetalleOportunidadForm, CosteoForm
+from .models import Task, DetalleOportunidad, Costeo
 from django.utils import timezone
 from django.contrib.auth.decorators import login_required
 #from django.forms import modelformset_factory
@@ -50,15 +50,18 @@ def create_task(request):
     if request.method == 'GET':
         task_form = TaskForm()
         detalle_oportunidad_form = DetalleOportunidadForm()
+        costeo_form = CosteoForm()
         return render(request, 'create_task.html', {
             'task_form': task_form,
-            'detalle_oportunidad_form': detalle_oportunidad_form
+            'detalle_oportunidad_form': detalle_oportunidad_form,
+            'costeo_form': costeo_form
         })
     else:
         task_form = TaskForm(request.POST)
         detalle_oportunidad_form = DetalleOportunidadForm(request.POST, request.FILES)
+        costeo_form = CosteoForm(request.POST)
         
-        if task_form.is_valid() and detalle_oportunidad_form.is_valid():
+        if task_form.is_valid() and detalle_oportunidad_form.is_valid() and costeo_form.is_valid():
             new_task = task_form.save(commit=False)
             new_task.user = request.user
             new_task.save()
@@ -66,12 +69,17 @@ def create_task(request):
             new_detalle = detalle_oportunidad_form.save(commit=False)
             new_detalle.task = new_task
             new_detalle.save()
+
+            new_costeo = costeo_form.save(commit=False)
+            new_costeo.id_detalle_venta = new_detalle
+            new_costeo.save()
             
             return redirect('tasks')
         else:
             return render(request, 'create_task.html', {
                 'task_form': task_form,
                 'detalle_oportunidad_form': detalle_oportunidad_form,
+                'costeo_form': costeo_form,
                 'error': 'Please provide valid data'
             })
 
