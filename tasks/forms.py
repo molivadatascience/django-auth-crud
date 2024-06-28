@@ -219,10 +219,10 @@ class CosteoForm(forms.ModelForm):
             'prov_elegido': forms.Select(choices=Costeo.SI_NO_CHOICES),
             'responsable': forms.Select(choices=Costeo.RESPONSABLE_CHOICES),
             'proveedor': forms.Select(choices=Costeo.PROVEEDOR_CHOICES),
-            'tipo_importacion_costeo': forms.Select(choices=Costeo.IMPORTACION_COSTEO_CHOICES),
+            'tipo_importacion': forms.Select(choices=Costeo.IMPORTACION_CHOICES),
             'pais': forms.Select(choices=Costeo.PAIS_CHOICES),
             'puerto': forms.Select(choices=Costeo.PUERTO_CHOICES),
             'tamaño_muestra': forms.Select(choices=Costeo.TAMAÑO_MUESTRA_CHOICES),
             'portal_licitaciones': forms.Select(choices=Costeo.PORTAL_LICITACIONES_CHOICES),
-            'fecha_costeo': forms.DateInput(attrs={'type': 'date'}),
+            'fecha_costeo': forms.DateInput(attrs={'type': 'date'}),  # Widget de fecha para desplegar un calendario
         }

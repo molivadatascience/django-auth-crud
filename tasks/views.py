@@ -50,11 +50,11 @@ def create_task(request):
     if request.method == 'GET':
         task_form = TaskForm()
         detalle_oportunidad_form = DetalleOportunidadForm()
-        costeo_form = CosteoForm()
+        costeo_form = CosteoForm()  # Agregar el formulario de Costeo
         return render(request, 'create_task.html', {
             'task_form': task_form,
             'detalle_oportunidad_form': detalle_oportunidad_form,
-            'costeo_form': costeo_form
+            'costeo_form': costeo_form,
         })
     else:
         task_form = TaskForm(request.POST)
@@ -69,9 +69,9 @@ def create_task(request):
             new_detalle = detalle_oportunidad_form.save(commit=False)
             new_detalle.task = new_task
             new_detalle.save()
-
+            
             new_costeo = costeo_form.save(commit=False)
-            new_costeo.id_detalle_venta = new_detalle  # Asignar el detalle recién creado
+            new_costeo.detalle_oportunidad = new_detalle  # Asignar la DetalleOportunidad creada
             new_costeo.save()
             
             return redirect('tasks')
