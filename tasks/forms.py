@@ -224,4 +224,5 @@ class CosteoForm(forms.ModelForm):
             'puerto': forms.Select(choices=Costeo.PUERTO_CHOICES),
             'tamaño_muestra': forms.Select(choices=Costeo.TAMAÑO_MUESTRA_CHOICES),
             'portal_licitaciones': forms.Select(choices=Costeo.PORTAL_LICITACIONES_CHOICES),
+            'fecha_costeo': forms.DateInput(attrs={'type': 'date'}),
         }

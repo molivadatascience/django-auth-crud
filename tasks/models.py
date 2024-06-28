@@ -113,7 +113,7 @@ class Costeo(models.Model):
     prov_elegido = models.BooleanField(choices=SI_NO_CHOICES)
     responsable = models.CharField(max_length=50, choices=RESPONSABLE_CHOICES)
     nombre_producto = models.CharField(max_length=100)
-    fecha_costeo = models.DateField()
+    fecha_costeo = models.DateField(default=timezone.now)
     hscode = models.CharField(max_length=100)
     proveedor = models.CharField(max_length=50, choices=PROVEEDOR_CHOICES)
     tipo_importacion_costeo = models.CharField(max_length=50, choices=IMPORTACION_COSTEO_CHOICES)
