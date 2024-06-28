@@ -219,7 +219,7 @@ class CosteoForm(forms.ModelForm):
             'prov_elegido': forms.Select(choices=Costeo.SI_NO_CHOICES),
             'responsable': forms.Select(choices=Costeo.RESPONSABLE_CHOICES),
             'proveedor': forms.Select(choices=Costeo.PROVEEDOR_CHOICES),
-            'tipo_importacion': forms.Select(choices=Costeo.IMPORTACION_CHOICES),
+            'tipo_importacion_costeo': forms.Select(choices=Costeo.IMPORTACION_COSTEO_CHOICES),
             'pais': forms.Select(choices=Costeo.PAIS_CHOICES),
             'puerto': forms.Select(choices=Costeo.PUERTO_CHOICES),
             'tamaño_muestra': forms.Select(choices=Costeo.TAMAÑO_MUESTRA_CHOICES),
