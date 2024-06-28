@@ -103,7 +103,7 @@ class Costeo(models.Model):
     SI_NO_CHOICES = [(True, 'Sí'), (False, 'No')]
     RESPONSABLE_CHOICES = [('Pedro', 'Pedro'), ('Juan', 'Juan'), ('Diego', 'Diego')]
     PROVEEDOR_CHOICES = [('Proveedor A', 'Proveedor A'), ('Proveedor B', 'Proveedor B'), ('Proveedor C', 'Proveedor C')]
-    IMPORTACION_CHOICES = [('aéreo', 'aéreo'), ('marítimo', 'marítimo')]
+    IMPORTACION_COSTEO_CHOICES = [('aéreo', 'aéreo'), ('marítimo', 'marítimo')]
     PAIS_CHOICES = [('China', 'China'), ('Perú', 'Perú'), ('México', 'México')]
     PUERTO_CHOICES = [('puerto 1', 'puerto 1'), ('puerto 2', 'puerto 2'), ('puerto 3', 'puerto 3')]
     TAMAÑO_MUESTRA_CHOICES = [('pequeño', 'pequeño'), ('mediano', 'mediano'), ('grande', 'grande')]
@@ -116,7 +116,7 @@ class Costeo(models.Model):
     fecha_costeo = models.DateField()
     hscode = models.CharField(max_length=100)
     proveedor = models.CharField(max_length=50, choices=PROVEEDOR_CHOICES)
-    tipo_importacion = models.CharField(max_length=50, choices=IMPORTACION_CHOICES)
+    tipo_importacion_costeo = models.CharField(max_length=50, choices=IMPORTACION_COSTEO_CHOICES)
     pais = models.CharField(max_length=50, choices=PAIS_CHOICES)
     ciudad = models.CharField(max_length=100)
     puerto = models.CharField(max_length=50, choices=PUERTO_CHOICES)
