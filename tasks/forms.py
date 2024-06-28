@@ -213,12 +213,13 @@ class DetalleOportunidadForm(forms.ModelForm):
 class CosteoForm(forms.ModelForm):
     class Meta:
         model = Costeo
-        fields = '__all__'
+        exclude = ['id_detalle_venta']  # Excluir el campo id_detalle_venta del formulario
+
         widgets = {
             'prov_elegido': forms.Select(choices=Costeo.SI_NO_CHOICES),
             'responsable': forms.Select(choices=Costeo.RESPONSABLE_CHOICES),
             'proveedor': forms.Select(choices=Costeo.PROVEEDOR_CHOICES),
-            'tipo_importacion_costeo': forms.Select(choices=Costeo.IMPORTACION_COSTEO_CHOICES),
+            'tipo_importacion': forms.Select(choices=Costeo.IMPORTACION_CHOICES),
             'pais': forms.Select(choices=Costeo.PAIS_CHOICES),
             'puerto': forms.Select(choices=Costeo.PUERTO_CHOICES),
             'tamaño_muestra': forms.Select(choices=Costeo.TAMAÑO_MUESTRA_CHOICES),

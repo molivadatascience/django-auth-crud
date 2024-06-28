@@ -71,7 +71,7 @@ def create_task(request):
             new_detalle.save()
 
             new_costeo = costeo_form.save(commit=False)
-            new_costeo.id_detalle_venta = new_detalle
+            new_costeo.id_detalle_venta = new_detalle  # Asignar el detalle recién creado
             new_costeo.save()
             
             return redirect('tasks')
