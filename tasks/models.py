@@ -138,6 +138,21 @@ class Costeo(models.Model):
     dias_prod_final = models.FloatField()
     advalorem = models.FloatField()
     payment_terms = models.FloatField()
+    estado_costeo = models.CharField(max_length=255)
+    validador_embarcaciones_consolidadas = models.IntegerField()
+    numero_embarque = models.CharField(max_length=255)
+    peso_un = models.IntegerField()
+    tipo_container = models.CharField(max_length=255)
+    tipo_pago_muestra = models.CharField(max_length=255)
+    revision_qc = models.CharField(max_length=255)
+    dias_almacenaje = models.IntegerField()
+    porcentaje_paletizado = models.DecimalField(max_digits=5, decimal_places=2)
+    wherex = models.BooleanField()
+    asignacion_ccu = models.BooleanField()
+    tipo_pago = models.CharField(max_length=255)
+    fecha_inicio_elaboracion_muestra = models.DateField()
+    lead_time_muestra = models.IntegerField()
+    lead_time_produccion = models.IntegerField()
     
     def __str__(self):
         return f'Costeo {self.pk} de DetalleOportunidad {self.id_detalle_venta_id}'
