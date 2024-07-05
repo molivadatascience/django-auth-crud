@@ -194,7 +194,7 @@ class DetalleOportunidadForm(forms.ModelForm):
 class CosteoForm(forms.ModelForm):
     class Meta:
         model = Costeo
-        exclude = ['id_detalle_venta']  # Excluir el campo id_detalle_venta del formulario
+        exclude = ['id_detalle_venta_id']  # Excluir el campo id_detalle_venta del formulario
 
         widgets = {
             'prov_elegido': forms.Select(choices=Costeo.SI_NO_CHOICES),
