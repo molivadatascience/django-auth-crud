@@ -40,16 +40,22 @@
                     {{ task_form.as_p }}
                 </div>
                 <h2>Productos a cotizar</h2>
-                <div class="form-container-2">
-                    {{ detalle_oportunidad_form.as_p }}
-                    <button type="button" onclick="removeRow(this)">Eliminar</button>
-                    <button type="button" onclick="addRow()">Agregar Detalle</button>
+                <div class="form-container-2" id="detalleOportunidadContainer">
+                    {{ detalle_oportunidad_form.management_form }}
+                    {% for form in detalle_oportunidad_form %}
+                        <div class="detalle-form">
+                            {{ form.as_p }}
+                            <button type="button" onclick="removeRow(this)">Eliminar</button>
+                        </div>
+                    {% endfor %}
+                    <button type="button" onclick="addRow('detalleOportunidadContainer', 'detalleOportunidadTemplate')">Agregar Detalle</button>
                 </div>
                 <h2>Costeo</h2>
-                <div class="form-container-3">
+                <div class="form-container-3" id="costeoContainer">
                     {{ costeo_form.as_p }}
                 </div>
-                <button type="submit" class="btn btn-primary save-button">Save</button>
+                <button type="button" onclick="addRow('costeoContainer', 'costeoTemplate')">Agregar Costeo</button>
+                <button type="submit" class="btn btn-primary save-button">Guardar</button>
             </form>
         </div>
     </div>
@@ -120,17 +126,30 @@
             });
         }
     });
-    function addRow() {
-        // Lógica para agregar una nueva fila de formulario (si es necesario)
+    
+    function addRow(containerId, templateId) {
+        const container = document.getElementById(containerId);
+        const template = document.getElementById(templateId).content.cloneNode(true);
+        container.appendChild(template);
     }
+
     function removeRow(button) {
-        // Lógica para eliminar la fila actual del formulario
-        let row = button.closest('.form-container-2');
+        const row = button.closest('.detalle-form');
         row.remove();
     }
 </script>
+
+<template id="detalleOportunidadTemplate">
+    <div class="detalle-form">
+        {{ detalle_oportunidad_form.empty_form.as_p }}
+        <button type="button" onclick="removeRow(this)">Eliminar</button>
+    </div>
+</template>
+
+<template id="costeoTemplate">
+    <div class="form-container-3">
+        {{ costeo_form.as_p }}
+        <button type="button" onclick="removeRow(this)">Eliminar</button>
+    </div>
+</template>
 {% endblock %}
-
-
-
-
