@@ -108,7 +108,8 @@ class Costeo(models.Model):
     PUERTO_CHOICES = [('puerto 1', 'puerto 1'), ('puerto 2', 'puerto 2'), ('puerto 3', 'puerto 3')]
     TAMAÑO_MUESTRA_CHOICES = [('pequeño', 'pequeño'), ('mediano', 'mediano'), ('grande', 'grande')]
     PORTAL_LICITACIONES_CHOICES = [('Ariba', 'Ariba'), ('No', 'No'), ('Wherex', 'Wherex')]
-
+#task = models.ForeignKey(Task, related_name='detalles', on_delete=models.CASCADE)
+#    id_detalle_venta = models.AutoField(primary_key=True)
     id_detalle_venta_id = models.ForeignKey(DetalleOportunidad, related_name='costeos', on_delete=models.CASCADE)
     #id_detalle_venta = models.ForeignKey('DetalleOportunidad', on_delete=models.CASCADE)
     prov_elegido = models.BooleanField(choices=SI_NO_CHOICES)
@@ -140,5 +141,5 @@ class Costeo(models.Model):
     payment_terms = models.FloatField()
     
     
-    def __str__(self):
-        return f'Costeo {self.pk} de DetalleOportunidad {self.id_detalle_venta_id}'
+    #def __str__(self):
+    #    return f'Costeo {self.pk} de DetalleOportunidad {self.id_detalle_venta_id}'
