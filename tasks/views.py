@@ -71,7 +71,7 @@ def create_task(request):
             new_detalle.save()
             
             new_costeo = costeo_form.save(commit=False)
-            new_costeo.detalle_oportunidad = new_detalle  # Asignar la DetalleOportunidad creada
+            new_costeo.id_detalle_venta_id = new_detalle  # Asignar la DetalleOportunidad creada como ForeignKey
             new_costeo.save()
             
             return redirect('tasks')
