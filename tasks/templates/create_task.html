@@ -7,6 +7,17 @@
             grid-template-columns: repeat(3, 1fr);
             gap: 20px;
         }
+        .form-container-2 {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            background-color: #f0f0f0;
+        }
+        .form-container-3 {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+        }
         .form-group {
             margin-bottom: 15px;
         }
@@ -15,26 +26,7 @@
             margin-top: 20px;
         }
         h2 {
-            grid-column: span 3;
-        }
-        .table-editable {
-            width: 100%;
-            border-collapse: collapse;
-        }
-        .table-editable th, .table-editable td {
-            border: 1px solid #ddd;
-            padding: 8px;
-        }
-        .table-editable th {
-            background-color: #f2f2f2;
-            text-align: center;
-        }
-        .table-editable .form-control {
-            width: 100%;
-            box-sizing: border-box;
-        }
-        .add-row-btn {
-            margin: 10px 0;
+            grid-column: span 3; /* Hace que el encabezado ocupe las 3 columnas */
         }
     </style>
     <div class="row">
@@ -43,95 +35,19 @@
                 <h1>Oportunidad de Negocio</h1>
                 {% csrf_token %}
                 {{ error }}
-                <!-- Campos de Task -->
+                
                 <div class="form-container">
-                    {{ task_form.title.label_tag }} {{ task_form.title }}
-                    {{ task_form.fecha_solicitud.label_tag }} {{ task_form.fecha_solicitud }}
-                    {{ task_form.nombre_cliente.label_tag }} {{ task_form.nombre_cliente }}
-                    {{ task_form.campana.label_tag }} {{ task_form.campana }}
-                    {{ task_form.kam.label_tag }} {{ task_form.kam }}
-                    {{ task_form.valor_oportunidad.label_tag }} {{ task_form.valor_oportunidad }}
-                    {{ task_form.margen.label_tag }} {{ task_form.margen }}
-                    {{ task_form.tipo_importacion.label_tag }} {{ task_form.tipo_importacion }}
-                    {{ task_form.pais_origen.label_tag }} {{ task_form.pais_origen }}
-                    {{ task_form.fecha_entrega_propuesta.label_tag }} {{ task_form.fecha_entrega_propuesta }}
-                    {{ task_form.fecha_entrega_productos.label_tag }} {{ task_form.fecha_entrega_productos }}
-                    {{ task_form.solicitud_muestra.label_tag }} {{ task_form.solicitud_muestra }}
-                    {{ task_form.description.label_tag }} {{ task_form.description }}
-                    {{ task_form.fecha_cotizacion.label_tag }} {{ task_form.fecha_cotizacion }}
-                    {{ task_form.cotizacion_aceptada.label_tag }} {{ task_form.cotizacion_aceptada }}
-                    {{ task_form.nombre_contacto.label_tag }} {{ task_form.nombre_contacto }}
-                    {{ task_form.email_contacto.label_tag }} {{ task_form.email_contacto }}
-                    {{ task_form.cotización_valida_dias.label_tag }} {{ task_form.cotización_valida_dias }}
-                    {{ task_form.tiempo_muestra_fisica_dias.label_tag }} {{ task_form.tiempo_muestra_fisica_dias }}
-                    {{ task_form.tiempo_produccion_dias.label_tag }} {{ task_form.tiempo_produccion_dias }}
-                    {{ task_form.created.label_tag }} {{ task_form.created }}
-                    {{ task_form.datecompleted.label_tag }} {{ task_form.datecompleted }}
-                    {{ task_form.important.label_tag }} {{ task_form.important }}
+                    {{ task_form.as_p }}
                 </div>
-                <h2>Detalles de la Oportunidad</h2>
-                <div class="form-container">
-                    <table class="table-editable">
-                        <thead>
-                            <tr>
-                                <th>ID Requerimiento Comercial</th>
-                                <th>Producto</th>
-                                <th>Origen</th>
-                                <th>Margen</th>
-                                <th>Precio Objetivo</th>
-                                <th>Destino</th>
-                                <th>Categoria a Cotizar</th>
-                                <th>Unidades</th>
-                                <th>Tamaño</th>
-                                <th>Color</th>
-                                <th>Branding</th>
-                                <th>Cantidad de Diseños</th>
-                                <th>Muestra Materialidad</th>
-                                <th>Muestra PPS</th>
-                                <th>Observaciones</th>
-                                <th>Packaging Master Unidades</th>
-                                <th>Packaging Inner Unidades</th>
-                                <th>Packaging Unitario Unidades</th>
-                                <th>Packaging Master Tipo</th>
-                                <th>Packaging Inner Tipo</th>
-                                <th>Packaging Diseño Tipo</th>
-                                <th>Packaging Master Diseño</th>
-                                <th>Packaging Inner Diseño</th>
-                                <th>Packaging Unitario Diseño</th>
-                                <th>Archivos Adjuntos</th>
-                            </tr>
-                        </thead>
-                        <tbody id="detalle-oportunidad-rows">
-                            <tr>
-                                <td><input type="number" name="id_requerimiento_comercial" class="form-control" /></td>
-                                <td><input type="text" name="producto" class="form-control" /></td>
-                                <td><input type="text" name="origen" class="form-control" /></td>
-                                <td><input type="number" step="0.01" name="margen" class="form-control" /></td>
-                                <td><input type="number" step="0.01" name="precio_objetivo" class="form-control" /></td>
-                                <td><input type="text" name="destino" class="form-control" /></td>
-                                <td><input type="text" name="categoria_a_cotizar" class="form-control" /></td>
-                                <td><input type="number" name="unidades" class="form-control" /></td>
-                                <td><input type="text" name="tamano" class="form-control" /></td>
-                                <td><input type="text" name="color" class="form-control" /></td>
-                                <td><input type="text" name="branding" class="form-control" /></td>
-                                <td><input type="number" name="cantidad_de_disenos" class="form-control" /></td>
-                                <td><input type="checkbox" name="muestra_materialidad" class="form-control" /></td>
-                                <td><input type="text" name="muestra_pps" class="form-control" /></td>
-                                <td><input type="text" name="observaciones" class="form-control" /></td>
-                                <td><input type="text" name="packaging_master_unidades" class="form-control" /></td>
-                                <td><input type="text" name="packaging_inner_unidades" class="form-control" /></td>
-                                <td><input type="text" name="packaging_unitario_unidades" class="form-control" /></td>
-                                <td><input type="text" name="packaging_master_tipo" class="form-control" /></td>
-                                <td><input type="text" name="packaging_inner_tipo" class="form-control" /></td>
-                                <td><input type="text" name="packaging_diseno_tipo" class="form-control" /></td>
-                                <td><input type="text" name="packaging_master_diseno" class="form-control" /></td>
-                                <td><input type="text" name="packaging_inner_diseno" class="form-control" /></td>
-                                <td><input type="text" name="packaging_unitario_diseno" class="form-control" /></td>
-                                <td><input type="file" name="archivos_adjuntos" class="form-control" /></td>
-                            </tr>
-                        </tbody>
-                    </table>
-                    <button type="button" class="btn btn-secondary add-row-btn" onclick="addRow()">Add Row</button>
+                <h2>Productos a cotizar</h2>
+                <div class="form-container-2">
+                    {{ detalle_oportunidad_form.as_p }}
+                    <button type="button" onclick="removeRow(this)">Eliminar</button>
+                    <button type="button" onclick="addRow()">Agregar Detalle</button>
+                </div>
+                <h2>Costeo</h2>
+                <div class="form-container-3">
+                    {{ costeo_form.as_p }}
                 </div>
                 <button type="submit" class="btn btn-primary save-button">Save</button>
             </form>
@@ -139,40 +55,82 @@
     </div>
 </main>
 <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        function formatThousands(input) {
+            let value = input.value.replace(/\./g, '');
+            if (!isNaN(value) && value.length > 3) {
+                input.value = parseInt(value).toLocaleString('de-DE');
+            }
+        }
+        function formatPercentage(input) {
+            let value = input.value.replace('%', '');
+            if (!isNaN(value) && value !== '') {
+                input.value = parseFloat(value) + '%';
+            }
+        }
+        // Formatear los campos específicos de TaskForm
+        let valorOportunidadInput = document.querySelector('#id_valor_oportunidad');
+        if (valorOportunidadInput) {
+            valorOportunidadInput.addEventListener('input', function() {
+                formatThousands(valorOportunidadInput);
+            });
+        }
+        let margenInput = document.querySelector('#id_margen');
+        if (margenInput) {
+            margenInput.addEventListener('input', function() {
+                formatPercentage(margenInput);
+            });
+        }
+        // Formatear los campos específicos de DetalleOportunidadForm
+        let precioObjetivoInput = document.querySelector('#id_precio_objetivo');
+        if (precioObjetivoInput) {
+            precioObjetivoInput.addEventListener('input', function() {
+                formatThousands(precioObjetivoInput);
+            });
+        }
+        let unidadesInput = document.querySelector('#id_unidades');
+        if (unidadesInput) {
+            unidadesInput.addEventListener('input', function() {
+                formatThousands(unidadesInput);
+            });
+        }
+        
+        let unidades_2Input = document.querySelector('#id_unidades_2');
+        if (unidades_2Input) {
+            unidades_2Input.addEventListener('input', function() {
+                formatThousands(unidades_2Input);
+            });
+        }
+        let unidades_3Input = document.querySelector('#id_unidades_3');
+        if (unidades_3Input) {
+            unidades_3Input.addEventListener('input', function() {
+                formatThousands(unidades_3Input);
+            });
+        }
+        let unidades_4Input = document.querySelector('#id_unidades_4');
+        if (unidades_4Input) {
+            unidades_4Input.addEventListener('input', function() {
+                formatThousands(unidades_4Input);
+            });
+        }
+        let detalleMargenInput = document.querySelector('#id_margen_producto');  // Cambiado a id_margen_producto
+        if (detalleMargenInput) {
+            detalleMargenInput.addEventListener('input', function() {
+                formatPercentage(detalleMargenInput);
+            });
+        }
+    });
     function addRow() {
-        const tableBody = document.getElementById('detalle-oportunidad-rows');
-        const newRow = document.createElement('tr');
-        newRow.innerHTML = `
-            <td><input type="number" name="id_requerimiento_comercial" class="form-control" /></td>
-            <td><input type="text" name="producto" class="form-control" /></td>
-            <td><input type="text" name="origen" class="form-control" /></td>
-            <td><input type="number" step="0.01" name="margen" class="form-control" /></td>
-            <td><input type="number" step="0.01" name="precio_objetivo" class="form-control" /></td>
-            <td><input type="text" name="destino" class="form-control" /></td>
-            <td><input type="text" name="categoria_a_cotizar" class="form-control" /></td>
-            <td><input type="number" name="unidades" class="form-control" /></td>
-            <td><input type="text" name="tamano" class="form-control" /></td>
-            <td><input type="text" name="color" class="form-control" /></td>
-            <td><input type="text" name="branding" class="form-control" /></td>
-            <td><input type="number" name="cantidad_de_disenos" class="form-control" /></td>
-            <td><input type="checkbox" name="muestra_materialidad" class="form-control" /></td>
-            <td><input type="text" name="muestra_pps" class="form-control" /></td>
-            <td><input type="text" name="observaciones" class="form-control" /></td>
-            <td><input type="text" name="packaging_master_unidades" class="form-control" /></td>
-            <td><input type="text" name="packaging_inner_unidades" class="form-control" /></td>
-            <td><input type="text" name="packaging_unitario_unidades" class="form-control" /></td>
-            <td><input type="text" name="packaging_master_tipo" class="form-control" /></td>
-            <td><input type="text" name="packaging_inner_tipo" class="form-control" /></td>
-            <td><input type="text" name="packaging_diseno_tipo" class="form-control" /></td>
-            <td><input type="text" name="packaging_master_diseno" class="form-control" /></td>
-            <td><input type="text" name="packaging_inner_diseno" class="form-control" /></td>
-            <td><input type="text" name="packaging_unitario_diseno" class="form-control" /></td>
-            <td><input type="file" name="archivos_adjuntos" class="form-control" /></td>
-        `;
-        tableBody.appendChild(newRow);
+        // Lógica para agregar una nueva fila de formulario (si es necesario)
+    }
+    function removeRow(button) {
+        // Lógica para eliminar la fila actual del formulario
+        let row = button.closest('.form-container-2');
+        row.remove();
     }
 </script>
 {% endblock %}
+
 
 
 
