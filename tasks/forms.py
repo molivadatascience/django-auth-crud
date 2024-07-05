@@ -1,10 +1,6 @@
 from django import forms
-from .models import Task, DetalleOportunidad,Costeo
+from .models import Task, DetalleOportunidad, Costeo
 from django.utils import timezone
-#from .widgets import MultiFileInput
-from django.forms.widgets import ClearableFileInput
-from django.utils.safestring import mark_safe
-from django.forms import inlineformset_factory
 
 class NumberInputWithThousandsSeparator(forms.TextInput):
     def render(self, name, value, attrs=None, renderer=None):
@@ -51,29 +47,31 @@ class PercentageInput(forms.TextInput):
             return value
         return f"{value}%"
 
-
 class TaskForm(forms.ModelForm):
     class Meta:
         model = Task
-        fields=['campaña', 'fecha_solicitud', 'nombre_cliente', 'kam', 'valor_oportunidad', 'margen','tipo_importacion', 'pais_destino', 'fecha_entrega_propuesta', 'fecha_entrega_productos', 'descripcion'] #son los campos que quiero ver en el formulario el resto no es necesario
+        fields = [
+            'campaña', 'fecha_solicitud', 'nombre_cliente', 'kam', 'valor_oportunidad', 'margen', 
+            'tipo_importacion', 'pais_destino', 'fecha_entrega_propuesta', 'fecha_entrega_productos', 
+            'descripcion'
+        ]
         widgets = {
-            
-            'campaña': forms.TextInput(attrs={'class': 'form-control','placeholder': 'Nombre Campaña'}),
-            'fecha_solicitud':forms.DateInput(attrs={'type': 'date'}),
-            'nombre_cliente':forms.Select(attrs={'class': 'form-control','placeholder': 'nombre_cliente'}),
-            'kam':forms.Select(attrs={'class': 'form-control'}),
+            'campaña': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Nombre Campaña'}),
+            'fecha_solicitud': forms.DateInput(attrs={'type': 'date'}),
+            'nombre_cliente': forms.Select(attrs={'class': 'form-control', 'placeholder': 'nombre_cliente'}),
+            'kam': forms.Select(attrs={'class': 'form-control'}),
             'valor_oportunidad': NumberInputWithThousandsSeparator(attrs={'class': 'form-control', 'placeholder': 'Ingresa valor'}),
             'margen': PercentageInput(attrs={'class': 'form-control', 'placeholder': 'Ingresa margen'}),
-            'tipo_importacion':forms.Select(attrs={'class': 'form-control','placeholder': 'tipo_importacion'}),
-            'pais_destino':forms.Select(attrs={'class': 'form-control'}),
-            'fecha_entrega_propuesta':forms.DateInput(attrs={'type': 'date'}),
-            'fecha_entrega_productos':forms.DateInput(attrs={'type': 'date'}),
-            'descripcion': forms.Textarea(attrs={'class': 'form-control', 'placeholder': 'Ingrese descripción', 'rows': 2}),  # Actualiza a Textarea con filas
+            'tipo_importacion': forms.Select(attrs={'class': 'form-control', 'placeholder': 'tipo_importacion'}),
+            'pais_destino': forms.Select(attrs={'class': 'form-control'}),
+            'fecha_entrega_propuesta': forms.DateInput(attrs={'type': 'date'}),
+            'fecha_entrega_productos': forms.DateInput(attrs={'type': 'date'}),
+            'descripcion': forms.Textarea(attrs={'class': 'form-control', 'placeholder': 'Ingrese descripción', 'rows': 2}),
         }
-  
+
     def __init__(self, *args, **kwargs):
         super(TaskForm, self).__init__(*args, **kwargs)
-        self.fields['fecha_solicitud'].initial = timezone.now().date()  # Fecha actual por defecto
+        self.fields['fecha_solicitud'].initial = timezone.now().date()
         self.fields['pais_destino'].initial = 'Chile'
         self.fields['margen'].initial = 30.0
 
@@ -86,23 +84,21 @@ class TaskForm(forms.ModelForm):
             raise forms.ValidationError("Enter a whole number.")
         return data
 
-
     def clean_margen(self):
         data = self.cleaned_data.get('margen', 30.0)
         if isinstance(data, str):
             data = data.replace('%', '')
         return float(data)
 
-
 class DetalleOportunidadForm(forms.ModelForm):
     class Meta:
         model = DetalleOportunidad
         fields = [
-            'categoria_a_cotizar','producto', 'margen_producto', 'precio_objetivo',
-            'unidades', 'unidades_2','unidades_3','unidades_4','tamano', 'color', 'branding', 'cantidad_de_disenos',
-            'muestra_materialidad', 'aprobacion_muestra_pps', 'observaciones', 'precio_unitario','packaging_master_unidades',
-            'packaging_master_diseno', 'packaging_master_tipo', 'packaging_inner_unidades', 'packaging_inner_diseno', 'packaging_inner_tipo',
-            'packaging_unitario_unidades','packaging_unitario_diseno','packaging_diseno_tipo','archivos_adjuntos'
+            'categoria_a_cotizar', 'producto', 'margen_producto', 'precio_objetivo', 'unidades', 'unidades_2', 
+            'unidades_3', 'unidades_4', 'tamano', 'color', 'branding', 'cantidad_de_disenos', 'muestra_materialidad', 
+            'aprobacion_muestra_pps', 'observaciones', 'precio_unitario', 'packaging_master_unidades', 'packaging_master_diseno', 
+            'packaging_master_tipo', 'packaging_inner_unidades', 'packaging_inner_diseno', 'packaging_inner_tipo', 
+            'packaging_unitario_unidades', 'packaging_unitario_diseno', 'packaging_diseno_tipo', 'archivos_adjuntos'
         ]
         widgets = {
             'categoria_a_cotizar': forms.Select(attrs={'class': 'form-control'}),
@@ -120,7 +116,7 @@ class DetalleOportunidadForm(forms.ModelForm):
             'muestra_materialidad': forms.CheckboxInput(attrs={'class': 'form-check-input'}),
             'aprobacion_muestra_pps': forms.Select(attrs={'class': 'form-control'}),
             'observaciones': forms.TextInput(attrs={'class': 'form-control'}),
-            'precio_unitario':forms.TextInput(attrs={'class': 'form-control','placeholder': 'Ingresa precio en CLP'}),
+            'precio_unitario': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Ingresa precio en CLP'}),
             'packaging_master_unidades': forms.TextInput(attrs={'class': 'form-control'}),
             'packaging_master_diseno': forms.CheckboxInput(attrs={'class': 'form-check-input'}),
             'packaging_master_tipo': forms.TextInput(attrs={'class': 'form-control'}),
@@ -130,9 +126,7 @@ class DetalleOportunidadForm(forms.ModelForm):
             'packaging_unitario_unidades': forms.TextInput(attrs={'class': 'form-control'}),
             'packaging_unitario_diseno': forms.CheckboxInput(attrs={'class': 'form-check-input'}),
             'packaging_diseno_tipo': forms.TextInput(attrs={'class': 'form-control'}),
-            #'archivos_adjuntos': forms.ClearableFileInput(attrs={'multiple': True}),
             'archivos_adjuntos': forms.ClearableFileInput(attrs={'class': 'form-control-file'}),
-            #'archivos_adjuntos': MultiFileInput(),
         }
 
     def __init__(self, *args, **kwargs):
@@ -197,23 +191,10 @@ class DetalleOportunidadForm(forms.ModelForm):
             data = data.replace('%', '')
         return float(data)
 
-
-#class ArchivoAdjuntoForm(forms.ModelForm):
-#    class Meta:
-#        model = ArchivoAdjunto
-#        fields = ('archivo',)
-#
-#    def __init__(self, *args, **kwargs):
-#        super(ArchivoAdjuntoForm, self).__init__(*args, **kwargs)
-#        self.fields['archivo'].widget.attrs.update({'class': 'form-control-file', 'multiple': True, 'accept': '.pdf,.doc,.docx,.xls,.xlsx'})
-
-#ArchivoAdjuntoFormSet = inlineformset_factory(DetalleOportunidad, ArchivoAdjunto, form=ArchivoAdjuntoForm, extra=1)
-
-
 class CosteoForm(forms.ModelForm):
     class Meta:
         model = Costeo
-        exclude = ['id_detalle_venta_id']  # Excluir el campo id_detalle_venta del formulario
+        exclude = ['id_detalle_venta']  # Excluir el campo id_detalle_venta del formulario
 
         widgets = {
             'prov_elegido': forms.Select(choices=Costeo.SI_NO_CHOICES),
@@ -225,5 +206,4 @@ class CosteoForm(forms.ModelForm):
             'tamaño_muestra': forms.Select(choices=Costeo.TAMAÑO_MUESTRA_CHOICES),
             'portal_licitaciones': forms.Select(choices=Costeo.PORTAL_LICITACIONES_CHOICES),
             'fecha_costeo': forms.DateInput(attrs={'type': 'date'}),
-             # Widget de fecha para desplegar un calendario
         }
