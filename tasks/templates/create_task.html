@@ -4,29 +4,42 @@
     <style>
         .form-container {
             display: grid;
-            grid-template-columns: repeat(3, 1fr);
+            grid-template-columns: repeat(4, 1fr);
             gap: 20px;
         }
         .form-container-2 {
             display: grid;
-            grid-template-columns: repeat(3, 1fr);
+            grid-template-columns: repeat(4, 1fr);
             gap: 20px;
             background-color: #f0f0f0;
         }
         .form-container-3 {
             display: grid;
-            grid-template-columns: repeat(3, 1fr);
+            grid-template-columns: repeat(5, 1fr);
             gap: 20px;
         }
         .form-group {
             margin-bottom: 15px;
         }
+        .action-buttons {
+            grid-column: span 4; /* Para que los botones ocupen las 4 columnas */
+            display: flex;
+            justify-content: space-between;
+        }
+        .action-buttons-costeo {
+            grid-column: span 5; /* Para que los botones ocupen las 5 columnas */
+            display: flex;
+            justify-content: space-between;
+        }
         .save-button {
-            grid-column: 2;
+            grid-column: 3 / span 2; /* Para que el botón Save esté centrado */
             margin-top: 20px;
         }
         h2 {
-            grid-column: span 3; /* Hace que el encabezado ocupe las 3 columnas */
+            grid-column: span 4; /* Hace que el encabezado ocupe las 4 columnas */
+        }
+        h2.costeo-title {
+            grid-column: span 5; /* Hace que el encabezado ocupe las 5 columnas */
         }
     </style>
     <div class="row">
@@ -40,18 +53,26 @@
                 
                 <div class="form-container">
                     {{ task_form.as_p }}
+                    <div class="action-buttons">
+                        <button type="button" class="btn btn-success" onclick="addRow('task')">Agregar Task</button>
+                        <button type="button" class="btn btn-danger" onclick="removeRow(this)">Eliminar Task</button>
+                    </div>
                 </div>
                 <h2>Productos a cotizar</h2>
                 <div class="form-container-2">
-                    <div class="form-group">
-                        {{ detalle_oportunidad_form.as_p }}
-                        <button type="button" class="btn btn-danger" onclick="removeRow(this)">Eliminar</button>
+                    {{ detalle_oportunidad_form.as_p }}
+                    <div class="action-buttons">
+                        <button type="button" class="btn btn-success" onclick="addRow('detalle_oportunidad')">Agregar Detalle</button>
+                        <button type="button" class="btn btn-danger" onclick="removeRow(this)">Eliminar Detalle</button>
                     </div>
-                    <button type="button" class="btn btn-success" onclick="addRow()">Agregar Detalle</button>
                 </div>
-                <h2>Costeo</h2>
+                <h2 class="costeo-title">Costeo</h2>
                 <div class="form-container-3">
                     {{ costeo_form.as_p }}
+                    <div class="action-buttons-costeo">
+                        <button type="button" class="btn btn-success" onclick="addRow('costeo')">Agregar Costeo</button>
+                        <button type="button" class="btn btn-danger" onclick="removeRow(this)">Eliminar Costeo</button>
+                    </div>
                 </div>
                 <button type="submit" class="btn btn-primary save-button">Save</button>
             </form>
@@ -109,12 +130,20 @@
         }
     });
 
-    function addRow() {
-        const formContainer = document.querySelector('.form-container-2');
+    function addRow(formType) {
+        let formContainer;
+        if (formType === 'task') {
+            formContainer = document.querySelector('.form-container');
+        } else if (formType === 'detalle_oportunidad') {
+            formContainer = document.querySelector('.form-container-2');
+        } else if (formType === 'costeo') {
+            formContainer = document.querySelector('.form-container-3');
+        }
+
         const newRow = document.createElement('div');
         newRow.className = 'form-group';
         newRow.innerHTML = `
-            {{ detalle_oportunidad_form.as_p }}
+            {{ formType }}_form.as_p
             <button type="button" class="btn btn-danger" onclick="removeRow(this)">Eliminar</button>
         `;
         formContainer.appendChild(newRow);
@@ -125,6 +154,8 @@
     }
 </script>
 {% endblock %}
+
+
 
 
 
