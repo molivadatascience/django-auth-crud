@@ -42,9 +42,6 @@
             grid-column: span 4;
             justify-content: flex-end;
         }
-        .hidden {
-            display: none;
-        }
     </style>
     <div class="row">
         <div class="col-md-12 mt-5">
@@ -66,9 +63,12 @@
                     {{ detalle_oportunidad_form.as_p }}
                 </div>
                 <div class="detail-buttons">
+                    <button type="button" onclick="saveRow()">Guardar Detalle</button>
                     <button type="button" onclick="addRow()">Agregar Detalle</button>
-                    <button type="button" onclick="modifyRecord()">Modificar</button>
+                    <button type="button" onclick="modifyRow()">Modificar</button>
                     <button type="button" onclick="removeRow()">Eliminar</button>
+                    <button type="button" onclick="previousDetalle()">Anterior Detalle</button>
+                    <button type="button" onclick="nextDetalle()">Siguiente Detalle</button>
                 </div>
                 <h2>Costeo</h2>
                 <div class="form-container-3">
@@ -85,6 +85,9 @@
     </div>
 </main>
 <script>
+    let currentDetalleIndex = 0;
+    const detalles = [];
+
     document.addEventListener('DOMContentLoaded', function() {
         function formatThousands(input) {
             let value = input.value.replace(/\./g, '');
@@ -132,38 +135,9 @@
         }
     });
 
-    function addRow() {
-        let container = document.getElementById('detalleOportunidadContainer');
-        let newRow = document.createElement('div');
-        newRow.className = 'form-container-2';
-        newRow.innerHTML = `
-            <div class="form-group">
-                <label for="id_producto">Producto:</label>
-                <input type="text" name="producto" required>
-            </div>
-            <div class="form-group">
-                <label for="id_cantidad">Cantidad:</label>
-                <input type="number" name="cantidad" required>
-            </div>
-            <div class="form-group">
-                <label for="id_precio_unitario">Precio Unitario:</label>
-                <input type="text" name="precio_unitario" required>
-            </div>
-            <div class="form-group">
-                <label for="id_total">Total:</label>
-                <input type="text" name="total" required>
-            </div>
-            <div class="detail-buttons">
-                <button type="button" onclick="saveRow(this)">Guardar Detalle</button>
-                <button type="button" onclick="removeRow(this)">Eliminar</button>
-            </div>
-        `;
-        container.appendChild(newRow);
-    }
-
-    function saveRow(button) {
-        let row = button.closest('.form-container-2');
-        let inputs = row.querySelectorAll('input');
+    function saveRow() {
+        let detalleForm = document.getElementById('detalleOportunidadContainer');
+        let inputs = detalleForm.querySelectorAll('input, select, textarea');
         let data = {};
 
         inputs.forEach(input => {
@@ -171,18 +145,61 @@
             input.value = '';
         });
 
-        // Aquí puedes enviar la data a tu backend si es necesario
-
-        console.log('Guardando detalle:', data);
+        detalles[currentDetalleIndex] = data;
+        currentDetalleIndex = detalles.length;
+        console.log('Detalles guardados:', detalles);
     }
 
-    function removeRow(button) {
-        let row = button.closest('.form-container-2');
-        row.remove();
+    function addRow() {
+        saveRow();
+        let detalleForm = document.getElementById('detalleOportunidadContainer');
+        let inputs = detalleForm.querySelectorAll('input, select, textarea');
+        inputs.forEach(input => {
+            input.value = '';
+        });
+    }
+
+    function modifyRow() {
+        if (currentDetalleIndex >= 0 && currentDetalleIndex < detalles.length) {
+            let detalleForm = document.getElementById('detalleOportunidadContainer');
+            let inputs = detalleForm.querySelectorAll('input, select, textarea');
+            let data = detalles[currentDetalleIndex];
+
+            inputs.forEach(input => {
+                input.value = data[input.name] || '';
+            });
+        }
+    }
+
+    function removeRow() {
+        if (currentDetalleIndex >= 0 && currentDetalleIndex < detalles.length) {
+            detalles.splice(currentDetalleIndex, 1);
+            if (currentDetalleIndex > 0) {
+                currentDetalleIndex--;
+            }
+            modifyRow();
+            console.log('Detalles después de eliminar:', detalles);
+        }
+    }
+
+    function previousDetalle() {
+        if (currentDetalleIndex > 0) {
+            currentDetalleIndex--;
+            modifyRow();
+        }
+    }
+
+    function nextDetalle() {
+        if (currentDetalleIndex < detalles.length - 1) {
+            currentDetalleIndex++;
+            modifyRow();
+        }
     }
 
     function addNewRecord() {
         document.getElementById('mainForm').reset();
+        currentDetalleIndex = 0;
+        detalles.length = 0;
     }
 
     function modifyRecord() {
@@ -202,4 +219,5 @@
     }
 </script>
 {% endblock %}
+
 
