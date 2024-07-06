@@ -36,6 +36,12 @@
         .form-navigation button {
             margin: 0 5px;
         }
+        .detail-buttons {
+            display: flex;
+            gap: 10px;
+            grid-column: span 4;
+            justify-content: flex-end;
+        }
     </style>
     <div class="row">
         <div class="col-md-12 mt-5">
@@ -55,8 +61,11 @@
                 <h2>Productos a cotizar</h2>
                 <div class="form-container-2">
                     {{ detalle_oportunidad_form.as_p }}
-                    <button type="button" onclick="removeRow(this)">Eliminar</button>
-                    <button type="button" onclick="addRow()">Agregar Detalle</button>
+                    <div class="detail-buttons">
+                        <button type="button" onclick="addRow()">Agregar Detalle</button>
+                        <button type="button" onclick="modifyRecord()">Modificar</button>
+                        <button type="button" onclick="removeRow()">Eliminar</button>
+                    </div>
                 </div>
                 <h2>Costeo</h2>
                 <div class="form-container-3">
@@ -66,7 +75,6 @@
                 <div class="form-navigation">
                     <button type="submit" class="btn btn-primary save-button">Guardar</button>
                     <button type="button" onclick="addNewRecord()">Nuevo</button>
-                    <button type="button" onclick="modifyRecord()">Modificar</button>
                     <button type="button" onclick="deleteRecord()">Eliminar</button>
                 </div>
             </form>
@@ -123,6 +131,13 @@
 
     function addRow() {
         // Lógica para agregar una nueva fila de formulario (si es necesario)
+        let container = document.querySelector('.form-container-2');
+        let newRow = document.createElement('div');
+        newRow.innerHTML = `
+            {{ detalle_oportunidad_form.as_p }}
+            <button type="button" onclick="removeRow(this)">Eliminar</button>
+        `;
+        container.appendChild(newRow);
     }
     function removeRow(button) {
         // Lógica para eliminar la fila actual del formulario
@@ -131,19 +146,23 @@
     }
     function addNewRecord() {
         // Lógica para agregar un nuevo registro
+        document.querySelector('form').reset();
     }
     function modifyRecord() {
         // Lógica para modificar el registro actual
+        alert('Modificar registro actual');
     }
     function deleteRecord() {
         // Lógica para eliminar el registro actual
+        alert('Eliminar registro actual');
     }
     function previousRecord() {
         // Lógica para ir al registro anterior
+        alert('Ir al registro anterior');
     }
     function nextRecord() {
         // Lógica para ir al siguiente registro
+        alert('Ir al siguiente registro');
     }
 </script>
 {% endblock %}
-
