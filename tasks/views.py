@@ -52,7 +52,7 @@ def create_task(request):
     if request.method == 'GET':
         task_form = TaskForm()
         detalle_oportunidad_form = DetalleOportunidadForm()
-        costeo_form = CosteoForm()  # Agregar el formulario de Costeo
+        costeo_form = CosteoForm()
         return render(request, 'create_task.html', {
             'task_form': task_form,
             'detalle_oportunidad_form': detalle_oportunidad_form,
@@ -60,16 +60,17 @@ def create_task(request):
         })
     else:
         task_form = TaskForm(request.POST)
-        costeo_form = CosteoForm(request.POST)
+        costeo_form = CosteoForm(request.POST) if 'costeo_field_name' in request.POST else None
         
-        if task_form.is_valid() and costeo_form.is_valid():
+        if task_form.is_valid():
             new_task = task_form.save(commit=False)
             new_task.user = request.user
             new_task.save()
-            
-            new_costeo = costeo_form.save(commit=False)
-            new_costeo.id_detalle_venta_id = new_task  # Asignar la Task creada como ForeignKey
-            new_costeo.save()
+
+            if costeo_form and costeo_form.is_valid():
+                new_costeo = costeo_form.save(commit=False)
+                new_costeo.id_detalle_venta_id = new_task
+                new_costeo.save()
 
             detalles = []
             detalle_index = 0
@@ -90,7 +91,7 @@ def create_task(request):
             
             return redirect('tasks')
         else:
-            detalle_oportunidad_form = DetalleOportunidadForm()  # Renderizar un formulario vacío
+            detalle_oportunidad_form = DetalleOportunidadForm()
             return render(request, 'create_task.html', {
                 'task_form': task_form,
                 'detalle_oportunidad_form': detalle_oportunidad_form,
