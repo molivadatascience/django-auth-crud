@@ -34,16 +34,20 @@
             <form action="{% url 'create_task' %}" method="POST" enctype="multipart/form-data" class="card card-body">
                 <h1>Oportunidad de Negocio</h1>
                 {% csrf_token %}
-                {{ error }}
+                {% if error %}
+                    <div class="alert alert-danger">{{ error }}</div>
+                {% endif %}
                 
                 <div class="form-container">
                     {{ task_form.as_p }}
                 </div>
                 <h2>Productos a cotizar</h2>
                 <div class="form-container-2">
-                    {{ detalle_oportunidad_form.as_p }}
-                    <button type="button" onclick="removeRow(this)">Eliminar</button>
-                    <button type="button" onclick="addRow()">Agregar Detalle</button>
+                    <div class="form-group">
+                        {{ detalle_oportunidad_form.as_p }}
+                        <button type="button" class="btn btn-danger" onclick="removeRow(this)">Eliminar</button>
+                    </div>
+                    <button type="button" class="btn btn-success" onclick="addRow()">Agregar Detalle</button>
                 </div>
                 <h2>Costeo</h2>
                 <div class="form-container-3">
@@ -62,12 +66,14 @@
                 input.value = parseInt(value).toLocaleString('de-DE');
             }
         }
+
         function formatPercentage(input) {
             let value = input.value.replace('%', '');
             if (!isNaN(value) && value !== '') {
                 input.value = parseFloat(value) + '%';
             }
         }
+
         // Formatear los campos específicos de TaskForm
         let valorOportunidadInput = document.querySelector('#id_valor_oportunidad');
         if (valorOportunidadInput) {
@@ -81,6 +87,7 @@
                 formatPercentage(margenInput);
             });
         }
+
         // Formatear los campos específicos de DetalleOportunidadForm
         let precioObjetivoInput = document.querySelector('#id_precio_objetivo');
         if (precioObjetivoInput) {
@@ -94,42 +101,31 @@
                 formatThousands(unidadesInput);
             });
         }
-        
-        let unidades_2Input = document.querySelector('#id_unidades_2');
-        if (unidades_2Input) {
-            unidades_2Input.addEventListener('input', function() {
-                formatThousands(unidades_2Input);
-            });
-        }
-        let unidades_3Input = document.querySelector('#id_unidades_3');
-        if (unidades_3Input) {
-            unidades_3Input.addEventListener('input', function() {
-                formatThousands(unidades_3Input);
-            });
-        }
-        let unidades_4Input = document.querySelector('#id_unidades_4');
-        if (unidades_4Input) {
-            unidades_4Input.addEventListener('input', function() {
-                formatThousands(unidades_4Input);
-            });
-        }
-        let detalleMargenInput = document.querySelector('#id_margen_producto');  // Cambiado a id_margen_producto
+        let detalleMargenInput = document.querySelector('#id_margen_producto');
         if (detalleMargenInput) {
             detalleMargenInput.addEventListener('input', function() {
                 formatPercentage(detalleMargenInput);
             });
         }
     });
+
     function addRow() {
-        // Lógica para agregar una nueva fila de formulario (si es necesario)
+        const formContainer = document.querySelector('.form-container-2');
+        const newRow = document.createElement('div');
+        newRow.className = 'form-group';
+        newRow.innerHTML = `
+            {{ detalle_oportunidad_form.as_p }}
+            <button type="button" class="btn btn-danger" onclick="removeRow(this)">Eliminar</button>
+        `;
+        formContainer.appendChild(newRow);
     }
+
     function removeRow(button) {
-        // Lógica para eliminar la fila actual del formulario
-        let row = button.closest('.form-container-2');
-        row.remove();
+        button.parentElement.remove();
     }
 </script>
 {% endblock %}
+
 
 
 
