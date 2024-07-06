@@ -278,3 +278,15 @@ def delete_costeo(request, id):
         costeo.delete()
         return redirect('tasks')
     return render(request, 'confirm_delete.html', {'object': costeo})
+
+@login_required
+def create_costeo(request):
+    if request.method == 'POST':
+        form = CosteoForm(request.POST)
+        if form.is_valid():
+            costeo = form.save()
+            # Puedes añadir lógica adicional aquí
+            return redirect('url_de_redireccion_despues_de_guardar')
+    else:
+        form = CosteoForm()
+    return render(request, 'nombre_template.html', {'form': form})
