@@ -32,4 +32,16 @@ urlpatterns = [
     path('signin/', views.signin, name='signin'),
     path('tasks/<int:task_id>/crear_detalle_oportunidad/', views.crear_detalle_oportunidad, name='crear_detalle_oportunidad'),
     path('lista_detalles_oportunidad/', views.lista_detalles_oportunidad, name='lista_detalles_oportunidad'),
+
+# Nuevas rutas para editar, actualizar y eliminar tareas, detalles de oportunidad y costeos
+    path('edit_task/<int:id>/', views.edit_task, name='edit_task'),
+    path('update_task/<int:id>/', views.update_task, name='update_task'),
+    path('delete_task/<int:id>/', views.delete_task, name='delete_task'),
+    path('edit_detalle/<int:id>/', views.edit_detalle, name='edit_detalle'),
+    path('update_detalle/<int:id>/', views.update_detalle, name='update_detalle'),
+    path('delete_detalle/<int:id>/', views.delete_detalle, name='delete_detalle'),
+    path('edit_costeo/<int:id>/', views.edit_costeo, name='edit_costeo'),
+    path('update_costeo/<int:id>/', views.update_costeo, name='update_costeo'),
+    path('delete_costeo/<int:id>/', views.delete_costeo, name='delete_costeo'),
 ]
+
