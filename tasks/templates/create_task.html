@@ -4,29 +4,29 @@
     <style>
         .form-container {
             display: grid;
-            grid-template-columns: repeat(4, 1fr); /* Cambiado a 4 columnas */
+            grid-template-columns: repeat(3, 1fr);
             gap: 20px;
         }
         .form-container-2 {
             display: grid;
-            grid-template-columns: repeat(4, 1fr); /* Cambiado a 4 columnas */
+            grid-template-columns: repeat(3, 1fr);
             gap: 20px;
             background-color: #f0f0f0;
         }
         .form-container-3 {
             display: grid;
-            grid-template-columns: repeat(4, 1fr); /* Cambiado a 4 columnas */
+            grid-template-columns: repeat(3, 1fr);
             gap: 20px;
         }
         .form-group {
             margin-bottom: 15px;
         }
         .save-button {
-            grid-column: 2 / span 2; /* Ajustado para centrar el botón Save */
+            grid-column: 2;
             margin-top: 20px;
         }
         h2 {
-            grid-column: span 4; /* Hace que el encabezado ocupe las 4 columnas */
+            grid-column: span 3; /* Hace que el encabezado ocupe las 3 columnas */
         }
     </style>
     <div class="row">
@@ -39,20 +39,16 @@
                 <div class="form-container">
                     {{ task_form.as_p }}
                 </div>
-                <fieldset>
-                    <legend>Productos a cotizar</legend>
-                    <div class="form-container-2">
-                        {{ detalle_oportunidad_form.as_p }}
-                        <button type="button" onclick="removeRow(this)">Eliminar</button>
-                        <button type="button" onclick="addRow()">Agregar Detalle</button>
-                    </div>
-                </fieldset>
-                <fieldset>
-                    <legend>Costeo</legend>
-                    <div class="form-container-3">
-                        {{ costeo_form.as_p }}
-                    </div>
-                </fieldset>
+                <h2>Productos a cotizar</h2>
+                <div class="form-container-2">
+                    {{ detalle_oportunidad_form.as_p }}
+                    <button type="button" onclick="removeRow(this)">Eliminar</button>
+                    <button type="button" onclick="addRow()">Agregar Detalle</button>
+                </div>
+                <h2>Costeo</h2>
+                <div class="form-container-3">
+                    {{ costeo_form.as_p }}
+                </div>
                 <button type="submit" class="btn btn-primary save-button">Save</button>
             </form>
         </div>
@@ -60,9 +56,78 @@
 </main>
 <script>
     document.addEventListener('DOMContentLoaded', function() {
-        // Funciones JavaScript para formatear y manejar la adición/eliminación de filas
-        // Implementa lógica para agregar y eliminar filas dinámicamente
+        function formatThousands(input) {
+            let value = input.value.replace(/\./g, '');
+            if (!isNaN(value) && value.length > 3) {
+                input.value = parseInt(value).toLocaleString('de-DE');
+            }
+        }
+        function formatPercentage(input) {
+            let value = input.value.replace('%', '');
+            if (!isNaN(value) && value !== '') {
+                input.value = parseFloat(value) + '%';
+            }
+        }
+        // Formatear los campos específicos de TaskForm
+        let valorOportunidadInput = document.querySelector('#id_valor_oportunidad');
+        if (valorOportunidadInput) {
+            valorOportunidadInput.addEventListener('input', function() {
+                formatThousands(valorOportunidadInput);
+            });
+        }
+        let margenInput = document.querySelector('#id_margen');
+        if (margenInput) {
+            margenInput.addEventListener('input', function() {
+                formatPercentage(margenInput);
+            });
+        }
+        // Formatear los campos específicos de DetalleOportunidadForm
+        let precioObjetivoInput = document.querySelector('#id_precio_objetivo');
+        if (precioObjetivoInput) {
+            precioObjetivoInput.addEventListener('input', function() {
+                formatThousands(precioObjetivoInput);
+            });
+        }
+        let unidadesInput = document.querySelector('#id_unidades');
+        if (unidadesInput) {
+            unidadesInput.addEventListener('input', function() {
+                formatThousands(unidadesInput);
+            });
+        }
+        
+        let unidades_2Input = document.querySelector('#id_unidades_2');
+        if (unidades_2Input) {
+            unidades_2Input.addEventListener('input', function() {
+                formatThousands(unidades_2Input);
+            });
+        }
+        let unidades_3Input = document.querySelector('#id_unidades_3');
+        if (unidades_3Input) {
+            unidades_3Input.addEventListener('input', function() {
+                formatThousands(unidades_3Input);
+            });
+        }
+        let unidades_4Input = document.querySelector('#id_unidades_4');
+        if (unidades_4Input) {
+            unidades_4Input.addEventListener('input', function() {
+                formatThousands(unidades_4Input);
+            });
+        }
+        let detalleMargenInput = document.querySelector('#id_margen_producto');  // Cambiado a id_margen_producto
+        if (detalleMargenInput) {
+            detalleMargenInput.addEventListener('input', function() {
+                formatPercentage(detalleMargenInput);
+            });
+        }
     });
+    function addRow() {
+        // Lógica para agregar una nueva fila de formulario (si es necesario)
+    }
+    function removeRow(button) {
+        // Lógica para eliminar la fila actual del formulario
+        let row = button.closest('.form-container-2');
+        row.remove();
+    }
 </script>
 {% endblock %}
 
