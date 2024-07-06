@@ -4,18 +4,18 @@
     <style>
         .form-container {
             display: grid;
-            grid-template-columns: repeat(4, 1fr);  /* Cambiado a 4 columnas */
+            grid-template-columns: repeat(4, 1fr);
             gap: 20px;
         }
         .form-container-2 {
             display: grid;
-            grid-template-columns: repeat(4, 1fr);  /* Cambiado a 4 columnas */
+            grid-template-columns: repeat(4, 1fr);
             gap: 20px;
             background-color: #f0f0f0;
         }
         .form-container-3 {
             display: grid;
-            grid-template-columns: repeat(4, 1fr);  /* Cambiado a 4 columnas */
+            grid-template-columns: repeat(4, 1fr);
             gap: 20px;
         }
         .form-group {
@@ -29,7 +29,7 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            grid-column: span 4;  /* Cambiado a 4 columnas */
+            grid-column: span 4;
         }
         .header-buttons h2,
         .header-buttons h1 {
@@ -46,12 +46,15 @@
                 {% csrf_token %}
                 {{ error }}
 
+                <input type="hidden" id="task_id" value="{{ task_form.instance.id }}">
+                <input type="hidden" id="costeo_id" value="{{ costeo_form.instance.id }}">
+
                 <div class="header-buttons">
                     <h1>Oportunidad de Negocio</h1>
                     <div class="btn-group">
-                        <button type="button" class="btn btn-success" onclick="window.location.href='{% url 'create_task' %}'">Nuevo registro</button>
-                        <button type="button" class="btn btn-primary" onclick="window.location.href='{% url 'edit_task' task_form.instance.id %}'">Editar</button>
-                        <button type="button" class="btn btn-danger" onclick="window.location.href='{% url 'delete_task' task_form.instance.id %}'">Eliminar</button>
+                        <button type="button" class="btn btn-success" onclick="createTask()">Nuevo registro</button>
+                        <button type="button" class="btn btn-primary" onclick="editTask()">Editar</button>
+                        <button type="button" class="btn btn-danger" onclick="deleteTask()">Eliminar</button>
                     </div>
                 </div>
 
@@ -74,9 +77,9 @@
                 <div class="header-buttons">
                     <h2>Costeo</h2>
                     <div class="btn-group">
-                        <button type="button" class="btn btn-success" onclick="window.location.href='{% url 'create_costeo' %}'">Nuevo registro</button>
-                        <button type="button" class="btn btn-primary" onclick="window.location.href='{% url 'edit_costeo' costeo_form.instance.id %}'">Editar</button>
-                        <button type="button" class="btn btn-danger" onclick="window.location.href='{% url 'delete_costeo' costeo_form.instance.id %}'">Eliminar</button>
+                        <button type="button" class="btn btn-success" onclick="createCosteo()">Nuevo registro</button>
+                        <button type="button" class="btn btn-primary" onclick="editCosteo()">Editar</button>
+                        <button type="button" class="btn btn-danger" onclick="deleteCosteo()">Eliminar</button>
                     </div>
                 </div>
 
@@ -147,7 +150,7 @@
                 formatThousands(unidades_4Input);
             });
         }
-        let detalleMargenInput = document.querySelector('#id_margen_producto');  // Cambiado a id_margen_producto
+        let detalleMargenInput = document.querySelector('#id_margen_producto');
         if (detalleMargenInput) {
             detalleMargenInput.addEventListener('input', function() {
                 formatPercentage(detalleMargenInput);
@@ -155,7 +158,6 @@
         }
     });
     function addRow() {
-        // Lógica para agregar una nueva fila de formulario (si es necesario)
         const container = document.getElementById('detalle_container');
         const newRow = document.createElement('div');
         newRow.className = 'form-group';
@@ -163,7 +165,6 @@
         container.appendChild(newRow);
     }
     function removeRow(button) {
-        // Lógica para eliminar la fila actual del formulario
         let row = button.closest('.form-group');
         row.remove();
     }
@@ -172,19 +173,19 @@
     }
 
     function editTask() {
-        const taskId = document.getElementById('task_id').value;  // Asegúrate de tener un campo oculto con el id de la tarea
+        const taskId = document.getElementById('task_id').value;
         if (taskId) {
-            window.location.href = `{% url 'edit_task' task_id_placeholder %}`.replace('task_id_placeholder', taskId);
+            window.location.href = '{% url "edit_task" 1 %}'.replace('1', taskId);
         } else {
             alert('Seleccione una tarea para editar.');
         }
     }
 
     function deleteTask() {
-        const taskId = document.getElementById('task_id').value;  // Asegúrate de tener un campo oculto con el id de la tarea
+        const taskId = document.getElementById('task_id').value;
         if (taskId) {
             if (confirm('¿Está seguro de que desea eliminar esta tarea?')) {
-                window.location.href = `{% url 'delete_task' task_id_placeholder %}`.replace('task_id_placeholder', taskId);
+                window.location.href = '{% url "delete_task" 1 %}'.replace('1', taskId);
             }
         } else {
             alert('Seleccione una tarea para eliminar.');
@@ -196,19 +197,19 @@
     }
 
     function editCosteo() {
-        const costeoId = document.getElementById('costeo_id').value;  // Asegúrate de tener un campo oculto con el id del costeo
+        const costeoId = document.getElementById('costeo_id').value;
         if (costeoId) {
-            window.location.href = `{% url 'edit_costeo' costeo_id_placeholder %}`.replace('costeo_id_placeholder', costeoId);
+            window.location.href = '{% url "edit_costeo" 1 %}'.replace('1', costeoId);
         } else {
             alert('Seleccione un registro de costeo para editar.');
         }
     }
 
     function deleteCosteo() {
-        const costeoId = document.getElementById('costeo_id').value;  // Asegúrate de tener un campo oculto con el id del costeo
+        const costeoId = document.getElementById('costeo_id').value;
         if (costeoId) {
             if (confirm('¿Está seguro de que desea eliminar este registro de costeo?')) {
-                window.location.href = `{% url 'delete_costeo' costeo_id_placeholder %}`.replace('costeo_id_placeholder', costeoId);
+                window.location.href = '{% url "delete_costeo" 1 %}'.replace('1', costeoId);
             }
         } else {
             alert('Seleccione un registro de costeo para eliminar.');
