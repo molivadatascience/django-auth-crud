@@ -42,10 +42,13 @@
             grid-column: span 4;
             justify-content: flex-end;
         }
+        .hidden {
+            display: none;
+        }
     </style>
     <div class="row">
         <div class="col-md-12 mt-5">
-            <form action="{% url 'create_task' %}" method="POST" enctype="multipart/form-data" class="card card-body">
+            <form id="mainForm" action="{% url 'create_task' %}" method="POST" enctype="multipart/form-data" class="card card-body">
                 <h1>Oportunidad de Negocio</h1>
                 {% csrf_token %}
                 {{ error }}
@@ -59,13 +62,13 @@
                     {{ task_form.as_p }}
                 </div>
                 <h2>Productos a cotizar</h2>
-                <div class="form-container-2">
+                <div id="detalleOportunidadContainer" class="form-container-2">
                     {{ detalle_oportunidad_form.as_p }}
-                    <div class="detail-buttons">
-                        <button type="button" onclick="addRow()">Agregar Detalle</button>
-                        <button type="button" onclick="modifyRecord()">Modificar</button>
-                        <button type="button" onclick="removeRow()">Eliminar</button>
-                    </div>
+                </div>
+                <div class="detail-buttons">
+                    <button type="button" onclick="addRow()">Agregar Detalle</button>
+                    <button type="button" onclick="modifyRecord()">Modificar</button>
+                    <button type="button" onclick="removeRow()">Eliminar</button>
                 </div>
                 <h2>Costeo</h2>
                 <div class="form-container-3">
@@ -130,39 +133,73 @@
     });
 
     function addRow() {
-        // Lógica para agregar una nueva fila de formulario (si es necesario)
-        let container = document.querySelector('.form-container-2');
+        let container = document.getElementById('detalleOportunidadContainer');
         let newRow = document.createElement('div');
+        newRow.className = 'form-container-2';
         newRow.innerHTML = `
-            {{ detalle_oportunidad_form.as_p }}
-            <button type="button" onclick="removeRow(this)">Eliminar</button>
+            <div class="form-group">
+                <label for="id_producto">Producto:</label>
+                <input type="text" name="producto" required>
+            </div>
+            <div class="form-group">
+                <label for="id_cantidad">Cantidad:</label>
+                <input type="number" name="cantidad" required>
+            </div>
+            <div class="form-group">
+                <label for="id_precio_unitario">Precio Unitario:</label>
+                <input type="text" name="precio_unitario" required>
+            </div>
+            <div class="form-group">
+                <label for="id_total">Total:</label>
+                <input type="text" name="total" required>
+            </div>
+            <div class="detail-buttons">
+                <button type="button" onclick="saveRow(this)">Guardar Detalle</button>
+                <button type="button" onclick="removeRow(this)">Eliminar</button>
+            </div>
         `;
         container.appendChild(newRow);
     }
+
+    function saveRow(button) {
+        let row = button.closest('.form-container-2');
+        let inputs = row.querySelectorAll('input');
+        let data = {};
+
+        inputs.forEach(input => {
+            data[input.name] = input.value;
+            input.value = '';
+        });
+
+        // Aquí puedes enviar la data a tu backend si es necesario
+
+        console.log('Guardando detalle:', data);
+    }
+
     function removeRow(button) {
-        // Lógica para eliminar la fila actual del formulario
         let row = button.closest('.form-container-2');
         row.remove();
     }
+
     function addNewRecord() {
-        // Lógica para agregar un nuevo registro
-        document.querySelector('form').reset();
+        document.getElementById('mainForm').reset();
     }
+
     function modifyRecord() {
-        // Lógica para modificar el registro actual
         alert('Modificar registro actual');
     }
+
     function deleteRecord() {
-        // Lógica para eliminar el registro actual
         alert('Eliminar registro actual');
     }
+
     function previousRecord() {
-        // Lógica para ir al registro anterior
         alert('Ir al registro anterior');
     }
+
     function nextRecord() {
-        // Lógica para ir al siguiente registro
         alert('Ir al siguiente registro');
     }
 </script>
 {% endblock %}
+
