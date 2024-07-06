@@ -4,18 +4,18 @@
     <style>
         .form-container {
             display: grid;
-            grid-template-columns: repeat(4, 1fr);
+            grid-template-columns: repeat(3, 1fr);
             gap: 20px;
         }
         .form-container-2 {
             display: grid;
-            grid-template-columns: repeat(4, 1fr);
+            grid-template-columns: repeat(3, 1fr);
             gap: 20px;
             background-color: #f0f0f0;
         }
         .form-container-3 {
             display: grid;
-            grid-template-columns: repeat(4, 1fr);
+            grid-template-columns: repeat(3, 1fr);
             gap: 20px;
         }
         .form-group {
@@ -25,192 +25,108 @@
             grid-column: 2;
             margin-top: 20px;
         }
-        .header-buttons {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            grid-column: span 4;
-            margin-bottom: 10px;
-        }
-        .header-buttons h2,
-        .header-buttons h1 {
-            margin: 0;
-            display: inline-block;
-        }
-        .header-buttons .btn-group {
-            display: flex;
-            gap: 10px;
-        }
-        .nav-buttons {
-            display: flex;
-            gap: 10px;
+        h2 {
+            grid-column: span 3; /* Hace que el encabezado ocupe las 3 columnas */
         }
     </style>
     <div class="row">
         <div class="col-md-12 mt-5">
             <form action="{% url 'create_task' %}" method="POST" enctype="multipart/form-data" class="card card-body">
+                <h1>Oportunidad de Negocio</h1>
                 {% csrf_token %}
                 {{ error }}
-
-                <input type="hidden" id="task_id" value="{{ task_form.instance.id }}">
-                <input type="hidden" id="costeo_id" value="{{ costeo_form.instance.id }}">
-
-                <div class="header-buttons">
-                    <h1>Oportunidad de Negocio</h1>
-                    <div class="nav-buttons">
-                        <button type="button" class="btn btn-secondary" onclick="goToFirst()">Primero</button>
-                        <button type="button" class="btn btn-secondary" onclick="goToPrevious()">Anterior</button>
-                        <button type="button" class="btn btn-secondary" onclick="goToNext()">Siguiente</button>
-                        <button type="button" class="btn btn-secondary" onclick="goToLast()">Último</button>
-                    </div>
-                    <div class="btn-group">
-                        <button type="button" class="btn btn-success" onclick="createTask()">Nuevo registro</button>
-                        <button type="button" class="btn btn-primary" onclick="editTask()">Editar</button>
-                        <button type="button" class="btn btn-danger" onclick="deleteTask()">Eliminar</button>
-                    </div>
-                </div>
-
+                
                 <div class="form-container">
                     {{ task_form.as_p }}
                 </div>
-
-                <div class="header-buttons">
-                    <h2>Productos a cotizar</h2>
-                    <div class="btn-group">
-                        <button type="button" class="btn btn-success" onclick="addRow()">Agregar Detalle</button>
-                        <button type="button" class="btn btn-danger" onclick="removeRow()">Eliminar</button>
-                    </div>
+                <h2>Productos a cotizar</h2>
+                <div class="form-container-2">
+                    {{ detalle_oportunidad_form.as_p }}
+                    <button type="button" onclick="removeRow(this)">Eliminar</button>
+                    <button type="button" onclick="addRow()">Agregar Detalle</button>
                 </div>
-
-                <div class="form-container-2" id="detalle_container">
-                    {% for form in detalle_oportunidad_forms %}
-                    <div class="form-group">
-                        {{ detalle_oportunidad_form.as_p }}
-                    </div>
-                    {% endfor %}
+                <h2>Costeo</h2>
+                <div class="form-container-3">
+                    {{ costeo_form.as_p }}
                 </div>
-
-                <div class="header-buttons">
-                    <h2>Costeo</h2>
-                    <div class="btn-group">
-                        <button type="button" class="btn btn-success" onclick="addCosteo()">Agregar Costeo</button>
-                        <button type="button" class="btn btn-primary" onclick="editCosteo()">Editar</button>
-                        <button type="button" class="btn btn-danger" onclick="deleteCosteo()">Eliminar</button>
-                    </div>
-                </div>
-
-                <div class="form-container-3" id="costeo_container">
-                    {% for form in costeo_forms %}
-                    <div class="form-group">
-                        {{ costeo_form.as_p }}
-                    </div>
-                    {% endfor %}
-                </div>
-
-                <button type="submit" class="btn btn-primary save-button">Guardar</button>
+                <button type="submit" class="btn btn-primary save-button">Save</button>
             </form>
         </div>
     </div>
 </main>
 <script>
-    // Variables globales o almacenadas en el cliente para el estado de navegación
-    let currentTaskIndex = 0;  // Índice del registro actual
-    let taskIds = [];  // Array de IDs de tareas disponibles
-
-    // Lógica para navegar al primer registro
-    function goToFirst() {
-        if (taskIds.length > 0) {
-            currentTaskIndex = 0;
-            loadTaskData(taskIds[currentTaskIndex]);
-        } else {
-            alert('No hay registros disponibles.');
-        }
-    }
-
-    // Lógica para navegar al registro anterior
-    function goToPrevious() {
-        if (currentTaskIndex > 0) {
-            currentTaskIndex--;
-            loadTaskData(taskIds[currentTaskIndex]);
-        } else {
-            alert('Ya estás en el primer registro.');
-        }
-    }
-
-    // Lógica para navegar al siguiente registro
-    function goToNext() {
-        if (currentTaskIndex < taskIds.length - 1) {
-            currentTaskIndex++;
-            loadTaskData(taskIds[currentTaskIndex]);
-        } else {
-            alert('Ya estás en el último registro.');
-        }
-    }
-
-    // Lógica para navegar al último registro
-    function goToLast() {
-        if (taskIds.length > 0) {
-            currentTaskIndex = taskIds.length - 1;
-            loadTaskData(taskIds[currentTaskIndex]);
-        } else {
-            alert('No hay registros disponibles.');
-        }
-    }
-
-    // Función para cargar datos de una tarea específica (simulada)
-    function loadTaskData(taskId) {
-        // Aquí deberías implementar la lógica para cargar los datos de la tarea desde el backend
-        alert('Cargar datos de la tarea con ID: ' + taskId);
-    }
-
     document.addEventListener('DOMContentLoaded', function() {
-        // Formateo de campos específicos
         function formatThousands(input) {
             let value = input.value.replace(/\./g, '');
             if (!isNaN(value) && value.length > 3) {
                 input.value = parseInt(value).toLocaleString('de-DE');
             }
         }
-
-        // Event listener para campos específicos que requieren formateo
+        function formatPercentage(input) {
+            let value = input.value.replace('%', '');
+            if (!isNaN(value) && value !== '') {
+                input.value = parseFloat(value) + '%';
+            }
+        }
+        // Formatear los campos específicos de TaskForm
         let valorOportunidadInput = document.querySelector('#id_valor_oportunidad');
         if (valorOportunidadInput) {
             valorOportunidadInput.addEventListener('input', function() {
                 formatThousands(valorOportunidadInput);
             });
         }
-
-        // Función para agregar una nueva fila al formulario de detalles
-        function addRow() {
-            const container = document.getElementById('detalle_container');
-            const newRow = document.createElement('div');
-            newRow.className = 'form-group';
-            newRow.innerHTML = '{% for field in detalle_oportunidad_form.empty_form %}<label>{{ field.label }}</label>{{ field }}{% endfor %}';
-            container.appendChild(newRow);
+        let margenInput = document.querySelector('#id_margen');
+        if (margenInput) {
+            margenInput.addEventListener('input', function() {
+                formatPercentage(margenInput);
+            });
         }
-
-        // Función para eliminar la fila actual del formulario de detalles
-        function removeRow() {
-            const container = document.getElementById('detalle_container');
-            const rows = container.getElementsByClassName('form-group');
-            if (rows.length > 1) {
-                container.removeChild(rows[rows.length - 1]);
-            } else {
-                alert('No puedes eliminar todas las filas.');
-            }
+        // Formatear los campos específicos de DetalleOportunidadForm
+        let precioObjetivoInput = document.querySelector('#id_precio_objetivo');
+        if (precioObjetivoInput) {
+            precioObjetivoInput.addEventListener('input', function() {
+                formatThousands(precioObjetivoInput);
+            });
         }
-
-        // Función para agregar un nuevo formulario de costeo
-        function addCosteo() {
-            const container = document.getElementById('costeo_container');
-            const newCosteoForm = document.createElement('div');
-            newCosteoForm.className = 'form-group';
-            newCosteoForm.innerHTML = '{% for field in costeo_form.empty_form %}<label>{{ field.label }}</label>{{ field }}{% endfor %}';
-            container.appendChild(newCosteoForm);
+        let unidadesInput = document.querySelector('#id_unidades');
+        if (unidadesInput) {
+            unidadesInput.addEventListener('input', function() {
+                formatThousands(unidadesInput);
+            });
+        }
+        
+        let unidades_2Input = document.querySelector('#id_unidades_2');
+        if (unidades_2Input) {
+            unidades_2Input.addEventListener('input', function() {
+                formatThousands(unidades_2Input);
+            });
+        }
+        let unidades_3Input = document.querySelector('#id_unidades_3');
+        if (unidades_3Input) {
+            unidades_3Input.addEventListener('input', function() {
+                formatThousands(unidades_3Input);
+            });
+        }
+        let unidades_4Input = document.querySelector('#id_unidades_4');
+        if (unidades_4Input) {
+            unidades_4Input.addEventListener('input', function() {
+                formatThousands(unidades_4Input);
+            });
+        }
+        let detalleMargenInput = document.querySelector('#id_margen_producto');  // Cambiado a id_margen_producto
+        if (detalleMargenInput) {
+            detalleMargenInput.addEventListener('input', function() {
+                formatPercentage(detalleMargenInput);
+            });
         }
     });
+    function addRow() {
+        // Lógica para agregar una nueva fila de formulario (si es necesario)
+    }
+    function removeRow(button) {
+        // Lógica para eliminar la fila actual del formulario
+        let row = button.closest('.form-container-2');
+        row.remove();
+    }
 </script>
 {% endblock %}
-
-
-
