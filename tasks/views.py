@@ -60,31 +60,43 @@ def create_task(request):
         })
     else:
         task_form = TaskForm(request.POST)
-        detalle_oportunidad_form = DetalleOportunidadForm(request.POST, request.FILES)
         costeo_form = CosteoForm(request.POST)
         
-        if task_form.is_valid() and detalle_oportunidad_form.is_valid() and costeo_form.is_valid():
+        if task_form.is_valid() and costeo_form.is_valid():
             new_task = task_form.save(commit=False)
             new_task.user = request.user
             new_task.save()
             
-            new_detalle = detalle_oportunidad_form.save(commit=False)
-            new_detalle.task = new_task
-            new_detalle.save()
-            
             new_costeo = costeo_form.save(commit=False)
-            new_costeo.id_detalle_venta_id = new_detalle  # Asignar la DetalleOportunidad creada como ForeignKey
+            new_costeo.id_detalle_venta_id = new_task  # Asignar la Task creada como ForeignKey
             new_costeo.save()
+
+            detalles = []
+            detalle_index = 0
+
+            while f'detalle_{detalle_index}_field_name' in request.POST:
+                detalle_data = {}
+                for key, value in request.POST.items():
+                    if key.startswith(f'detalle_{detalle_index}_'):
+                        detalle_key = key.replace(f'detalle_{detalle_index}_', '')
+                        detalle_data[detalle_key] = value
+                detalle_form = DetalleOportunidadForm(detalle_data)
+                if detalle_form.is_valid():
+                    new_detalle = detalle_form.save(commit=False)
+                    new_detalle.task = new_task
+                    new_detalle.save()
+                    detalles.append(new_detalle)
+                detalle_index += 1
             
             return redirect('tasks')
         else:
+            detalle_oportunidad_form = DetalleOportunidadForm()  # Renderizar un formulario vacío
             return render(request, 'create_task.html', {
                 'task_form': task_form,
                 'detalle_oportunidad_form': detalle_oportunidad_form,
                 'costeo_form': costeo_form,
                 'error': 'Please provide valid data'
             })
-
 
 
 @login_required
