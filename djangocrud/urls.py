@@ -47,7 +47,7 @@ urlpatterns = [
     path('edit_task/<int:pk>/', views.edit_task, name='edit_task'),
     path('delete_task/<int:pk>/', views.delete_task, name='delete_task'),
     path('create_costeo/', views.create_costeo, name='create_costeo'),
-    path('edit_costeo/<int:pk>/', views.edit_costeo, name='edit_costeo'),
-    path('delete_costeo/<int:pk>/', views.delete_costeo, name='delete_costeo'),
+    path('edit_costeo/<int:costeo_id>/', views.edit_costeo, name='edit_costeo'),
+    path('delete_costeo/<int:costeo_id>/', views.delete_costeo, name='delete_costeo'),
 ]
 

@@ -30,12 +30,18 @@
             justify-content: space-between;
             align-items: center;
             grid-column: span 4;
+            margin-bottom: 10px; /* Añadido espacio inferior */
         }
         .header-buttons h2,
         .header-buttons h1 {
             margin: 0;
+            display: inline-block; /* Añadido para control de ancho */
         }
         .header-buttons .btn-group {
+            display: flex;
+            gap: 10px;
+        }
+        .nav-buttons {
             display: flex;
             gap: 10px;
         }
@@ -51,6 +57,12 @@
 
                 <div class="header-buttons">
                     <h1>Oportunidad de Negocio</h1>
+                    <div class="nav-buttons">
+                        <button type="button" class="btn btn-secondary" onclick="goToFirst()">Primero</button>
+                        <button type="button" class="btn btn-secondary" onclick="goToPrevious()">Anterior</button>
+                        <button type="button" class="btn btn-secondary" onclick="goToNext()">Siguiente</button>
+                        <button type="button" class="btn btn-secondary" onclick="goToLast()">Último</button>
+                    </div>
                     <div class="btn-group">
                         <button type="button" class="btn btn-success" onclick="createTask()">Nuevo registro</button>
                         <button type="button" class="btn btn-primary" onclick="editTask()">Editar</button>
@@ -93,63 +105,61 @@
     </div>
 </main>
 <script>
+    // Lógica para navegación entre registros
+    function goToFirst() {
+        // Lógica para ir al primer registro
+    }
+
+    function goToPrevious() {
+        // Lógica para ir al registro anterior
+    }
+
+    function goToNext() {
+        // Lógica para ir al siguiente registro
+    }
+
+    function goToLast() {
+        // Lógica para ir al último registro
+    }
+
     document.addEventListener('DOMContentLoaded', function() {
+        // Formato de inputs
         function formatThousands(input) {
             let value = input.value.replace(/\./g, '');
             if (!isNaN(value) && value.length > 3) {
                 input.value = parseInt(value).toLocaleString('de-DE');
             }
         }
+
         function formatPercentage(input) {
             let value = input.value.replace('%', '');
             if (!isNaN(value) && value !== '') {
                 input.value = parseFloat(value) + '%';
             }
         }
-        // Formatear los campos específicos de TaskForm
+
+        // Event listeners para formatear campos específicos
         let valorOportunidadInput = document.querySelector('#id_valor_oportunidad');
         if (valorOportunidadInput) {
             valorOportunidadInput.addEventListener('input', function() {
                 formatThousands(valorOportunidadInput);
             });
         }
+
         let margenInput = document.querySelector('#id_margen');
         if (margenInput) {
             margenInput.addEventListener('input', function() {
                 formatPercentage(margenInput);
             });
         }
-        // Formatear los campos específicos de DetalleOportunidadForm
+
         let precioObjetivoInput = document.querySelector('#id_precio_objetivo');
         if (precioObjetivoInput) {
             precioObjetivoInput.addEventListener('input', function() {
                 formatThousands(precioObjetivoInput);
             });
         }
-        let unidadesInput = document.querySelector('#id_unidades');
-        if (unidadesInput) {
-            unidadesInput.addEventListener('input', function() {
-                formatThousands(unidadesInput);
-            });
-        }
-        let unidades_2Input = document.querySelector('#id_unidades_2');
-        if (unidades_2Input) {
-            unidades_2Input.addEventListener('input', function() {
-                formatThousands(unidades_2Input);
-            });
-        }
-        let unidades_3Input = document.querySelector('#id_unidades_3');
-        if (unidades_3Input) {
-            unidades_3Input.addEventListener('input', function() {
-                formatThousands(unidades_3Input);
-            });
-        }
-        let unidades_4Input = document.querySelector('#id_unidades_4');
-        if (unidades_4Input) {
-            unidades_4Input.addEventListener('input', function() {
-                formatThousands(unidades_4Input);
-            });
-        }
+
         let detalleMargenInput = document.querySelector('#id_margen_producto');
         if (detalleMargenInput) {
             detalleMargenInput.addEventListener('input', function() {
@@ -157,6 +167,8 @@
             });
         }
     });
+
+    // Funciones para manipular filas y registros
     function addRow() {
         const container = document.getElementById('detalle_container');
         const newRow = document.createElement('div');
@@ -164,10 +176,12 @@
         newRow.innerHTML = '{{ detalle_oportunidad_form.as_p }}';
         container.appendChild(newRow);
     }
+
     function removeRow(button) {
         let row = button.closest('.form-group');
         row.remove();
     }
+
     function createTask() {
         window.location.href = '{% url "create_task" %}';
     }
@@ -217,11 +231,3 @@
     }
 </script>
 {% endblock %}
-
-
-
-
-
-
-
-
