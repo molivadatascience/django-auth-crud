@@ -78,7 +78,7 @@
                     <h2>Productos a cotizar</h2>
                     <div class="btn-group">
                         <button type="button" class="btn btn-success" onclick="addRow()">Agregar Detalle</button>
-                        <button type="button" class="btn btn-danger" onclick="removeRow(this)">Eliminar</button>
+                        <button type="button" class="btn btn-danger" onclick="removeRow()">Eliminar</button>
                     </div>
                 </div>
 
@@ -99,7 +99,7 @@
                     </div>
                 </div>
 
-                <div class="form-container-3">
+                <div class="form-container-3" id="costeo_container">
                     {% for form in costeo_forms %}
                     <div class="form-group">
                         {{ form.as_p }}
@@ -113,59 +113,58 @@
     </div>
 </main>
 <script>
- // Variables globales o almacenadas en el cliente para el estado de navegación
-let currentTaskIndex = 0;  // Índice del registro actual
-let taskIds = [];  // Array de IDs de tareas disponibles
+    // Variables globales o almacenadas en el cliente para el estado de navegación
+    let currentTaskIndex = 0;  // Índice del registro actual
+    let taskIds = [];  // Array de IDs de tareas disponibles
 
-// Lógica para navegar al primer registro
-function goToFirst() {
-    if (taskIds.length > 0) {
-        currentTaskIndex = 0;
-        loadTaskData(taskIds[currentTaskIndex]);
-    } else {
-        alert('No hay registros disponibles.');
+    // Lógica para navegar al primer registro
+    function goToFirst() {
+        if (taskIds.length > 0) {
+            currentTaskIndex = 0;
+            loadTaskData(taskIds[currentTaskIndex]);
+        } else {
+            alert('No hay registros disponibles.');
+        }
     }
-}
 
-// Lógica para navegar al registro anterior
-function goToPrevious() {
-    if (currentTaskIndex > 0) {
-        currentTaskIndex--;
-        loadTaskData(taskIds[currentTaskIndex]);
-    } else {
-        alert('Ya estás en el primer registro.');
+    // Lógica para navegar al registro anterior
+    function goToPrevious() {
+        if (currentTaskIndex > 0) {
+            currentTaskIndex--;
+            loadTaskData(taskIds[currentTaskIndex]);
+        } else {
+            alert('Ya estás en el primer registro.');
+        }
     }
-}
 
-// Lógica para navegar al siguiente registro
-function goToNext() {
-    if (currentTaskIndex < taskIds.length - 1) {
-        currentTaskIndex++;
-        loadTaskData(taskIds[currentTaskIndex]);
-    } else {
-        alert('Ya estás en el último registro.');
+    // Lógica para navegar al siguiente registro
+    function goToNext() {
+        if (currentTaskIndex < taskIds.length - 1) {
+            currentTaskIndex++;
+            loadTaskData(taskIds[currentTaskIndex]);
+        } else {
+            alert('Ya estás en el último registro.');
+        }
     }
-}
 
-// Lógica para navegar al último registro
-function goToLast() {
-    if (taskIds.length > 0) {
-        currentTaskIndex = taskIds.length - 1;
-        loadTaskData(taskIds[currentTaskIndex]);
-    } else {
-        alert('No hay registros disponibles.');
+    // Lógica para navegar al último registro
+    function goToLast() {
+        if (taskIds.length > 0) {
+            currentTaskIndex = taskIds.length - 1;
+            loadTaskData(taskIds[currentTaskIndex]);
+        } else {
+            alert('No hay registros disponibles.');
+        }
     }
-}
 
-// Función para cargar datos de una tarea específica
-function loadTaskData(taskId) {
-    // Implementa la lógica para cargar los datos de la tarea con el ID taskId
-    // Esto podría incluir una solicitud AJAX a tu backend para obtener y mostrar los datos en el formulario.
-    alert('Cargar datos de la tarea con ID: ' + taskId);
-}
+    // Función para cargar datos de una tarea específica (simulada)
+    function loadTaskData(taskId) {
+        // Aquí deberías implementar la lógica para cargar los datos de la tarea desde el backend
+        alert('Cargar datos de la tarea con ID: ' + taskId);
+    }
 
     document.addEventListener('DOMContentLoaded', function() {
-        // Formato de inputs
+        // Formateo de campos específicos
         function formatThousands(input) {
             let value = input.value.replace(/\./g, '');
             if (!isNaN(value) && value.length > 3) {
@@ -173,14 +172,7 @@ function loadTaskData(taskId) {
             }
         }
 
-        function formatPercentage(input) {
-            let value = input.value.replace('%', '');
-            if (!isNaN(value) && value !== '') {
-                input.value = parseFloat(value) + '%';
-            }
-        }
-
-        // Event listeners para formatear campos específicos
+        // Event listener para campos específicos que requieren formateo
         let valorOportunidadInput = document.querySelector('#id_valor_oportunidad');
         if (valorOportunidadInput) {
             valorOportunidadInput.addEventListener('input', function() {
@@ -188,93 +180,36 @@ function loadTaskData(taskId) {
             });
         }
 
-        let margenInput = document.querySelector('#id_margen');
-        if (margenInput) {
-            margenInput.addEventListener('input', function() {
-                formatPercentage(margenInput);
-            });
+        // Función para agregar una nueva fila al formulario de detalles
+        function addRow() {
+            const container = document.getElementById('detalle_container');
+            const newRow = document.createElement('div');
+            newRow.className = 'form-group';
+            newRow.innerHTML = '{{ detalle_oportunidad_form.empty_form.as_p }}';  // Utiliza el formulario vacío para agregar una nueva fila
+            container.appendChild(newRow);
         }
 
-        let precioObjetivoInput = document.querySelector('#id_precio_objetivo');
-        if (precioObjetivoInput) {
-            precioObjetivoInput.addEventListener('input', function() {
-                formatThousands(precioObjetivoInput);
-            });
+        // Función para eliminar la fila actual del formulario de detalles
+        function removeRow() {
+            const container = document.getElementById('detalle_container');
+            const rows = container.getElementsByClassName('form-group');
+            if (rows.length > 1) {
+                container.removeChild(rows[rows.length - 1]);
+            } else {
+                alert('No puedes eliminar todas las filas.');
+            }
         }
 
-        let detalleMargenInput = document.querySelector('#id_margen_producto');
-        if (detalleMargenInput) {
-            detalleMargenInput.addEventListener('input', function() {
-                formatPercentage(detalleMargenInput);
-            });
+        // Función para agregar un nuevo formulario de costeo
+        function addCosteo() {
+            const container = document.getElementById('costeo_container');
+            const newCosteoForm = document.createElement('div');
+            newCosteoForm.className = 'form-group';
+            newCosteoForm.innerHTML = '{{ costeo_form.empty_form.as_p }}';  // Utiliza el formulario vacío para agregar un nuevo costeo
+            container.appendChild(newCosteoForm);
         }
     });
-
-    // Funciones para manipular filas y registros
-    function addRow() {
-        const container = document.getElementById('detalle_container');
-        const newRow = document.createElement('div');
-        newRow.className = 'form-group';
-        newRow.innerHTML = '{{ detalle_oportunidad_form.as_p }}';
-        container.appendChild(newRow);
-    }
-
-    function removeRow(button) {
-        let row = button.closest('.form-group');
-        row.remove();
-    }
-
-    function createTask() {
-        window.location.href = '{% url "create_task" %}';
-    }
-
-    function editTask() {
-        const taskId = document.getElementById('task_id').value;
-        if (taskId) {
-            window.location.href = '{% url "edit_task" 1 %}'.replace('1', taskId);
-        } else {
-            alert('Seleccione una tarea para editar.');
-        }
-    }
-
-    function deleteTask() {
-        const taskId = document.getElementById('task_id').value;
-        if (taskId) {
-            if (confirm('¿Está seguro de que desea eliminar esta tarea?')) {
-                window.location.href = '{% url "delete_task" 1 %}'.replace('1', taskId);
-            }
-        } else {
-            alert('Seleccione una tarea para eliminar.');
-        }
-    }
-
-    function addCosteo() {
-        const container = document.getElementById('costeo_container');
-        const newCosteoForm = document.createElement('div');
-        newCosteoForm.className = 'form-group';
-        newCosteoForm.innerHTML = '{{ costeo_form.as_p }}';
-        container.appendChild(newCosteoForm);
-    }
-
-    function editCosteo() {
-        const costeoId = document.getElementById('costeo_id').value;
-        if (costeoId) {
-            window.location.href = '{% url "edit_costeo" 1 %}'.replace('1', costeoId);
-        } else {
-            alert('Seleccione un registro de costeo para editar.');
-        }
-    }
-
-    function deleteCosteo() {
-        const costeoId = document.getElementById('costeo_id').value;
-        if (costeoId) {
-            if (confirm('¿Está seguro de que desea eliminar este registro de costeo?')) {
-                window.location.href = '{% url "delete_costeo" 1 %}'.replace('1', costeoId);
-            }
-        } else {
-            alert('Seleccione un registro de costeo para eliminar.');
-        }
-    }
 </script>
 {% endblock %}
+
 
