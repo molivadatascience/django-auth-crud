@@ -4,18 +4,18 @@
     <style>
         .form-container {
             display: grid;
-            grid-template-columns: repeat(3, 1fr);
+            grid-template-columns: repeat(4, 1fr); /* Cambiado a 4 columnas */
             gap: 20px;
         }
         .form-container-2 {
             display: grid;
-            grid-template-columns: repeat(3, 1fr);
+            grid-template-columns: repeat(4, 1fr); /* Cambiado a 4 columnas */
             gap: 20px;
             background-color: #f0f0f0;
         }
         .form-container-3 {
             display: grid;
-            grid-template-columns: repeat(3, 1fr);
+            grid-template-columns: repeat(4, 1fr); /* Cambiado a 4 columnas */
             gap: 20px;
         }
         .form-group {
@@ -26,7 +26,15 @@
             margin-top: 20px;
         }
         h2 {
-            grid-column: span 3; /* Hace que el encabezado ocupe las 3 columnas */
+            grid-column: span 4; /* Hace que el encabezado ocupe las 4 columnas */
+        }
+        .form-navigation {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+        .form-navigation button {
+            margin: 0 5px;
         }
     </style>
     <div class="row">
@@ -35,6 +43,11 @@
                 <h1>Oportunidad de Negocio</h1>
                 {% csrf_token %}
                 {{ error }}
+                
+                <div class="form-navigation">
+                    <button type="button" onclick="previousRecord()">Anterior</button>
+                    <button type="button" onclick="nextRecord()">Siguiente</button>
+                </div>
                 
                 <div class="form-container">
                     {{ task_form.as_p }}
@@ -49,7 +62,13 @@
                 <div class="form-container-3">
                     {{ costeo_form.as_p }}
                 </div>
-                <button type="submit" class="btn btn-primary save-button">Save</button>
+                
+                <div class="form-navigation">
+                    <button type="submit" class="btn btn-primary save-button">Guardar</button>
+                    <button type="button" onclick="addNewRecord()">Nuevo</button>
+                    <button type="button" onclick="modifyRecord()">Modificar</button>
+                    <button type="button" onclick="deleteRecord()">Eliminar</button>
+                </div>
             </form>
         </div>
     </div>
@@ -88,38 +107,20 @@
                 formatThousands(precioObjetivoInput);
             });
         }
-        let unidadesInput = document.querySelector('#id_unidades');
-        if (unidadesInput) {
-            unidadesInput.addEventListener('input', function() {
-                formatThousands(unidadesInput);
+        let unidadesInputs = document.querySelectorAll('[id^="id_unidades"]');
+        unidadesInputs.forEach(function(input) {
+            input.addEventListener('input', function() {
+                formatThousands(input);
             });
-        }
-        
-        let unidades_2Input = document.querySelector('#id_unidades_2');
-        if (unidades_2Input) {
-            unidades_2Input.addEventListener('input', function() {
-                formatThousands(unidades_2Input);
-            });
-        }
-        let unidades_3Input = document.querySelector('#id_unidades_3');
-        if (unidades_3Input) {
-            unidades_3Input.addEventListener('input', function() {
-                formatThousands(unidades_3Input);
-            });
-        }
-        let unidades_4Input = document.querySelector('#id_unidades_4');
-        if (unidades_4Input) {
-            unidades_4Input.addEventListener('input', function() {
-                formatThousands(unidades_4Input);
-            });
-        }
-        let detalleMargenInput = document.querySelector('#id_margen_producto');  // Cambiado a id_margen_producto
+        });
+        let detalleMargenInput = document.querySelector('#id_margen_producto');
         if (detalleMargenInput) {
             detalleMargenInput.addEventListener('input', function() {
                 formatPercentage(detalleMargenInput);
             });
         }
     });
+
     function addRow() {
         // Lógica para agregar una nueva fila de formulario (si es necesario)
     }
@@ -128,5 +129,21 @@
         let row = button.closest('.form-container-2');
         row.remove();
     }
+    function addNewRecord() {
+        // Lógica para agregar un nuevo registro
+    }
+    function modifyRecord() {
+        // Lógica para modificar el registro actual
+    }
+    function deleteRecord() {
+        // Lógica para eliminar el registro actual
+    }
+    function previousRecord() {
+        // Lógica para ir al registro anterior
+    }
+    function nextRecord() {
+        // Lógica para ir al siguiente registro
+    }
 </script>
 {% endblock %}
+
