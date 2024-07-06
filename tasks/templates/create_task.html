@@ -4,42 +4,29 @@
     <style>
         .form-container {
             display: grid;
-            grid-template-columns: repeat(4, 1fr);
+            grid-template-columns: repeat(4, 1fr); /* Cambiado a 4 columnas */
             gap: 20px;
         }
         .form-container-2 {
             display: grid;
-            grid-template-columns: repeat(4, 1fr);
+            grid-template-columns: repeat(4, 1fr); /* Cambiado a 4 columnas */
             gap: 20px;
             background-color: #f0f0f0;
         }
         .form-container-3 {
             display: grid;
-            grid-template-columns: repeat(5, 1fr);
+            grid-template-columns: repeat(4, 1fr); /* Cambiado a 4 columnas */
             gap: 20px;
         }
         .form-group {
             margin-bottom: 15px;
         }
-        .action-buttons {
-            grid-column: span 4; /* Para que los botones ocupen las 4 columnas */
-            display: flex;
-            justify-content: space-between;
-        }
-        .action-buttons-costeo {
-            grid-column: span 5; /* Para que los botones ocupen las 5 columnas */
-            display: flex;
-            justify-content: space-between;
-        }
         .save-button {
-            grid-column: 3 / span 2; /* Para que el botón Save esté centrado */
+            grid-column: 2 / span 2; /* Ajustado para centrar el botón Save */
             margin-top: 20px;
         }
         h2 {
             grid-column: span 4; /* Hace que el encabezado ocupe las 4 columnas */
-        }
-        h2.costeo-title {
-            grid-column: span 5; /* Hace que el encabezado ocupe las 5 columnas */
         }
     </style>
     <div class="row">
@@ -47,33 +34,25 @@
             <form action="{% url 'create_task' %}" method="POST" enctype="multipart/form-data" class="card card-body">
                 <h1>Oportunidad de Negocio</h1>
                 {% csrf_token %}
-                {% if error %}
-                    <div class="alert alert-danger">{{ error }}</div>
-                {% endif %}
+                {{ error }}
                 
                 <div class="form-container">
                     {{ task_form.as_p }}
-                    <div class="action-buttons">
-                        <button type="button" class="btn btn-success" onclick="addRow('task')">Agregar Task</button>
-                        <button type="button" class="btn btn-danger" onclick="removeRow(this)">Eliminar Task</button>
-                    </div>
                 </div>
-                <h2>Productos a cotizar</h2>
-                <div class="form-container-2">
-                    {{ detalle_oportunidad_form.as_p }}
-                    <div class="action-buttons">
-                        <button type="button" class="btn btn-success" onclick="addRow('detalle_oportunidad')">Agregar Detalle</button>
-                        <button type="button" class="btn btn-danger" onclick="removeRow(this)">Eliminar Detalle</button>
+                <fieldset>
+                    <legend>Productos a cotizar</legend>
+                    <div class="form-container-2">
+                        {{ detalle_oportunidad_form.as_p }}
+                        <button type="button" onclick="removeRow(this)">Eliminar</button>
+                        <button type="button" onclick="addRow()">Agregar Detalle</button>
                     </div>
-                </div>
-                <h2 class="costeo-title">Costeo</h2>
-                <div class="form-container-3">
-                    {{ costeo_form.as_p }}
-                    <div class="action-buttons-costeo">
-                        <button type="button" class="btn btn-success" onclick="addRow('costeo')">Agregar Costeo</button>
-                        <button type="button" class="btn btn-danger" onclick="removeRow(this)">Eliminar Costeo</button>
+                </fieldset>
+                <fieldset>
+                    <legend>Costeo</legend>
+                    <div class="form-container-3">
+                        {{ costeo_form.as_p }}
                     </div>
-                </div>
+                </fieldset>
                 <button type="submit" class="btn btn-primary save-button">Save</button>
             </form>
         </div>
@@ -81,79 +60,12 @@
 </main>
 <script>
     document.addEventListener('DOMContentLoaded', function() {
-        function formatThousands(input) {
-            let value = input.value.replace(/\./g, '');
-            if (!isNaN(value) && value.length > 3) {
-                input.value = parseInt(value).toLocaleString('de-DE');
-            }
-        }
-
-        function formatPercentage(input) {
-            let value = input.value.replace('%', '');
-            if (!isNaN(value) && value !== '') {
-                input.value = parseFloat(value) + '%';
-            }
-        }
-
-        // Formatear los campos específicos de TaskForm
-        let valorOportunidadInput = document.querySelector('#id_valor_oportunidad');
-        if (valorOportunidadInput) {
-            valorOportunidadInput.addEventListener('input', function() {
-                formatThousands(valorOportunidadInput);
-            });
-        }
-        let margenInput = document.querySelector('#id_margen');
-        if (margenInput) {
-            margenInput.addEventListener('input', function() {
-                formatPercentage(margenInput);
-            });
-        }
-
-        // Formatear los campos específicos de DetalleOportunidadForm
-        let precioObjetivoInput = document.querySelector('#id_precio_objetivo');
-        if (precioObjetivoInput) {
-            precioObjetivoInput.addEventListener('input', function() {
-                formatThousands(precioObjetivoInput);
-            });
-        }
-        let unidadesInput = document.querySelector('#id_unidades');
-        if (unidadesInput) {
-            unidadesInput.addEventListener('input', function() {
-                formatThousands(unidadesInput);
-            });
-        }
-        let detalleMargenInput = document.querySelector('#id_margen_producto');
-        if (detalleMargenInput) {
-            detalleMargenInput.addEventListener('input', function() {
-                formatPercentage(detalleMargenInput);
-            });
-        }
+        // Funciones JavaScript para formatear y manejar la adición/eliminación de filas
+        // Implementa lógica para agregar y eliminar filas dinámicamente
     });
-
-    function addRow(formType) {
-        let formContainer;
-        if (formType === 'task') {
-            formContainer = document.querySelector('.form-container');
-        } else if (formType === 'detalle_oportunidad') {
-            formContainer = document.querySelector('.form-container-2');
-        } else if (formType === 'costeo') {
-            formContainer = document.querySelector('.form-container-3');
-        }
-
-        const newRow = document.createElement('div');
-        newRow.className = 'form-group';
-        newRow.innerHTML = `
-            {{ formType }}_form.as_p
-            <button type="button" class="btn btn-danger" onclick="removeRow(this)">Eliminar</button>
-        `;
-        formContainer.appendChild(newRow);
-    }
-
-    function removeRow(button) {
-        button.parentElement.remove();
-    }
 </script>
 {% endblock %}
+
 
 
 

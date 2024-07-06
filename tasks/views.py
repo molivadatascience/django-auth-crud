@@ -49,48 +49,39 @@ def tasks_completed(request):
 
 @login_required
 def create_task(request):
-    TaskFormSet = modelformset_factory(Task, form=TaskForm, extra=1)
-    DetalleOportunidadFormSet = modelformset_factory(DetalleOportunidad, form=DetalleOportunidadForm, extra=1)
-    CosteoFormSet = modelformset_factory(Costeo, form=CosteoForm, extra=1)
-    
     if request.method == 'GET':
-        task_formset = TaskFormSet(queryset=Task.objects.none(), prefix='task')
-        detalle_oportunidad_formset = DetalleOportunidadFormSet(queryset=DetalleOportunidad.objects.none(), prefix='detalle_oportunidad')
-        costeo_formset = CosteoFormSet(queryset=Costeo.objects.none(), prefix='costeo')
-        
+        task_form = TaskForm()
+        detalle_oportunidad_form = DetalleOportunidadForm()
+        costeo_form = CosteoForm()
         return render(request, 'create_task.html', {
-            'task_formset': task_formset,
-            'detalle_oportunidad_formset': detalle_oportunidad_formset,
-            'costeo_formset': costeo_formset,
+            'task_form': task_form,
+            'detalle_oportunidad_form': detalle_oportunidad_form,
+            'costeo_form': costeo_form,
         })
-    else:
-        task_formset = TaskFormSet(request.POST, request.FILES, prefix='task')
-        detalle_oportunidad_formset = DetalleOportunidadFormSet(request.POST, request.FILES, prefix='detalle_oportunidad')
-        costeo_formset = CosteoFormSet(request.POST, request.FILES, prefix='costeo')
+    elif request.method == 'POST':
+        task_form = TaskForm(request.POST)
+        detalle_oportunidad_form = DetalleOportunidadForm(request.POST, request.FILES)
+        costeo_form = CosteoForm(request.POST)
         
-        if task_formset.is_valid() and detalle_oportunidad_formset.is_valid() and costeo_formset.is_valid():
-            tasks = task_formset.save(commit=False)
-            detalles = detalle_oportunidad_formset.save(commit=False)
-            costeos = costeo_formset.save(commit=False)
+        if task_form.is_valid() and detalle_oportunidad_form.is_valid() and costeo_form.is_valid():
+            new_task = task_form.save(commit=False)
+            new_task.user = request.user
+            new_task.save()
             
-            for task in tasks:
-                task.user = request.user
-                task.save()
+            new_detalle = detalle_oportunidad_form.save(commit=False)
+            new_detalle.task = new_task
+            new_detalle.save()
             
-            for detalle in detalles:
-                detalle.task = tasks[0]  # Asigna el primer task como referencia
-                detalle.save()
-                
-            for costeo in costeos:
-                costeo.id_detalle_venta = detalles[0]  # Asigna el primer detalle como referencia
-                costeo.save()
+            new_costeo = costeo_form.save(commit=False)
+            new_costeo.detalle_oportunidad = new_detalle
+            new_costeo.save()
             
             return redirect('tasks')
         else:
             return render(request, 'create_task.html', {
-                'task_formset': task_formset,
-                'detalle_oportunidad_formset': detalle_oportunidad_formset,
-                'costeo_formset': costeo_formset,
+                'task_form': task_form,
+                'detalle_oportunidad_form': detalle_oportunidad_form,
+                'costeo_form': costeo_form,
                 'error': 'Please provide valid data'
             })
 
