@@ -185,7 +185,7 @@
             const container = document.getElementById('detalle_container');
             const newRow = document.createElement('div');
             newRow.className = 'form-group';
-            newRow.innerHTML = '{{ detalle_oportunidad_form.empty_form.as_p }}';  // Utiliza el formulario vacío para agregar una nueva fila
+            newRow.innerHTML = '{% for field in detalle_oportunidad_form.empty_form %}<label>{{ field.label }}</label>{{ field }}{% endfor %}';
             container.appendChild(newRow);
         }
 
@@ -205,11 +205,12 @@
             const container = document.getElementById('costeo_container');
             const newCosteoForm = document.createElement('div');
             newCosteoForm.className = 'form-group';
-            newCosteoForm.innerHTML = '{{ costeo_form.empty_form.as_p }}';  // Utiliza el formulario vacío para agregar un nuevo costeo
+            newCosteoForm.innerHTML = '{% for field in costeo_form.empty_form %}<label>{{ field.label }}</label>{{ field }}{% endfor %}';
             container.appendChild(newCosteoForm);
         }
     });
 </script>
 {% endblock %}
+
 
 
