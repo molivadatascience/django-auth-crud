@@ -51,28 +51,23 @@ def tasks_completed(request):
 def create_task(request):
     if request.method == 'GET':
         task_form = TaskForm()
-        detalle_oportunidad_form = DetalleOportunidadForm()
+        detalle_oportunidad_forms = [DetalleOportunidadForm(prefix=f'detalle_{i}') for i in range(3)]  # Inicializar tres instancias de DetalleOportunidadForm
         costeo_form = CosteoForm()
-        return render(request, 'create_task.html', {
-            'task_form': task_form,
-            'detalle_oportunidad_form': detalle_oportunidad_form,
-            'costeo_form': costeo_form,
-        })
     else:
         task_form = TaskForm(request.POST)
         detalle_oportunidad_forms = []
         detalle_index = 0
 
-        while f'detalle_{detalle_index}_field_name' in request.POST:
+        while f'detalle_{detalle_index}-field_name' in request.POST:
             detalle_data = {}
             for key, value in request.POST.items():
-                if key.startswith(f'detalle_{detalle_index}_'):
-                    detalle_key = key.replace(f'detalle_{detalle_index}_', '')
+                if key.startswith(f'detalle_{detalle_index}-'):
+                    detalle_key = key.replace(f'detalle_{detalle_index}-', '')
                     detalle_data[detalle_key] = value
-            detalle_oportunidad_forms.append(DetalleOportunidadForm(detalle_data))
+            detalle_oportunidad_forms.append(DetalleOportunidadForm(detalle_data, prefix=f'detalle_{detalle_index}'))
             detalle_index += 1
 
-        costeo_form = CosteoForm(request.POST) if 'costeo_field_name' in request.POST else CosteoForm()
+        costeo_form = CosteoForm(request.POST)
 
         if task_form.is_valid():
             new_task = task_form.save(commit=False)
@@ -81,7 +76,7 @@ def create_task(request):
 
             if costeo_form.is_valid():
                 new_costeo = costeo_form.save(commit=False)
-                new_costeo.id_detalle_venta_id = new_task.id
+                new_costeo.id_detalle_venta = new_task  # Ajustar el campo de relación según tu modelo
                 new_costeo.save()
 
             for detalle_form in detalle_oportunidad_forms:
@@ -91,13 +86,12 @@ def create_task(request):
                     new_detalle.save()
 
             return redirect('tasks')
-        else:
-            return render(request, 'create_task.html', {
-                'task_form': task_form,
-                'detalle_oportunidad_form': DetalleOportunidadForm(),
-                'costeo_form': costeo_form,
-                'error': 'Please provide valid data'
-            })
+    
+    return render(request, 'create_task.html', {
+        'task_form': task_form,
+        'detalle_oportunidad_forms': detalle_oportunidad_forms,
+        'costeo_form': costeo_form,
+    })
 
 
 @login_required
