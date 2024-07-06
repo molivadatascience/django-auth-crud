@@ -25,30 +25,65 @@
             grid-column: 2;
             margin-top: 20px;
         }
-        h2 {
-            grid-column: span 3; /* Hace que el encabezado ocupe las 3 columnas */
+        .header-buttons {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            grid-column: span 3;
+        }
+        .header-buttons h2,
+        .header-buttons h1 {
+            margin: 0;
+        }
+        .header-buttons .btn-group {
+            display: flex;
+            gap: 10px;
         }
     </style>
     <div class="row">
         <div class="col-md-12 mt-5">
             <form action="{% url 'create_task' %}" method="POST" enctype="multipart/form-data" class="card card-body">
-                <h1>Oportunidad de Negocio</h1>
                 {% csrf_token %}
                 {{ error }}
-                
+
+                <div class="header-buttons">
+                    <h1>Oportunidad de Negocio</h1>
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-success" onclick="createTask()">Nuevo registro</button>
+                        <button type="button" class="btn btn-primary" onclick="editTask()">Editar</button>
+                        <button type="button" class="btn btn-danger" onclick="deleteTask()">Eliminar</button>
+                    </div>
+                </div>
+
                 <div class="form-container">
                     {{ task_form.as_p }}
                 </div>
-                <h2>Productos a cotizar</h2>
+
+                <div class="header-buttons">
+                    <h2>Productos a cotizar</h2>
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-success" onclick="addRow()">Agregar Detalle</button>
+                        <button type="button" class="btn btn-danger" onclick="removeRow(this)">Eliminar</button>
+                    </div>
+                </div>
+
                 <div class="form-container-2">
                     {{ detalle_oportunidad_form.as_p }}
-                    <button type="button" onclick="removeRow(this)">Eliminar</button>
-                    <button type="button" onclick="addRow()">Agregar Detalle</button>
                 </div>
-                <h2>Costeo</h2>
+
+                <div class="header-buttons">
+                    <h2>Costeo</h2>
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-success" onclick="createCosteo()">Nuevo registro</button>
+                        <button type="button" class="btn btn-primary" onclick="editCosteo()">Editar</button>
+                        <button type="button" class="btn btn-danger" onclick="deleteCosteo()">Eliminar</button>
+                    </div>
+                </div>
+
                 <div class="form-container-3">
                     {{ costeo_form.as_p }}
                 </div>
+
                 <button type="submit" class="btn btn-primary save-button">Save</button>
             </form>
         </div>
@@ -94,7 +129,6 @@
                 formatThousands(unidadesInput);
             });
         }
-        
         let unidades_2Input = document.querySelector('#id_unidades_2');
         if (unidades_2Input) {
             unidades_2Input.addEventListener('input', function() {
@@ -127,6 +161,24 @@
         // Lógica para eliminar la fila actual del formulario
         let row = button.closest('.form-container-2');
         row.remove();
+    }
+    function createTask() {
+        // Lógica para crear una nueva tarea (si es necesario)
+    }
+    function editTask() {
+        // Lógica para editar una tarea existente (si es necesario)
+    }
+    function deleteTask() {
+        // Lógica para eliminar una tarea existente (si es necesario)
+    }
+    function createCosteo() {
+        // Lógica para crear un nuevo registro de costeo (si es necesario)
+    }
+    function editCosteo() {
+        // Lógica para editar un registro de costeo existente (si es necesario)
+    }
+    function deleteCosteo() {
+        // Lógica para eliminar un registro de costeo existente (si es necesario)
     }
 </script>
 {% endblock %}
