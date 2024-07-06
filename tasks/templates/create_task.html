@@ -148,18 +148,26 @@
         currentDetalleIndex = detalles.length;
         console.log('Detalles guardados:', detalles);
 
-        // Add hidden inputs to the main form for each detalle
+        // Limpiar el contenedor de detalles ocultos en el formulario principal
         let mainForm = document.getElementById('mainForm');
-        let detalleDiv = document.createElement('div');
-        detalleDiv.style.display = 'none';
-        for (let key in data) {
-            let input = document.createElement('input');
-            input.type = 'hidden';
-            input.name = `detalle_${currentDetalleIndex}_${key}`;
-            input.value = data[key];
-            detalleDiv.appendChild(input);
-        }
-        mainForm.appendChild(detalleDiv);
+        let detalleInputs = mainForm.querySelectorAll('[name^="detalle_"]');
+        detalleInputs.forEach(input => {
+            input.remove();
+        });
+
+        // Agregar los nuevos detalles al formulario principal
+        detalles.forEach((detalle, index) => {
+            let detalleDiv = document.createElement('div');
+            detalleDiv.style.display = 'none';
+            for (let key in detalle) {
+                let input = document.createElement('input');
+                input.type = 'hidden';
+                input.name = `detalle_${index}_${key}`;
+                input.value = detalle[key];
+                detalleDiv.appendChild(input);
+            }
+            mainForm.appendChild(detalleDiv);
+        });
     }
 
     function addRow() {
@@ -186,7 +194,8 @@
     function removeRow() {
         if (currentDetalleIndex >= 0 && currentDetalleIndex < detalles.length) {
             detalles.splice(currentDetalleIndex, 1);
-            document.getElementById('mainForm').querySelectorAll(`[name^="detalle_${currentDetalleIndex}_"]`).forEach(el => el.remove());
+            let mainForm = document.getElementById('mainForm');
+            mainForm.querySelectorAll(`[name^="detalle_${currentDetalleIndex}_"]`).forEach(el => el.remove());
             if (currentDetalleIndex > 0) {
                 currentDetalleIndex--;
             }
@@ -213,6 +222,13 @@
         document.getElementById('mainForm').reset();
         currentDetalleIndex = 0;
         detalles.length = 0;
+
+        // Limpiar el contenedor de detalles ocultos en el formulario principal
+        let mainForm = document.getElementById('mainForm');
+        let detalleInputs = mainForm.querySelectorAll('[name^="detalle_"]');
+        detalleInputs.forEach(input => {
+            input.remove();
+        });
     }
 
     function modifyRecord() {
@@ -232,5 +248,6 @@
     }
 </script>
 {% endblock %}
+
 
 
