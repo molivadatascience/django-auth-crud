@@ -30,12 +30,12 @@
             justify-content: space-between;
             align-items: center;
             grid-column: span 4;
-            margin-bottom: 10px; /* Añadido espacio inferior */
+            margin-bottom: 10px;
         }
         .header-buttons h2,
         .header-buttons h1 {
             margin: 0;
-            display: inline-block; /* Añadido para control de ancho */
+            display: inline-block;
         }
         .header-buttons .btn-group {
             display: flex;
@@ -83,20 +83,28 @@
                 </div>
 
                 <div class="form-container-2" id="detalle_container">
-                    {{ detalle_oportunidad_form.as_p }}
+                    {% for form in detalle_oportunidad_forms %}
+                    <div class="form-group">
+                        {{ form.as_p }}
+                    </div>
+                    {% endfor %}
                 </div>
 
                 <div class="header-buttons">
                     <h2>Costeo</h2>
                     <div class="btn-group">
-                        <button type="button" class="btn btn-success" onclick="createCosteo()">Nuevo registro</button>
+                        <button type="button" class="btn btn-success" onclick="addCosteo()">Agregar Costeo</button>
                         <button type="button" class="btn btn-primary" onclick="editCosteo()">Editar</button>
                         <button type="button" class="btn btn-danger" onclick="deleteCosteo()">Eliminar</button>
                     </div>
                 </div>
 
                 <div class="form-container-3">
-                    {{ costeo_form.as_p }}
+                    {% for form in costeo_forms %}
+                    <div class="form-group">
+                        {{ form.as_p }}
+                    </div>
+                    {% endfor %}
                 </div>
 
                 <button type="submit" class="btn btn-primary save-button">Guardar</button>
@@ -105,22 +113,56 @@
     </div>
 </main>
 <script>
-    // Lógica para navegación entre registros
-    function goToFirst() {
-        // Lógica para ir al primer registro
-    }
+ // Variables globales o almacenadas en el cliente para el estado de navegación
+let currentTaskIndex = 0;  // Índice del registro actual
+let taskIds = [];  // Array de IDs de tareas disponibles
 
-    function goToPrevious() {
-        // Lógica para ir al registro anterior
+// Lógica para navegar al primer registro
+function goToFirst() {
+    if (taskIds.length > 0) {
+        currentTaskIndex = 0;
+        loadTaskData(taskIds[currentTaskIndex]);
+    } else {
+        alert('No hay registros disponibles.');
     }
+}
 
-    function goToNext() {
-        // Lógica para ir al siguiente registro
+// Lógica para navegar al registro anterior
+function goToPrevious() {
+    if (currentTaskIndex > 0) {
+        currentTaskIndex--;
+        loadTaskData(taskIds[currentTaskIndex]);
+    } else {
+        alert('Ya estás en el primer registro.');
     }
+}
 
-    function goToLast() {
-        // Lógica para ir al último registro
+// Lógica para navegar al siguiente registro
+function goToNext() {
+    if (currentTaskIndex < taskIds.length - 1) {
+        currentTaskIndex++;
+        loadTaskData(taskIds[currentTaskIndex]);
+    } else {
+        alert('Ya estás en el último registro.');
     }
+}
+
+// Lógica para navegar al último registro
+function goToLast() {
+    if (taskIds.length > 0) {
+        currentTaskIndex = taskIds.length - 1;
+        loadTaskData(taskIds[currentTaskIndex]);
+    } else {
+        alert('No hay registros disponibles.');
+    }
+}
+
+// Función para cargar datos de una tarea específica
+function loadTaskData(taskId) {
+    // Implementa la lógica para cargar los datos de la tarea con el ID taskId
+    // Esto podría incluir una solicitud AJAX a tu backend para obtener y mostrar los datos en el formulario.
+    alert('Cargar datos de la tarea con ID: ' + taskId);
+}
 
     document.addEventListener('DOMContentLoaded', function() {
         // Formato de inputs
@@ -206,8 +248,12 @@
         }
     }
 
-    function createCosteo() {
-        window.location.href = '{% url "create_costeo" %}';
+    function addCosteo() {
+        const container = document.getElementById('costeo_container');
+        const newCosteoForm = document.createElement('div');
+        newCosteoForm.className = 'form-group';
+        newCosteoForm.innerHTML = '{{ costeo_form.as_p }}';
+        container.appendChild(newCosteoForm);
     }
 
     function editCosteo() {
@@ -231,3 +277,4 @@
     }
 </script>
 {% endblock %}
+
