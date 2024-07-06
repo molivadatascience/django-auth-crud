@@ -97,7 +97,7 @@ def create_task(request):
                 'detalle_oportunidad_form': DetalleOportunidadForm(),
                 'costeo_form': costeo_form,
                 'error': 'Please provide valid data'
-            }
+            })
 
 
 @login_required
