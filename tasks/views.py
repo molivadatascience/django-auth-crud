@@ -52,38 +52,35 @@ def create_task(request):
     if request.method == 'GET':
         task_form = TaskForm()
         detalle_oportunidad_form = DetalleOportunidadForm()
-        costeo_form = CosteoForm()  # Agregar el formulario de Costeo
-        return render(request, 'create_task.html', {
-            'task_form': task_form,
-            'detalle_oportunidad_form': detalle_oportunidad_form,
-            'costeo_form': costeo_form,
-        })
+        costeo_form = CosteoForm()
     else:
         task_form = TaskForm(request.POST)
         detalle_oportunidad_form = DetalleOportunidadForm(request.POST, request.FILES)
         costeo_form = CosteoForm(request.POST)
         
-        if task_form.is_valid() and detalle_oportunidad_form.is_valid() and costeo_form.is_valid():
+        if task_form.is_valid():
             new_task = task_form.save(commit=False)
-            new_task.user = request.user
+            new_task.user = request.user  # Asignar usuario actual si es necesario
             new_task.save()
             
-            new_detalle = detalle_oportunidad_form.save(commit=False)
-            new_detalle.task = new_task
-            new_detalle.save()
+            if detalle_oportunidad_form.is_valid():
+                new_detalle = detalle_oportunidad_form.save(commit=False)
+                new_detalle.task = new_task
+                new_detalle.save()
             
-            new_costeo = costeo_form.save(commit=False)
-            new_costeo.id_detalle_venta_id = new_detalle  # Asignar la DetalleOportunidad creada como ForeignKey
-            new_costeo.save()
+            if costeo_form.is_valid():
+                new_costeo = costeo_form.save(commit=False)
+                if new_detalle:  # Verificar que exista new_detalle antes de asignarlo
+                    new_costeo.id_detalle_venta_id = new_detalle.id  # Asignar la DetalleOportunidad creada como ForeignKey
+                    new_costeo.save()
             
-            return redirect('tasks')
-        else:
-            return render(request, 'create_task.html', {
-                'task_form': task_form,
-                'detalle_oportunidad_form': detalle_oportunidad_form,
-                'costeo_form': costeo_form,
-                'error': 'Please provide valid data'
-            })
+            return redirect('tasks')  # Redirigir a la página de tareas después de guardar
+
+    return render(request, 'create_task.html', {
+        'task_form': task_form,
+        'detalle_oportunidad_form': detalle_oportunidad_form,
+        'costeo_form': costeo_form,
+    })
 
 
 @login_required
