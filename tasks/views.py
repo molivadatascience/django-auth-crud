@@ -49,32 +49,34 @@ def tasks_completed(request):
 
 @login_required
 def create_task(request):
-    if request.method == 'GET':
-        task_form = TaskForm()
-        detalle_oportunidad_form = DetalleOportunidadForm()
-        costeo_form = CosteoForm()
-    else:
+    if request.method == 'POST':
         task_form = TaskForm(request.POST)
         detalle_oportunidad_form = DetalleOportunidadForm(request.POST, request.FILES)
         costeo_form = CosteoForm(request.POST)
-        
+
         if task_form.is_valid():
             new_task = task_form.save(commit=False)
             new_task.user = request.user  # Asignar usuario actual si es necesario
             new_task.save()
             
+            # Verificar si hay datos en detalle_oportunidad_form y costeo_form antes de guardar
             if detalle_oportunidad_form.is_valid():
                 new_detalle = detalle_oportunidad_form.save(commit=False)
                 new_detalle.task = new_task
                 new_detalle.save()
-            
+
             if costeo_form.is_valid():
                 new_costeo = costeo_form.save(commit=False)
-                if new_detalle:  # Verificar que exista new_detalle antes de asignarlo
+                if 'new_detalle' in locals():  # Verificar si new_detalle está definido en el ámbito local
                     new_costeo.id_detalle_venta_id = new_detalle.id  # Asignar la DetalleOportunidad creada como ForeignKey
-                    new_costeo.save()
-            
+                new_costeo.save()
+
             return redirect('tasks')  # Redirigir a la página de tareas después de guardar
+
+    else:
+        task_form = TaskForm()
+        detalle_oportunidad_form = DetalleOportunidadForm()
+        costeo_form = CosteoForm()
 
     return render(request, 'create_task.html', {
         'task_form': task_form,
