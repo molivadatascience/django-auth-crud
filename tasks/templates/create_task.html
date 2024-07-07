@@ -39,11 +39,14 @@
     </style>
     <div class="row">
         <div class="col-md-12 mt-5">
-            <form action="{% url 'create_task' %}" method="POST" enctype="multipart/form-data" class="card card-body">
+            <form action="{% url 'create_task' %}" method="POST" enctype="multipart/form-data" class="card card-body" id="create-task-form">
                 <h1>Oportunidad de Negocio</h1>
                 {% csrf_token %}
-                {{ error }}
-                
+                {% if success_message %}
+                <div class="alert alert-success" role="alert">
+                    {{ success_message }}
+                </div>
+                {% endif %}
                 <div class="form-navigation">
                     <button type="button" onclick="previousRecord()">Anterior</button>
                     <button type="button" onclick="nextRecord()">Siguiente</button>
@@ -120,28 +123,36 @@
             });
         }
     });
+
     function addRow() {
         // Lógica para agregar una nueva fila de formulario (si es necesario)
     }
+
     function removeRow(button) {
         // Lógica para eliminar la fila actual del formulario
         let row = button.closest('.form-container-2');
         row.remove();
     }
+
     function addNewRecord() {
         // Lógica para agregar un nuevo registro
     }
+
     function modifyRecord() {
         // Lógica para modificar el registro actual
     }
+
     function deleteRecord() {
         // Lógica para eliminar el registro actual
     }
+
     function previousRecord() {
         // Lógica para ir al registro anterior
     }
+
     function nextRecord() {
         // Lógica para ir al siguiente registro
     }
 </script>
 {% endblock %}
+

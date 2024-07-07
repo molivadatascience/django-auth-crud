@@ -71,7 +71,17 @@ def create_task(request):
                     new_costeo.id_detalle_venta_id = new_detalle.id  # Asignar la DetalleOportunidad creada como ForeignKey
                 new_costeo.save()
 
-            return redirect('tasks')  # Redirigir a la página de tareas después de guardar
+            # Limpiar los formularios después de guardar
+            task_form = TaskForm()
+            detalle_oportunidad_form = DetalleOportunidadForm()
+            costeo_form = CosteoForm()
+
+            return render(request, 'create_task.html', {
+                'task_form': task_form,
+                'detalle_oportunidad_form': detalle_oportunidad_form,
+                'costeo_form': costeo_form,
+                'success_message': 'Registro guardado exitosamente.'
+            })
 
     else:
         task_form = TaskForm()
