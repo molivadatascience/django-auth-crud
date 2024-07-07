@@ -36,16 +36,10 @@
         .form-navigation button {
             margin: 0 5px;
         }
-        .detail-buttons {
-            display: flex;
-            gap: 10px;
-            grid-column: span 4;
-            justify-content: flex-end;
-        }
     </style>
     <div class="row">
         <div class="col-md-12 mt-5">
-            <form id="mainForm" action="{% url 'create_task' %}" method="POST" enctype="multipart/form-data" class="card card-body">
+            <form action="{% url 'create_task' %}" method="POST" enctype="multipart/form-data" class="card card-body">
                 <h1>Oportunidad de Negocio</h1>
                 {% csrf_token %}
                 {{ error }}
@@ -58,20 +52,12 @@
                 <div class="form-container">
                     {{ task_form.as_p }}
                 </div>
-                
                 <h2>Productos a cotizar</h2>
-                <div id="detalleOportunidadContainer" class="form-container-2">
-                    <!-- Aquí se renderizarán dinámicamente los formularios de detalle_oportunidad_forms -->
-                </div>
-                <div class="detail-buttons">
-                    <button type="button" onclick="saveRow()">Guardar Detalle</button>
+                <div class="form-container-2">
+                    {{ detalle_oportunidad_form.as_p }}
+                    <button type="button" onclick="removeRow(this)">Eliminar</button>
                     <button type="button" onclick="addRow()">Agregar Detalle</button>
-                    <button type="button" onclick="modifyRow()">Modificar</button>
-                    <button type="button" onclick="removeRow()">Eliminar</button>
-                    <button type="button" onclick="previousDetalle()">Anterior Detalle</button>
-                    <button type="button" onclick="nextDetalle()">Siguiente Detalle</button>
                 </div>
-                
                 <h2>Costeo</h2>
                 <div class="form-container-3">
                     {{ costeo_form.as_p }}
@@ -80,6 +66,7 @@
                 <div class="form-navigation">
                     <button type="submit" class="btn btn-primary save-button">Guardar</button>
                     <button type="button" onclick="addNewRecord()">Nuevo</button>
+                    <button type="button" onclick="modifyRecord()">Modificar</button>
                     <button type="button" onclick="deleteRecord()">Eliminar</button>
                 </div>
             </form>
@@ -87,9 +74,6 @@
     </div>
 </main>
 <script>
-    let currentDetalleIndex = 0;
-    const detalles = [];
-
     document.addEventListener('DOMContentLoaded', function() {
         function formatThousands(input) {
             let value = input.value.replace(/\./g, '');
@@ -136,123 +120,28 @@
             });
         }
     });
-
-    function saveRow() {
-        let detalleForm = document.getElementById('detalleOportunidadContainer');
-        let inputs = detalleForm.querySelectorAll('input, select, textarea');
-        let data = {};
-
-        inputs.forEach(input => {
-            data[input.name] = input.value;
-        });
-
-        detalles[currentDetalleIndex] = data;
-        currentDetalleIndex = detalles.length;
-        console.log('Detalles guardados:', detalles);
-
-        // Limpiar el contenedor de detalles ocultos en el formulario principal
-        let mainForm = document.getElementById('mainForm');
-        let detalleInputs = mainForm.querySelectorAll('[name^="detalle_"]');
-        detalleInputs.forEach(input => {
-            input.remove();
-        });
-
-        // Agregar los nuevos detalles al formulario principal
-        detalles.forEach((detalle, index) => {
-            let detalleDiv = document.createElement('div');
-            detalleDiv.style.display = 'none';
-            for (let key in detalle) {
-                let input = document.createElement('input');
-                input.type = 'hidden';
-                input.name = `detalle_${index}_${key}`;
-                input.value = detalle[key];
-                detalleDiv.appendChild(input);
-            }
-            mainForm.appendChild(detalleDiv);
-        });
-    }
-
     function addRow() {
-        saveRow();
-        let detalleForm = document.getElementById('detalleOportunidadContainer');
-        let newForm = document.createElement('div');
-        newForm.innerHTML = '{% for form in detalle_oportunidad_forms %}{{ form.as_p }}{% endfor %}';
-        detalleForm.appendChild(newForm.firstChild);
+        // Lógica para agregar una nueva fila de formulario (si es necesario)
     }
-
-    function modifyRow() {
-        if (currentDetalleIndex >= 0 && currentDetalleIndex < detalles.length) {
-            let detalleForm = document.getElementById('detalleOportunidadContainer');
-            let inputs = detalleForm.querySelectorAll('input, select, textarea');
-            let data = detalles[currentDetalleIndex];
-
-            inputs.forEach(input => {
-                input.value = data[input.name] || '';
-            });
-        }
+    function removeRow(button) {
+        // Lógica para eliminar la fila actual del formulario
+        let row = button.closest('.form-container-2');
+        row.remove();
     }
-
-    function removeRow() {
-        if (currentDetalleIndex >= 0 && currentDetalleIndex < detalles.length) {
-            detalles.splice(currentDetalleIndex, 1);
-            let mainForm = document.getElementById('mainForm');
-            mainForm.querySelectorAll(`[name^="detalle_${currentDetalleIndex}_"]`).forEach(el => el.remove());
-            if (currentDetalleIndex > 0) {
-                currentDetalleIndex--;
-            }
-            modifyRow();
-            console.log('Detalles después de eliminar:', detalles);
-        }
-    }
-
-    function previousDetalle() {
-        if (currentDetalleIndex > 0) {
-            currentDetalleIndex--;
-            modifyRow();
-        }
-    }
-
-    function nextDetalle() {
-        if (currentDetalleIndex < detalles.length - 1) {
-            currentDetalleIndex++;
-            modifyRow();
-        }
-    }
-
     function addNewRecord() {
-        document.getElementById('mainForm').reset();
-        currentDetalleIndex = 0;
-        detalles.length = 0;
-
-        // Limpiar el contenedor de detalles ocultos en el formulario principal
-        let mainForm = document.getElementById('mainForm');
-        let detalleInputs = mainForm.querySelectorAll('[name^="detalle_"]');
-        detalleInputs.forEach(input => {
-            input.remove();
-        });
-
-        // Limpiar los formularios de detalle en detalleOportunidadContainer
-        let detalleFormContainer = document.getElementById('detalleOportunidadContainer');
-        detalleFormContainer.innerHTML = '';
-
-        // Agregar el primer formulario vacío de detalle
-        addRow();
+        // Lógica para agregar un nuevo registro
     }
-
     function modifyRecord() {
-        alert('Modificar registro actual');
+        // Lógica para modificar el registro actual
     }
-
     function deleteRecord() {
-        alert('Eliminar registro actual');
+        // Lógica para eliminar el registro actual
     }
-
     function previousRecord() {
-        alert('Ir al registro anterior');
+        // Lógica para ir al registro anterior
     }
-
     function nextRecord() {
-        alert('Ir al siguiente registro');
+        // Lógica para ir al siguiente registro
     }
 </script>
 {% endblock %}
