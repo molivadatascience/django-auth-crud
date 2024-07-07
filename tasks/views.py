@@ -49,50 +49,41 @@ def tasks_completed(request):
 
 @login_required
 def create_task(request):
-    if request.method == 'POST':
+    if request.method == 'GET':
+        task_form = TaskForm()
+        detalle_oportunidad_form = DetalleOportunidadForm()
+        costeo_form = CosteoForm()  # Agregar el formulario de Costeo
+        return render(request, 'create_task.html', {
+            'task_form': task_form,
+            'detalle_oportunidad_form': detalle_oportunidad_form,
+            'costeo_form': costeo_form,
+        })
+    else:
         task_form = TaskForm(request.POST)
         detalle_oportunidad_form = DetalleOportunidadForm(request.POST, request.FILES)
         costeo_form = CosteoForm(request.POST)
-
-        if task_form.is_valid():
+        
+        if task_form.is_valid() and detalle_oportunidad_form.is_valid() and costeo_form.is_valid():
             new_task = task_form.save(commit=False)
-            new_task.user = request.user  # Asignar usuario actual si es necesario
+            new_task.user = request.user
             new_task.save()
             
-            # Verificar si hay datos en detalle_oportunidad_form y costeo_form antes de guardar
-            if detalle_oportunidad_form.is_valid():
-                new_detalle = detalle_oportunidad_form.save(commit=False)
-                new_detalle.task = new_task
-                new_detalle.save()
-
-            if costeo_form.is_valid():
-                new_costeo = costeo_form.save(commit=False)
-                if 'new_detalle' in locals():  # Verificar si new_detalle está definido en el ámbito local
-                    new_costeo.id_detalle_venta_id = new_detalle.id  # Asignar la DetalleOportunidad creada como ForeignKey
-                new_costeo.save()
-
-            # Limpiar los formularios después de guardar
-            task_form = TaskForm()
-            detalle_oportunidad_form = DetalleOportunidadForm()
-            costeo_form = CosteoForm()
-
+            new_detalle = detalle_oportunidad_form.save(commit=False)
+            new_detalle.task = new_task
+            new_detalle.save()
+            
+            new_costeo = costeo_form.save(commit=False)
+            new_costeo.id_detalle_venta_id = new_detalle  # Asignar la DetalleOportunidad creada como ForeignKey
+            new_costeo.save()
+            
+            return redirect('tasks')
+        else:
             return render(request, 'create_task.html', {
                 'task_form': task_form,
                 'detalle_oportunidad_form': detalle_oportunidad_form,
                 'costeo_form': costeo_form,
-                'success_message': 'Registro guardado exitosamente.'
+                'error': 'Please provide valid data'
             })
-
-    else:
-        task_form = TaskForm()
-        detalle_oportunidad_form = DetalleOportunidadForm()
-        costeo_form = CosteoForm()
-
-    return render(request, 'create_task.html', {
-        'task_form': task_form,
-        'detalle_oportunidad_form': detalle_oportunidad_form,
-        'costeo_form': costeo_form,
-    })
 
 
 @login_required
