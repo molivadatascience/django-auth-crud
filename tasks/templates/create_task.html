@@ -43,50 +43,48 @@
             justify-content: flex-end;
         }
     </style>
-<div class="row">
-    <div class="col-md-12 mt-5">
-        <form id="mainForm" action="{% url 'create_task' %}" method="POST" enctype="multipart/form-data" class="card card-body">
-            <h1>Oportunidad de Negocio</h1>
-            {% csrf_token %}
-            {{ error }}
-            
-            <div class="form-navigation">
-                <button type="button" onclick="previousRecord()">Anterior</button>
-                <button type="button" onclick="nextRecord()">Siguiente</button>
-            </div>
-            
-            <div class="form-container">
-                {{ task_form.as_p }}
-            </div>
-            
-            <h2>Productos a cotizar</h2>
-            <div id="detalleOportunidadContainer" class="form-container-2">
-                {% for form in detalle_oportunidad_forms %}
-                    {{ form.as_p }}
-                {% endfor %}
-            </div>
-            <div class="detail-buttons">
-                <button type="button" onclick="saveRow()">Guardar Detalle</button>
-                <button type="button" onclick="addRow()">Agregar Detalle</button>
-                <button type="button" onclick="modifyRow()">Modificar</button>
-                <button type="button" onclick="removeRow()">Eliminar</button>
-                <button type="button" onclick="previousDetalle()">Anterior Detalle</button>
-                <button type="button" onclick="nextDetalle()">Siguiente Detalle</button>
-            </div>
-            
-            <h2>Costeo</h2>
-            <div class="form-container-3">
-                {{ costeo_form.as_p }}
-            </div>
-            
-            <div class="form-navigation">
-                <button type="submit" class="btn btn-primary save-button">Guardar</button>
-                <button type="button" onclick="addNewRecord()">Nuevo</button>
-                <button type="button" onclick="deleteRecord()">Eliminar</button>
-            </div>
-        </form>
+    <div class="row">
+        <div class="col-md-12 mt-5">
+            <form id="mainForm" action="{% url 'create_task' %}" method="POST" enctype="multipart/form-data" class="card card-body">
+                <h1>Oportunidad de Negocio</h1>
+                {% csrf_token %}
+                {{ error }}
+                
+                <div class="form-navigation">
+                    <button type="button" onclick="previousRecord()">Anterior</button>
+                    <button type="button" onclick="nextRecord()">Siguiente</button>
+                </div>
+                
+                <div class="form-container">
+                    {{ task_form.as_p }}
+                </div>
+                
+                <h2>Productos a cotizar</h2>
+                <div id="detalleOportunidadContainer" class="form-container-2">
+                    <!-- Aquí se renderizarán dinámicamente los formularios de detalle_oportunidad_forms -->
+                </div>
+                <div class="detail-buttons">
+                    <button type="button" onclick="saveRow()">Guardar Detalle</button>
+                    <button type="button" onclick="addRow()">Agregar Detalle</button>
+                    <button type="button" onclick="modifyRow()">Modificar</button>
+                    <button type="button" onclick="removeRow()">Eliminar</button>
+                    <button type="button" onclick="previousDetalle()">Anterior Detalle</button>
+                    <button type="button" onclick="nextDetalle()">Siguiente Detalle</button>
+                </div>
+                
+                <h2>Costeo</h2>
+                <div class="form-container-3">
+                    {{ costeo_form.as_p }}
+                </div>
+                
+                <div class="form-navigation">
+                    <button type="submit" class="btn btn-primary save-button">Guardar</button>
+                    <button type="button" onclick="addNewRecord()">Nuevo</button>
+                    <button type="button" onclick="deleteRecord()">Eliminar</button>
+                </div>
+            </form>
+        </div>
     </div>
-</div>
 </main>
 <script>
     let currentDetalleIndex = 0;
@@ -177,10 +175,9 @@
     function addRow() {
         saveRow();
         let detalleForm = document.getElementById('detalleOportunidadContainer');
-        let inputs = detalleForm.querySelectorAll('input, select, textarea');
-        inputs.forEach(input => {
-            input.value = '';
-        });
+        let newForm = document.createElement('div');
+        newForm.innerHTML = '{% for form in detalle_oportunidad_forms %}{{ form.as_p }}{% endfor %}';
+        detalleForm.appendChild(newForm.firstChild);
     }
 
     function modifyRow() {
@@ -233,6 +230,13 @@
         detalleInputs.forEach(input => {
             input.remove();
         });
+
+        // Limpiar los formularios de detalle en detalleOportunidadContainer
+        let detalleFormContainer = document.getElementById('detalleOportunidadContainer');
+        detalleFormContainer.innerHTML = '';
+
+        // Agregar el primer formulario vacío de detalle
+        addRow();
     }
 
     function modifyRecord() {
@@ -252,6 +256,3 @@
     }
 </script>
 {% endblock %}
-
-
-
