@@ -120,10 +120,22 @@
     });
     function addRow() {
         // Lógica para agregar una nueva fila de formulario (si es necesario)
+        const formContainer = document.querySelector('.form-container-2');
+        const newRow = formContainer.firstElementChild.cloneNode(true); // Clonamos la primera fila del contenedor
+        newRow.querySelectorAll('input').forEach(input => input.value = ''); // Limpiamos los valores de los inputs
+        formContainer.appendChild(newRow);
     }
     function removeRow(button) {
         let row = button.closest('.form-container-2');
-        row.remove();
+        if (row.parentElement.children.length > 1) { // Evitar eliminar la última fila
+            row.remove();
+        }
+    }
+    function previousRecord() {
+        // Lógica para navegar al registro anterior
+    }
+    function nextRecord() {
+        // Lógica para navegar al siguiente registro
     }
     function addNewRecord() {
         // Lógica para agregar un nuevo registro
@@ -131,17 +143,9 @@
     function modifyRecord() {
         // Lógica para modificar el registro actual
     }
-
     function deleteRecord() {
         // Lógica para eliminar el registro actual
     }
-
-    function previousRecord() {
-        // Lógica para ir al registro anterior
-    }
-
-    function nextRecord() {
-        // Lógica para ir al siguiente registro
-    }
 </script>
 {% endblock %}
+
