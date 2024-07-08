@@ -63,7 +63,7 @@ def create_task(request):
         detalle_oportunidad_form = DetalleOportunidadForm(request.POST, request.FILES)
         costeo_form = CosteoForm(request.POST)
         
-        if task_form.is_valid() and detalle_oportunidad_form.is_valid() and costeo_form.is_valid():
+        if task_form.is_valid() and detalle_oportunidad_form.is_valid():
             new_task = task_form.save(commit=False)
             new_task.user = request.user
             new_task.save()
@@ -72,9 +72,10 @@ def create_task(request):
             new_detalle.task = new_task
             new_detalle.save()
             
-            new_costeo = costeo_form.save(commit=False)
-            new_costeo.id_detalle_venta_id = new_detalle  # Asignar la DetalleOportunidad creada como ForeignKey
-            new_costeo.save()
+            if costeo_form.is_valid():
+                new_costeo = costeo_form.save(commit=False)
+                new_costeo.id_detalle_venta = new_detalle  # Asignar la DetalleOportunidad creada como ForeignKey
+                new_costeo.save()
             
             return redirect('tasks')
         else:
@@ -84,6 +85,7 @@ def create_task(request):
                 'costeo_form': costeo_form,
                 'error': 'Please provide valid data'
             })
+
 
 
 

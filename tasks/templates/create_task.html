@@ -17,6 +17,7 @@
             display: grid;
             grid-template-columns: repeat(4, 1fr); /* Cambiado a 4 columnas */
             gap: 20px;
+            display: none; /* Ocultar inicialmente */
         }
         .form-group {
             margin-bottom: 15px;
@@ -57,9 +58,10 @@
                     {{ detalle_oportunidad_form.as_p }}
                     <button type="button" onclick="removeRow(this)">Eliminar</button>
                     <button type="button" onclick="addRow()">Agregar Detalle</button>
+                    <button type="button" onclick="toggleCosteoForm()">Agregar Costeo</button>
                 </div>
                 <h2>Costeo</h2>
-                <div class="form-container-3">
+                <div class="form-container-3" id="costeoFormContainer">
                     {{ costeo_form.as_p }}
                 </div>
                 
@@ -120,26 +122,42 @@
             });
         }
     });
+
+    function toggleCosteoForm() {
+        let costeoFormContainer = document.getElementById('costeoFormContainer');
+        if (costeoFormContainer.style.display === 'none' || costeoFormContainer.style.display === '') {
+            costeoFormContainer.style.display = 'grid';
+        } else {
+            costeoFormContainer.style.display = 'none';
+        }
+    }
+
     function addRow() {
         // Lógica para agregar una nueva fila de formulario (si es necesario)
     }
+
     function removeRow(button) {
         // Lógica para eliminar la fila actual del formulario
         let row = button.closest('.form-container-2');
         row.remove();
     }
+
     function addNewRecord() {
         // Lógica para agregar un nuevo registro
     }
+
     function modifyRecord() {
         // Lógica para modificar el registro actual
     }
+
     function deleteRecord() {
         // Lógica para eliminar el registro actual
     }
+
     function previousRecord() {
         // Lógica para ir al registro anterior
     }
+
     function nextRecord() {
         // Lógica para ir al siguiente registro
     }
