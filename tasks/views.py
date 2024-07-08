@@ -258,27 +258,27 @@ def edit_costeo(request, id):
         else:
             return render(request, 'edit_costeo.html', {'costeo_form': costeo_form, 'error': 'Please provide valid data'})
 
-@login_required
-def update_costeo(request, id):
-    costeo = get_object_or_404(Costeo, id=id)
-    if request.method == 'POST':
-        costeo_form = CosteoForm(request.POST, instance=costeo)
-        if costeo_form.is_valid():
-            costeo_form.save()
-            return redirect('tasks')
-        else:
-            return render(request, 'update_costeo.html', {'costeo_form': costeo_form, 'error': 'Please provide valid data'})
-    else:
-        costeo_form = CosteoForm(instance=costeo)
-        return render(request, 'update_costeo.html', {'costeo_form': costeo_form})
+#@login_required
+#def update_costeo(request, id):
+#    costeo = get_object_or_404(Costeo, id=id)
+#    if request.method == 'POST':
+#        costeo_form = CosteoForm(request.POST, instance=costeo)
+#        if costeo_form.is_valid():
+#            costeo_form.save()
+#            return redirect('tasks')
+#        else:
+#            return render(request, 'update_costeo.html', {'costeo_form': costeo_form, 'error': 'Please provide valid data'})
+#    else:
+#        costeo_form = CosteoForm(instance=costeo)
+#        return render(request, 'update_costeo.html', {'costeo_form': costeo_form})
 
-@login_required
-def delete_costeo(request, id):
-    costeo = get_object_or_404(Costeo, id=id)
-    if request.method == 'POST':
-        costeo.delete()
-        return redirect('tasks')
-    return render(request, 'confirm_delete.html', {'object': costeo})
+#@login_required
+#def delete_costeo(request, id):
+#    costeo = get_object_or_404(Costeo, id=id)
+#    if request.method == 'POST':
+#        costeo.delete()
+#        return redirect('tasks')
+#    return render(request, 'confirm_delete.html', {'object': costeo})
 
 #@login_required
 #def create_costeo(request, detalle_oportunidad_id):
