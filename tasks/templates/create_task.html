@@ -4,18 +4,18 @@
     <style>
         .form-container {
             display: grid;
-            grid-template-columns: repeat(4, 1fr);
+            grid-template-columns: repeat(4, 1fr); /* Cambiado a 4 columnas */
             gap: 20px;
         }
         .form-container-2 {
             display: grid;
-            grid-template-columns: repeat(4, 1fr);
+            grid-template-columns: repeat(4, 1fr); /* Cambiado a 4 columnas */
             gap: 20px;
             background-color: #f0f0f0;
         }
         .form-container-3 {
             display: grid;
-            grid-template-columns: repeat(4, 1fr);
+            grid-template-columns: repeat(4, 1fr); /* Cambiado a 4 columnas */
             gap: 20px;
         }
         .form-group {
@@ -26,7 +26,7 @@
             margin-top: 20px;
         }
         h2 {
-            grid-column: span 4;
+            grid-column: span 4; /* Hace que el encabezado ocupe las 4 columnas */
         }
         .form-navigation {
             display: flex;
@@ -60,7 +60,7 @@
                 </div>
                 <h2>Costeo</h2>
                 <div class="form-container-3">
-                    <a href="{% url 'create_costeo' detalle_oportunidad_form.instance.id %}" class="btn btn-secondary" target="_blank">Agregar Costeo</a>
+                    {{ costeo_form.as_p }}
                 </div>
                 
                 <div class="form-navigation">
@@ -87,6 +87,7 @@
                 input.value = parseFloat(value) + '%';
             }
         }
+        // Formatear los campos específicos de TaskForm
         let valorOportunidadInput = document.querySelector('#id_valor_oportunidad');
         if (valorOportunidadInput) {
             valorOportunidadInput.addEventListener('input', function() {
@@ -99,6 +100,7 @@
                 formatPercentage(margenInput);
             });
         }
+        // Formatear los campos específicos de DetalleOportunidadForm
         let precioObjetivoInput = document.querySelector('#id_precio_objetivo');
         if (precioObjetivoInput) {
             precioObjetivoInput.addEventListener('input', function() {
@@ -120,22 +122,11 @@
     });
     function addRow() {
         // Lógica para agregar una nueva fila de formulario (si es necesario)
-        const formContainer = document.querySelector('.form-container-2');
-        const newRow = formContainer.firstElementChild.cloneNode(true); // Clonamos la primera fila del contenedor
-        newRow.querySelectorAll('input').forEach(input => input.value = ''); // Limpiamos los valores de los inputs
-        formContainer.appendChild(newRow);
     }
     function removeRow(button) {
+        // Lógica para eliminar la fila actual del formulario
         let row = button.closest('.form-container-2');
-        if (row.parentElement.children.length > 1) { // Evitar eliminar la última fila
-            row.remove();
-        }
-    }
-    function previousRecord() {
-        // Lógica para navegar al registro anterior
-    }
-    function nextRecord() {
-        // Lógica para navegar al siguiente registro
+        row.remove();
     }
     function addNewRecord() {
         // Lógica para agregar un nuevo registro
@@ -146,6 +137,13 @@
     function deleteRecord() {
         // Lógica para eliminar el registro actual
     }
+    function previousRecord() {
+        // Lógica para ir al registro anterior
+    }
+    function nextRecord() {
+        // Lógica para ir al siguiente registro
+    }
 </script>
 {% endblock %}
+
 
