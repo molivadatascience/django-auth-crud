@@ -86,6 +86,7 @@ def create_task(request):
             })
 
 
+
 @login_required
 def task_detail(request, task_id):
     task = get_object_or_404(Task, pk=task_id, user=request.user)

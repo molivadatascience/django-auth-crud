@@ -22,7 +22,7 @@
             margin-bottom: 15px;
         }
         .save-button {
-            grid-column: span 4; /* Hace que el botón guardar ocupe las 4 columnas */
+            grid-column: 2;
             margin-top: 20px;
         }
         h2 {
@@ -34,14 +34,6 @@
             margin-bottom: 20px;
         }
         .form-navigation button {
-            margin: 0 5px;
-        }
-        .section-navigation {
-            display: flex;
-            justify-content: space-between;
-            margin-top: 10px;
-        }
-        .section-navigation button {
             margin: 0 5px;
         }
     </style>
@@ -61,12 +53,6 @@
                     {{ task_form.as_p }}
                 </div>
                 <h2>Productos a cotizar</h2>
-                <div class="section-navigation">
-                    <button type="button" onclick="addNewRecord()">Nuevo</button>
-                    <button type="button" onclick="modifyRecord()">Modificar</button>
-                    <button type="button" onclick="deleteRecord()">Eliminar</button>
-                    <button type="submit" class="btn btn-primary">Guardar</button>
-                </div>
                 <div class="form-container-2">
                     {{ detalle_oportunidad_form.as_p }}
                     <button type="button" onclick="removeRow(this)">Eliminar</button>
@@ -78,8 +64,10 @@
                 </div>
                 
                 <div class="form-navigation">
-                    <button type="button" onclick="previousRecord()">Anterior</button>
-                    <button type="button" onclick="nextRecord()">Siguiente</button>
+                    <button type="submit" class="btn btn-primary save-button">Guardar</button>
+                    <button type="button" onclick="addNewRecord()">Nuevo</button>
+                    <button type="button" onclick="modifyRecord()">Modificar</button>
+                    <button type="button" onclick="deleteRecord()">Eliminar</button>
                 </div>
             </form>
         </div>
