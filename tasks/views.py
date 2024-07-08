@@ -280,17 +280,17 @@ def delete_costeo(request, id):
         return redirect('tasks')
     return render(request, 'confirm_delete.html', {'object': costeo})
 
-@login_required
-def create_costeo(request, detalle_oportunidad_id):
-    if request.method == 'POST':
-        formset = CosteoFormSet(request.POST)
-        if formset.is_valid():
-            instances = formset.save(commit=False)
-            for instance in instances:
-                instance.detalle_oportunidad_id = detalle_oportunidad_id
-                instance.save()
-            return redirect('detalle_oportunidad_detail', pk=detalle_oportunidad_id)  # Asumimos que tienes una vista de detalle
-    else:
-        formset = CosteoFormSet()
-    
-    return render(request, 'create_costeo.html', {'formset': formset})
+#@login_required
+#def create_costeo(request, detalle_oportunidad_id):
+#    if request.method == 'POST':
+#        formset = CosteoFormSet(request.POST)
+#        if formset.is_valid():
+#            instances = formset.save(commit=False)
+#            for instance in instances:
+#                instance.detalle_oportunidad_id = detalle_oportunidad_id
+#                instance.save()
+#            return redirect('detalle_oportunidad_detail', pk=detalle_oportunidad_id)  # Asumimos que tienes una vista de detalle
+#    else:
+#        formset = CosteoFormSet()
+#    
+#    return render(request, 'create_costeo.html', {'formset': formset})
