@@ -1,6 +1,7 @@
 from django import forms
 from .models import Task, DetalleOportunidad, Costeo
 from django.utils import timezone
+from django.forms import modelformset_factory
 
 class NumberInputWithThousandsSeparator(forms.TextInput):
     def render(self, name, value, attrs=None, renderer=None):
@@ -207,3 +208,6 @@ class CosteoForm(forms.ModelForm):
             'portal_licitaciones': forms.Select(choices=Costeo.PORTAL_LICITACIONES_CHOICES),
             'fecha_costeo': forms.DateInput(attrs={'type': 'date'}),
         }
+
+
+CosteoFormSet = modelformset_factory(Costeo, form=CosteoForm, extra=1)

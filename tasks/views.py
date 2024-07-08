@@ -3,7 +3,7 @@ from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.models import User
 from django.contrib.auth import login, logout, authenticate
 from django.db import IntegrityError
-from .forms import TaskForm, DetalleOportunidadForm, CosteoForm
+from .forms import TaskForm, DetalleOportunidadForm, CosteoForm,CosteoFormSet
 from .models import Task, DetalleOportunidad, Costeo
 from django.utils import timezone
 from django.contrib.auth.decorators import login_required
@@ -52,7 +52,7 @@ def create_task(request):
     if request.method == 'GET':
         task_form = TaskForm()
         detalle_oportunidad_form = DetalleOportunidadForm()
-        costeo_form = CosteoForm()  # Agregar el formulario de Costeo
+        costeo_form = CosteoForm()
         return render(request, 'create_task.html', {
             'task_form': task_form,
             'detalle_oportunidad_form': detalle_oportunidad_form,
@@ -62,20 +62,21 @@ def create_task(request):
         task_form = TaskForm(request.POST)
         detalle_oportunidad_form = DetalleOportunidadForm(request.POST, request.FILES)
         costeo_form = CosteoForm(request.POST)
-        
-        if task_form.is_valid() and detalle_oportunidad_form.is_valid():
+
+        if task_form.is_valid():
             new_task = task_form.save(commit=False)
             new_task.user = request.user
             new_task.save()
             
-            new_detalle = detalle_oportunidad_form.save(commit=False)
-            new_detalle.task = new_task
-            new_detalle.save()
-            
-            if costeo_form.is_valid():
-                new_costeo = costeo_form.save(commit=False)
-                new_costeo.id_detalle_venta = new_detalle  # Asignar la DetalleOportunidad creada como ForeignKey
-                new_costeo.save()
+            if detalle_oportunidad_form.is_valid():
+                new_detalle = detalle_oportunidad_form.save(commit=False)
+                new_detalle.task = new_task
+                new_detalle.save()
+                
+                if costeo_form.is_valid():
+                    new_costeo = costeo_form.save(commit=False)
+                    new_costeo.id_detalle_venta = new_detalle  # Asignar la DetalleOportunidad creada como ForeignKey
+                    new_costeo.save()
             
             return redirect('tasks')
         else:
@@ -282,13 +283,16 @@ def delete_costeo(request, id):
     return render(request, 'confirm_delete.html', {'object': costeo})
 
 @login_required
-def create_costeo(request):
+def create_costeo(request, detalle_oportunidad_id):
     if request.method == 'POST':
-        form = CosteoForm(request.POST)
-        if form.is_valid():
-            costeo = form.save()
-            # Puedes añadir lógica adicional aquí
-            return redirect('url_de_redireccion_despues_de_guardar')
+        formset = CosteoFormSet(request.POST)
+        if formset.is_valid():
+            instances = formset.save(commit=False)
+            for instance in instances:
+                instance.detalle_oportunidad_id = detalle_oportunidad_id
+                instance.save()
+            return redirect('detalle_oportunidad_detail', pk=detalle_oportunidad_id)  # Asumimos que tienes una vista de detalle
     else:
-        form = CosteoForm()
-    return render(request, 'nombre_template.html', {'form': form})
+        formset = CosteoFormSet()
+    
+    return render(request, 'create_costeo.html', {'formset': formset})
