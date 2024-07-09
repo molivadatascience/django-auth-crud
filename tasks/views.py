@@ -244,53 +244,52 @@ def delete_detalle(request, id):
         return redirect('tasks')
     return render(request, 'confirm_delete.html', {'object': detalle})
 
-#@login_required
-#def edit_costeo(request, id):
-#    costeo = get_object_or_404(Costeo, id=id)
-#    if request.method == 'GET':
-#        costeo_form = CosteoForm(instance=costeo)
-#        return render(request, 'edit_costeo.html', {'costeo_form': costeo_form})
-#    else:
-#        costeo_form = CosteoForm(request.POST, instance=costeo)
-#        if costeo_form.is_valid():
-#            costeo_form.save()
-#            return redirect('tasks')
-#        else:
-#            return render(request, 'edit_costeo.html', {'costeo_form': costeo_form, 'error': 'Please provide valid data'})
+@login_required
+def edit_costeo(request, id):
+    costeo = get_object_or_404(Costeo, id=id)
+    if request.method == 'GET':
+        costeo_form = CosteoForm(instance=costeo)
+        return render(request, 'edit_costeo.html', {'costeo_form': costeo_form})
+    else:
+        costeo_form = CosteoForm(request.POST, instance=costeo)
+        if costeo_form.is_valid():
+            costeo_form.save()
+            return redirect('tasks')
+        else:
+            return render(request, 'edit_costeo.html', {'costeo_form': costeo_form, 'error': 'Please provide valid data'})
 
-#@login_required
-#def update_costeo(request, id):
-#    costeo = get_object_or_404(Costeo, id=id)
-#    if request.method == 'POST':
-#        costeo_form = CosteoForm(request.POST, instance=costeo)
-#        if costeo_form.is_valid():
-#            costeo_form.save()
-#            return redirect('tasks')
-#        else:
-#            return render(request, 'update_costeo.html', {'costeo_form': costeo_form, 'error': 'Please provide valid data'})
-#    else:
-#        costeo_form = CosteoForm(instance=costeo)
-#        return render(request, 'update_costeo.html', {'costeo_form': costeo_form})
+@login_required
+def update_costeo(request, id):
+    costeo = get_object_or_404(Costeo, id=id)
+    if request.method == 'POST':
+        costeo_form = CosteoForm(request.POST, instance=costeo)
+        if costeo_form.is_valid():
+            costeo_form.save()
+            return redirect('tasks')
+        else:
+            return render(request, 'update_costeo.html', {'costeo_form': costeo_form, 'error': 'Please provide valid data'})
+    else:
+        costeo_form = CosteoForm(instance=costeo)
+        return render(request, 'update_costeo.html', {'costeo_form': costeo_form})
 
-#@login_required
-#def delete_costeo(request, id):
-#    costeo = get_object_or_404(Costeo, id=id)
-#    if request.method == 'POST':
-#        costeo.delete()
-#        return redirect('tasks')
-#    return render(request, 'confirm_delete.html', {'object': costeo})
+@login_required
+def delete_costeo(request, id):
+    costeo = get_object_or_404(Costeo, id=id)
+    if request.method == 'POST':
+        costeo.delete()
+        return redirect('tasks')
+    return render(request, 'confirm_delete.html', {'object': costeo})
 
-#@login_required
-#def create_costeo(request, detalle_oportunidad_id):
-#    if request.method == 'POST':
-#        formset = CosteoFormSet(request.POST)
-#        if formset.is_valid():
-#            instances = formset.save(commit=False)
-#            for instance in instances:
-#                instance.detalle_oportunidad_id = detalle_oportunidad_id
-#                instance.save()
-#            return redirect('detalle_oportunidad_detail', pk=detalle_oportunidad_id)  # Asumimos que tienes una vista de detalle
-#    else:
-#        formset = CosteoFormSet()
-#    
-#    return render(request, 'create_costeo.html', {'formset': formset})
+@login_required
+def create_costeo(request, detalle_oportunidad_id):
+    if request.method == 'POST':
+        form = CosteoForm(request.POST)
+        if form.is_valid():
+            costeo = form.save(commit=False)
+            costeo.detalle_oportunidad_id = detalle_oportunidad_id
+            costeo.save()
+            return redirect('detalle_oportunidad_detail', pk=detalle_oportunidad_id)  # Asumimos que tienes una vista de detalle
+    else:
+        form = CosteoForm()
+    
+    return render(request, 'create_costeo.html', {'form': form})
