@@ -142,8 +142,8 @@ class Costeo(models.Model):
     advalorem = models.FloatField(null=True, blank=True)
     payment_terms = models.FloatField(null=True, blank=True)
     ## Nuevos campos
-    Estado_Costeo = models.CharField(max_length=50, choices=ESTADO_COSTEO_CHOICES,null=True, blank=True)
-    Numero_Embarque = models.CharField(max_length=100,null=True, blank=True)
+    Estado_Costeo = models.CharField(max_length=30, choices=ESTADO_COSTEO_CHOICES,null=True, blank=True)
+    Numero_Embarque = models.CharField(max_length=15,null=True, blank=True)
     Peso_unidades = models.FloatField(null=True, blank=True)
     Tipo_Container = models.CharField(max_length=50, choices=TIPO_CONTAINER_CHOICES,null=True, blank=True)
     Tipo_Pago_Muestra = models.CharField(max_length=100,null=True, blank=True)
